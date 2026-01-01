@@ -244,8 +244,7 @@ function generateCards(list){
         card.className = 'ai-card';    
         card.dataset.category = tool.category;    
         
-        const logoImg = `img.logo.dev{tool.domain}?token=${LOGO_DEV_TOKEN}&retina=true`;
-
+        const logoImg = `https://img.logo.dev/${tool.domain}?token=${LOGO_DEV_TOKEN}&retina=true`;
         card.innerHTML = `    
             <div class="ai-icon">
                 <img src="${logoImg}" alt="Logo ${tool.name}" onerror="this.src='ui-avatars.com{tool.name}&background=00d4ff&color=fff'">
