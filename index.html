@@ -16,26 +16,63 @@
     --accent: #10b981;
     --premium: #f59e0b;
 }
-body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; line-height: 1.6; }
+
+/* CORRECTIFS MOBILES ET DÉBORDEMENT */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
 header { padding: 100px 5% 60px; text-align: center; background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg) 80%); }
-.logo { font-size: 38px; font-weight: 800; color: var(--primary); text-shadow: 0 0 30px var(--primary-glow); }
+
+/* LOGO FLEXIBLE */
+.logo svg { height: auto; max-width: 260px; width: 100%; }
+
 .hero h1 { font-size: 3.5rem; margin: 15px 0; font-weight: 800; line-height: 1.1; }
 .hero p { color: var(--text-dim); font-size: 1.25rem; max-width: 800px; margin: 0 auto 40px; }
-.search-container { max-width: 800px; margin: 0 auto 50px; }
-#searchInput { width: 100%; padding: 22px 35px; border-radius: 20px; border: 2px solid #1f2937; background: rgba(17,24,39,0.9); color: white; font-size: 18px; outline: none; }
+
+/* RECHERCHE CORRIGÉE */
+.search-container { max-width: 800px; margin: 0 auto 50px; padding: 0 15px; box-sizing: border-box; }
+#searchInput { 
+    width: 100%; padding: 22px 35px; border-radius: 20px; border: 2px solid #1f2937; background: rgba(17,24,39,0.9); color: white; font-size: 18px; outline: none; 
+    box-sizing: border-box; /* S'assure que l'input reste dans le conteneur */
+}
+
 .filters { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 80px; }
 .filter-btn { padding: 12px 24px; background: #1f2937; border: 1px solid #374151; color: var(--text-dim); border-radius: 12px; cursor: pointer; font-weight: 600; }
 .filter-btn.active { background: var(--primary); color: white; }
-.container { padding: 0 5% 100px; }
+
+.container { padding: 0 5% 100px; width: 100%; box-sizing: border-box; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 35px; }
 .ai-card { background: var(--card-bg); border: 1px solid #1f2937; border-radius: 28px; padding: 35px; display: flex; flex-direction: column; }
 .ai-icon { font-size: 32px; margin-bottom: 20px; }
 .ai-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1f2937; padding-top: 20px; }
 .btn-visit { text-decoration: none; color: white; background: #374151; padding: 12px 24px; border-radius: 14px; font-weight: 700; }
-footer { text-align: center; padding: 60px 5%; background: #010409; }
-footer p { margin: 5px 0; }
-.legal { font-size:0.85rem; color:var(--text-dim); max-width:800px; margin: 10px auto 0; }
-@media (max-width: 768px) { .hero h1 { font-size: 2.2rem; } .grid { grid-template-columns: 1fr; } }
+
+/* STYLES DU NOUVEAU FOOTER */
+.footer-ia { background-color: #121212; color: #f1f1f1; padding: 50px 20px; border-top: 2px solid var(--primary); }
+.footer-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; }
+.footer-col { flex: 1; min-width: 200px; }
+.footer-col h3, .footer-col h4 { color: var(--primary); margin-bottom: 15px; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col a { color: #bbb; text-decoration: none; transition: 0.3s; }
+.footer-col a:hover { color: var(--primary); }
+.footer-bottom { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; }
+.legal-disclaimer { font-size: 0.8rem; margin-top: 10px; color: #888; }
+
+
+/* ADAPTATION MOBILE FINALE */
+@media (max-width: 768px) { 
+    header { padding: 50px 5% 30px; }
+    .hero h1 { font-size: 2rem; } /* Réduit la taille du titre */
+    .hero p { font-size: 1rem; }
+    .grid { grid-template-columns: 1fr; }
+    .footer-container { flex-direction: column; text-align: center; }
+}
+
 </style>
 </head>
 <body>
@@ -45,14 +82,14 @@ footer p { margin: 5px 0; }
     <div class="logo">
         <a href="index.html" style="text-decoration: none;">
             <!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
-            <svg width="260" height="65" viewBox="0 0 300 70" xmlns="www.w3.org">
+            <svg viewBox="0 0 300 70" xmlns="www.w3.org" style="width: 100%; max-width: 260px; height: auto;">
               <defs>
                 <linearGradient id="gradIA" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
                   <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
                 </linearGradient>
                 <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <blur stdDeviation="1.5" result="coloredBlur" />
+                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
                   <feMerge>
                     <feMergeNode in="coloredBlur" />
                     <feMergeNode in="SourceGraphic" />
@@ -78,12 +115,30 @@ footer p { margin: 5px 0; }
     <!-- BLOC HERO -->
     <div class="hero">
         <h1>L'IA <span style="color:#00d4ff">au bout de vos doigts</span></h1>
-        <p>Explorez les meilleurs outils d’intelligence artificielle pour booster vos revenus en 2025.</p>
+        <p>Explorez les meilleurs outils d’intelligence artificielle.</p>
     </div>
 
     <!-- RECHERCHE ET FILTRES -->
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Rechercher une IA (ex: Runway)...">
+    </div>
+
+    <!-- BOUTON BLOG AJOUTÉ ICI -->
+    <div style="margin: 20px 0;">
+        <a href="blog.html" style="
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #a855f7, #00d4ff);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: transform 0.3s ease;
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+             Blog & Guides 2025
+        </a>
     </div>
     
     <div class="filters">
@@ -92,196 +147,92 @@ footer p { margin: 5px 0; }
 </header>
 
 <div class="container">
-    <div class="grid" id="aiGrid"></div>
+    <div class="grid" id="aiGrid">
+        <!-- VOS OUTILS S'AFFICHENT ICI VIA JS -->
+    </div>
 </div>
 
-<!-- NOUVEAU FOOTER FUSIONNÉ POUR IA-DIRECTORY -->
-<footer class="footer-ia">
+<!-- NOUVEAU FOOTER FUSIONNÉ POUR IA-DIRECTORY --><footer class="footer-ia">
     <div class="footer-container">
-        
-        <!-- Colonne 1 : Identité -->
         <div class="footer-col">
             <h3>IA-DIRECTORY</h3>
-            <p>L'annuaire expert dédié aux outils d'intelligence artificielle. Nous testons et comparons les solutions pour votre productivité.</p>
+            <p>L'annuaire expert dédié aux outils d'intelligence artificielle. Nous sélectionnons les meilleures solutions pour votre productivité en 2026.</p>
         </div>
-
-        <!-- Colonne 2 : Navigation Annuaire -->
         <div class="footer-col">
             <h4>Explorer</h4>
             <ul>
-                <li><a href="#">Génération Vidéo</a></li>
-                <li><a href="#">Outils Texte</a></li>
-                <li><a href="#">Images & Design</a></li>
+                <li><a href="#" onclick="filterByCategory('video')">Génération Vidéo</a></li>
+                <li><a href="#" onclick="filterByCategory('texte')">Rédaction & Texte</a></li>
+                <li><a href="#" onclick="filterByCategory('image')">Images & Design</a></li>
             </ul>
         </div>
-
-        <!-- Colonne 3 : Administration & Confiance -->
         <div class="footer-col">
             <h4>Informations</h4>
             <ul>
-                <li><a href="/a-propos.html">À Propos</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/mentions-legales.html">Mentions Légales</a></li>
-                <li><a href="/confidentialite.html">Politique de Confidentialité</a></li>
+                <li><a href="a-propos.html">À Propos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="mentions-legales.html">Mentions Légales</a></li>
             </ul>
         </div>
-
     </div>
 
-    <!-- Zone Basse : Droits et Affiliation -->
     <div class="footer-bottom">
-        <p>&copy; 2025 IA-DIRECTORY - Tous droits réservés.</p>
+        <p>&copy; 2026 IA-DIRECTORY - Tous droits réservés.</p>
+        <!-- ATTRIBUTION OBLIGATOIRE LOGO.DEV -->
+        <p><a href="https://logo.dev" class="attribution-link" target="_blank">Logos provided by Logo.dev</a></p>
         <p class="legal-disclaimer">
-            <strong>Transparence :</strong> Certains liens présents sur ce site sont des liens d’affiliation. 
-            Si vous utilisez ces liens, nous pouvons percevoir une commission sans frais supplémentaires pour vous.
+            <strong>Transparence :</strong> Certains liens peuvent être des liens d’affiliation. Si vous les utilisez, nous pouvons percevoir une commission sans frais supplémentaires pour vous.
         </p>
     </div>
 </footer>
 
-<style>
-/* STYLE DU FOOTER 2025 */
-.footer-ia {
-    background-color: #121212; /* Fond noir profond moderne */
-    color: #f1f1f1;
-    padding: 50px 20px 30px 20px;
-    font-family: Arial, sans-serif;
-    border-top: 2px solid #00d4ff; /* Ligne de couleur IA en haut */
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-}
-
-.footer-col {
-    flex: 1;
-    min-width: 250px;
-}
-
-.footer-col h3 {
-    font-size: 1.5rem;
-    color: #00d4ff;
-    margin-bottom: 15px;
-}
-
-.footer-col h4 {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.footer-col ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-col ul li {
-    margin-bottom: 12px;
-}
-
-.footer-col a {
-    color: #bbb;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.footer-col a:hover {
-    color: #00d4ff;
-}
-
-.footer-bottom {
-    max-width: 1200px;
-    margin: 40px auto 0 auto;
-    padding-top: 20px;
-    border-top: 1px solid #333;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #888;
-}
-
-.legal-disclaimer {
-    margin-top: 15px;
-    font-size: 0.8rem;
-    line-height: 1.4;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    font-style: italic;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .footer-container {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-</style>
-
 <script>
-// ====== 25 OUTILS POPULAIRES AVEC AFFILIATION ======
+const LOGO_DEV_TOKEN = "pk_UqOqLhjhScuKjHvhYO-WQ";
+
 const tools = [
-    {name:"Runway", category:"video", icon:"📹", desc:"Montage et génération vidéo IA", label:"Freemium", url:"https://runwayml.com?ref=tonID"},
-    {name:"Synthesia", category:"video", icon:"🤖", desc:"Création vidéo avec avatars IA", label:"Payant", url:"https://www.synthesia.io?ref=tonID"},
-    {name:"Veed.io", category:"video", icon:"🎥", desc:"Édition vidéo simple", label:"Freemium", url:"https://www.veed.io?ref=tonID"},
-    {name:"Lumen5", category:"video", icon:"🎞️", desc:"Transformer texte en vidéo marketing", label:"Freemium", url:"https://lumen5.com?ref=tonID"},
-    {name:"DALL·E", category:"image", icon:"🖼️", desc:"Génération d’images depuis texte", label:"Freemium", url:"https://openai.com/dall-e?ref=tonID"},
-    {name:"MidJourney", category:"image", icon:"🖌️", desc:"Création artistique IA", label:"Payant", url:"https://www.midjourney.com?ref=tonID"},
-    {name:"Stable Diffusion", category:"image", icon:"🌌", desc:"Génération d’images open-source", label:"Open Source", url:"https://stability.ai?ref=tonID"},
-    {name:"Leonardo AI", category:"image", icon:"🎨", desc:"Création d’images professionnelles", label:"Freemium", url:"https://leonardo.ai?ref=tonID"},
-    {name:"ChatGPT", category:"code", icon:"💻", desc:"Assistant IA pour code et texte", label:"Freemium", url:"https://chat.openai.com?ref=tonID"},
-    {name:"GitHub Copilot", category:"code", icon:"🤖", desc:"Complétion de code IA", label:"Payant", url:"https://github.com/features/copilot?ref=tonID"},
-    {name:"Tabnine", category:"code", icon:"🧠", desc:"Autocomplétion de code", label:"Freemium", url:"https://www.tabnine.com?ref=tonID"},
-    {name:"Claude AI", category:"texte", icon:"📝", desc:"Rédaction et analyse IA", label:"Freemium", url:"https://claude.ai?ref=tonID"},
-    {name:"Jasper AI", category:"texte", icon:"✍️", desc:"Rédaction marketing", label:"Payant", url:"https://www.jasper.ai?ref=tonID"},
-    {name:"Writesonic", category:"texte", icon:"🖋️", desc:"Assistant pour textes", label:"Freemium", url:"https://writesonic.com?ref=tonID"},
-    {name:"CopyAI", category:"texte", icon:"✏️", desc:"Création de contenu rapide", label:"Freemium", url:"https://www.copy.ai?ref=tonID"},
-    {name:"ElevenLabs", category:"audio", icon:"🎙️", desc:"Voix réalistes et clonage vocal", label:"Premium", url:"https://elevenlabs.io?ref=tonID"},
-    {name:"Play.ht", category:"audio", icon:"🎵", desc:"Voix IA pour narration", label:"Freemium", url:"https://play.ht?ref=tonID"},
-    {name:"Mubert", category:"audio", icon:"🎼", desc:"Musique générative en streaming", label:"Freemium", url:"https://mubert.com?ref=tonID"},
-    {name:"Notion AI", category:"business", icon:"📝", desc:"Organisation et notes IA", label:"Freemium", url:"https://www.notion.so/ai?ref=tonID"},
-    {name:"Trello AI", category:"business", icon:"🗂️", desc:"Gestion de projet assistée IA", label:"Freemium", url:"https://trello.com?ref=tonID"},
-    {name:"Durable", category:"business", icon:"📈", desc:"Création de sites web rapides", label:"Payant", url:"https://durable.co?ref=tonID"},
-    {name:"Surfer SEO", category:"business", icon:"🔍", desc:"Optimisation SEO IA", label:"Payant", url:"https://surferseo.com?ref=tonID"},
-    {name:"MarketMuse", category:"business", icon:"📊", desc:"Analyse et contenu IA", label:"Payant", url:"https://marketmuse.com?ref=tonID"},
-    {name:"Tome", category:"business", icon:"🚀", desc:"Storytelling visuel IA", label:"Freemium", url:"https://tome.app?ref=tonID"},
-    {name:"Peppertype AI", category:"texte", icon:"✏️", desc:"Création de contenu marketing", label:"Freemium", url:"https://www.peppertype.ai?ref=tonID"}
+    {name:"ChatGPT", category:"texte", domain:"openai.com", desc:"Assistant IA n°1 pour texte, code et raisonnement.", label:"Freemium", url:"https://chat.openai.com"},
+    {name:"Google Gemini", category:"texte", domain:"google.com", desc:"IA multimodale de Google pour recherche et création.", label:"Freemium", url:"https://gemini.google.com"},
+    {name:"Claude AI", category:"texte", domain:"claude.ai", desc:"IA puissante pour rédaction longue et analyse.", label:"Freemium", url:"https://claude.ai"},
+    {name:"Perplexity AI", category:"texte", domain:"perplexity.ai", desc:"Moteur de recherche IA avec sources fiables.", label:"Freemium", url:"https://www.perplexity.ai"},
+    {name:"DeepSeek", category:"texte", domain:"deepseek.com", desc:"IA performante très populaire en code et recherche.", label:"Freemium", url:"https://www.deepseek.com"},
+
+    {name:"Midjourney", category:"image", domain:"midjourney.com", desc:"Générateur d’images IA artistique de référence.", label:"Payant", url:"https://www.midjourney.com"},
+    {name:"DALL·E", category:"image", domain:"openai.com", desc:"Génération d’images via OpenAI.", label:"Freemium", url:"https://openai.com/dall-e"},
+    {name:"Stable Diffusion", category:"image", domain:"stability.ai", desc:"Génération d’images open-source.", label:"Open Source", url:"https://stability.ai"},
+    {name:"Canva Magic Studio", category:"image", domain:"canva.com", desc:"Création visuelle assistée par IA.", label:"Freemium", url:"https://www.canva.com"},
+
+    {name:"Runway", category:"video", domain:"runwayml.com", desc:"Leader mondial de la génération vidéo IA.", label:"Freemium", url:"https://runwayml.com"},
+    {name:"Synthesia", category:"video", domain:"synthesia.io", desc:"Vidéos avec avatars IA professionnels.", label:"Payant", url:"https://www.synthesia.io"},
+    {name:"Pictory", category:"video", domain:"pictory.ai", desc:"Transformation automatique de textes en vidéos.", label:"Payant", url:"https://pictory.ai"},
+    {name:"Veed.io", category:"video", domain:"veed.io", desc:"Éditeur vidéo IA en ligne.", label:"Freemium", url:"https://www.veed.io"},
+
+    {name:"ElevenLabs", category:"audio", domain:"elevenlabs.io", desc:"Synthèse vocale IA ultra réaliste.", label:"Freemium", url:"https://elevenlabs.io"},
+    {name:"Suno AI", category:"audio", domain:"suno.ai", desc:"Création musicale par intelligence artificielle.", label:"Freemium", url:"https://suno.ai"},
+
+    {name:"Notion AI", category:"business", domain:"notion.so", desc:"Productivité et gestion de projets par IA.", label:"Freemium", url:"https://www.notion.so"},
+    {name:"Jasper AI", category:"business", domain:"jasper.ai", desc:"Rédaction marketing professionnelle.", label:"Payant", url:"https://www.jasper.ai"},
+    {name:"Copy.ai", category:"business", domain:"copy.ai", desc:"Automatisation du copywriting.", label:"Freemium", url:"https://www.copy.ai"},
+    {name:"Writesonic", category:"business", domain:"writesonic.com", desc:"Contenu SEO et marketing IA.", label:"Freemium", url:"https://writesonic.com"},
+
+    {name:"GitHub Copilot", category:"code", domain:"github.com", desc:"Assistant IA incontournable pour développeurs.", label:"Payant", url:"https://github.com/features/copilot"}
 ];
 
-// ====== GENERATION DES FILTRES ET CARTES ======
 document.addEventListener('DOMContentLoaded', () => {
     const filtersContainer = document.querySelector('.filters');
     filtersContainer.innerHTML = '<button class="filter-btn active" onclick="setCategory(\'tous\', this)">Tout</button>';
-    
+
     const categories = [...new Set(tools.map(t => t.category))];
     categories.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
-        btn.textContent = getCategoryEmoji(cat) + " " + capitalize(cat);
+        btn.textContent = capitalize(cat);
         btn.onclick = () => setCategory(cat, btn);
         filtersContainer.appendChild(btn);
     });
 
     generateCards(tools);
-
-    document.getElementById('searchInput').addEventListener('keyup', filterTools);
+    document.getElementById('searchInput').addEventListener('input', filterTools);
 });
-
-function getCategoryEmoji(cat){
-    switch(cat){
-        case 'video': return '📹';
-        case 'image': return '🎨';
-        case 'code': return '💻';
-        case 'texte': return '📝';
-        case 'audio': return '🎧';
-        case 'business': return '💼';
-        default: return '🔹';
-    }
-}
 
 function capitalize(str){ return str.charAt(0).toUpperCase() + str.slice(1); }
 
@@ -292,12 +243,18 @@ function generateCards(list){
         const card = document.createElement('div');
         card.className = 'ai-card';
         card.dataset.category = tool.category;
+
+        const logoImg = `https://img.logo.dev/${tool.domain}?token=${LOGO_DEV_TOKEN}&retina=true`;
+
         card.innerHTML = `
-            <div class="ai-icon">${tool.icon}</div>
+            <div class="ai-icon">
+                <img src="${logoImg}" alt="Logo ${tool.name}"
+                onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=fff'">
+            </div>
             <h3>${tool.name}</h3>
             <p>${tool.desc}</p>
             <div class="ai-footer">
-                <span style="color:${tool.label === "Payant" || tool.label === "Premium" ? "var(--premium)" : "var(--accent)"}">${tool.label}</span>
+                <span style="color:${tool.label === 'Payant' ? 'var(--premium)' : 'var(--accent)'}">${tool.label}</span>
                 <a href="${tool.url}" target="_blank" class="btn-visit">Explorer →</a>
             </div>
         `;
@@ -308,8 +265,7 @@ function generateCards(list){
 function filterTools(){
     const input = document.getElementById('searchInput').value.toLowerCase();
     document.querySelectorAll('.ai-card').forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(input) ? 'flex' : 'none';
+        card.style.display = card.innerText.toLowerCase().includes(input) ? 'flex' : 'none';
     });
 }
 
@@ -321,7 +277,7 @@ function setCategory(category, btn){
     });
 }
 </script>
-
-</body>
+</body>   
 </html>
- 
+
+
