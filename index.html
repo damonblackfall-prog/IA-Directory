@@ -4,187 +4,556 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IA-Directory 2025 | Annuaire Complet des IA</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root {
     --bg: #030712;
     --card-bg: #111827;
     --primary: #6366f1;
-    --primary-glow: rgba(99, 102, 241, 0.4);
     --text-main: #f9fafb;
     --text-dim: #9ca3af;
-    --accent: #10b981;
-    --premium: #f59e0b;
 }
 
-/* CORRECTIFS MOBILES ET DÉBORDEMENT */
+/* BASE */
 html, body {
-    overflow-x: hidden;
-    width: 100%;
     margin: 0;
     padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+}
+    /* MENU TROIS POINTS (KEBAB) */
+        .kebab-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .kebab-button {
+            background: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #374151;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .kebab-button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .kebab-button span {
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .kebab-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 55px;
+            background: #111827;
+            border: 1px solid #374151;
+            border-radius: 16px;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kebab-dropdown.show { display: block; }
+
+        .kebab-dropdown a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .kebab-dropdown a:hover { background: #1f2937; color: var(--accent); }
+
+        .kebab-dropdown hr {
+            border: 0;
+            border-top: 1px solid #374151;
+            margin: 5px 0;
+        }
+    
+
+/* HEADER */
+header {
+    padding: 80px 5% 60px;
+    text-align: center;
+    background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg) 80%);
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+}
+.hero p {
+    color: var(--text-dim);
+    max-width: 700px;
+    margin: 0 auto 40px;
 }
 
-body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; }
-header { padding: 100px 5% 60px; text-align: center; background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg) 80%); }
-
-/* LOGO FLEXIBLE */
-.logo svg { height: auto; max-width: 260px; width: 100%; }
-
-.hero h1 { font-size: 3.5rem; margin: 15px 0; font-weight: 800; line-height: 1.1; }
-.hero p { color: var(--text-dim); font-size: 1.25rem; max-width: 800px; margin: 0 auto 40px; }
-
-/* RECHERCHE CORRIGÉE */
-.search-container { max-width: 800px; margin: 0 auto 50px; padding: 0 15px; box-sizing: border-box; }
-#searchInput { 
-    width: 100%; padding: 22px 35px; border-radius: 20px; border: 2px solid #1f2937; background: rgba(17,24,39,0.9); color: white; font-size: 18px; outline: none; 
-    box-sizing: border-box; /* S'assure que l'input reste dans le conteneur */
+/* SEARCH */
+.search-container {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+#searchInput {
+    width: 100%;
+    padding: 20px 28px;
+    border-radius: 18px;
+    border: 2px solid #1f2937;
+    background: #111827;
+    color: white;
+    font-size: 16px;
 }
 
-.filters { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 80px; }
-.filter-btn { padding: 12px 24px; background: #1f2937; border: 1px solid #374151; color: var(--text-dim); border-radius: 12px; cursor: pointer; font-weight: 600; }
-.filter-btn.active { background: var(--primary); color: white; }
+/* FILTERS */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+}
+.filter-btn {
+    padding: 10px 22px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: var(--text-dim);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+}
+    .btn-ia {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    color: white;
+    text-decoration: none;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+  }
 
-.container { padding: 0 5% 100px; width: 100%; box-sizing: border-box; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 35px; }
-.ai-card { background: var(--card-bg); border: 1px solid #1f2937; border-radius: 28px; padding: 35px; display: flex; flex-direction: column; }
-.ai-icon { font-size: 32px; margin-bottom: 20px; }
-.ai-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1f2937; padding-top: 20px; }
-.btn-visit { text-decoration: none; color: white; background: #374151; padding: 12px 24px; border-radius: 14px; font-weight: 700; }
+  .btn-ia:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+  }
 
-/* STYLES DU NOUVEAU FOOTER */
-.footer-ia { background-color: #121212; color: #f1f1f1; padding: 50px 20px; border-top: 2px solid var(--primary); }
-.footer-container { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px; }
-.footer-col { flex: 1; min-width: 200px; }
-.footer-col h3, .footer-col h4 { color: var(--primary); margin-bottom: 15px; }
-.footer-col ul { list-style: none; padding: 0; }
-.footer-col a { color: #bbb; text-decoration: none; transition: 0.3s; }
-.footer-col a:hover { color: var(--primary); }
-.footer-bottom { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; }
-.legal-disclaimer { font-size: 0.8rem; margin-top: 10px; color: #888; }
+  /* Animation de la flamme */
+  .icon-fire {
+    margin-right: 10px;
+    display: inline-block;
+    font-size: 20px;
+    /* L'animation tourne en boucle infinie */
+    animation: burning 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px orange);
+  }
 
+  @keyframes burning {
+    0% {
+      transform: scale(1) rotate(-2deg);
+      filter: drop-shadow(0 0 2px #ff4500) brightness(1);
+    }
+    50% {
+      transform: scale(1.2) rotate(3deg);
+      filter: drop-shadow(0 0 8px #ff8c00) brightness(1.3);
+    }
+    100% {
+      transform: scale(1) rotate(-2deg);
+      filter: drop-shadow(0 0 2px #ff4500) brightness(1);
+    }
+  }
 
-/* ADAPTATION MOBILE FINALE */
-@media (max-width: 768px) { 
-    header { padding: 50px 5% 30px; }
-    .hero h1 { font-size: 2rem; } /* Réduit la taille du titre */
-    .hero p { font-size: 1rem; }
+/* GRID */
+.container {
+    padding: 0 5% 100px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+.ai-card {
+    background: var(--card-bg);
+    border: 1px solid #1f2937;
+    border-radius: 26px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+.ai-card img {
+    width: 48px;
+    height: 48px;
+}
+.ai-card h3 {
+    margin: 20px 0 10px;
+}
+.ai-card p {
+    color: var(--text-dim);
+    flex: 1;
+}
+.ai-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    border-top: 1px solid #1f2937;
+    padding-top: 15px;
+}
+.btn-visit {
+    background: #374151;
+    padding: 10px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+}
+    
+.faq-container {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.faq-item {
+    border-bottom: 1px solid #374151;
+    margin-bottom: 10px;
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-main);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding: 15px 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.faq-question[aria-expanded="true"]::after {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    color: var(--text-dim);
+    padding-left: 10px;
+}
+
+.faq-answer p {
+    margin: 10px 0;
+}
+/* PAGINATION */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+}
+.pagination button {
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: var(--text-dim);
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.pagination button.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* FOOTER */
+footer {
+    background: #0b0f19;
+    padding: 40px 20px;
+    text-align: center;
+    color: #aaa;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
     .grid { grid-template-columns: 1fr; }
-    .footer-container { flex-direction: column; text-align: center; }
 }
 
 </style>
+    
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Les outils listés sont-ils gratuits ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment les outils sont-ils sélectionnés ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment trouver l’outil adapté à mon besoin ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment ajouter mon outil IA ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "La soumission est-elle payante ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Une soumission gratuite est disponible. Des options premium permettent une mise en avant."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
-
-<header>
-    <!-- BLOC LOGO CLIQUABLE -->
-    <div class="logo">
-        <a href="index.html" style="text-decoration: none;">
-            <!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
-            <svg viewBox="0 0 300 70" xmlns="www.w3.org" style="width: 100%; max-width: 260px; height: auto;">
-              <defs>
-                <linearGradient id="gradIA" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
-                </linearGradient>
-                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <g filter="url(#glow)">
-                <circle cx="35" cy="35" r="28" fill="none" stroke="url(#gradIA)" stroke-width="2.5" stroke-dasharray="100 20" />
-                <circle cx="35" cy="35" r="20" fill="url(#gradIA)" fill-opacity="0.15" />
-                <text x="35" y="42" font-family="Verdana, sans-serif" font-size="16" font-weight="900" fill="url(#gradIA)" text-anchor="middle">IA</text>
-                <circle cx="35" cy="7" r="3.5" fill="#a855f7" />
-                <circle cx="63" cy="35" r="3.5" fill="#00d4ff" />
-                <circle cx="35" cy="63" r="3.5" fill="#a855f7" />
-                <circle cx="7" cy="35" r="3.5" fill="#00d4ff" />
-              </g>
-              <text x="80" y="45" font-family="'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
-                IA-<tspan fill="url(#gradIA)">DIRECTORY</tspan>
-              </text>
-            </svg>     
-        </a>
-    </div>
-
-    <!-- BLOC HERO -->
-    <div class="hero">
-        <h1>L'IA <span style="color:#00d4ff">au bout de vos doigts</span></h1>
-        <p>Explorez les meilleurs outils d’intelligence artificielle.</p>
-    </div>
-
-    <!-- RECHERCHE ET FILTRES -->
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Rechercher une IA (ex: Runway)...">
-    </div>
-
-    <!-- BOUTON BLOG AJOUTÉ ICI -->
-    <div style="margin: 20px 0;">
-        <a href="blog.html" style="
-            display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(90deg, #a855f7, #00d4ff);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-            transition: transform 0.3s ease;
-        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-             Blog & Guides 2025
-        </a>
-    </div>
     
-    <div class="filters">
-        <!-- Les catégories apparaîtront ici -->
-    </div>
-</header>
-
-<div class="container">
-    <div class="grid" id="aiGrid">
-        <!-- VOS OUTILS S'AFFICHENT ICI VIA JS -->
-    </div>
+    <!-- MENU TROIS POINTS -->
+<div class="kebab-container">
+    <button class="kebab-button" id="kebabBtn" aria-label="Menu de navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div id="kebabDropdown" class="kebab-dropdown">
+        <a href="blog.html">Blog et Guides</a>
+        <hr>
+        <a href="#tally-open=XxJkxd&tally-emoji-text=👋&tally-emoji-animation=wave"
+   style="color: var(--primary); font-weight: 800;">
+   ✨ Soumettre une IA</a>
+       <hr>
+        <a href="#faq">FAQ</a>
+       </div>
 </div>
 
-<!-- FOOTER IA-DIRECTORY -->
-<footer class="footer-ia">
+<header role="banner">
+    
+    <!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
+<svg width="300" height="70" viewBox="0 0 300 70" xmlns="www.w3.org">
+  <defs>
+    <!-- Dégradé Mauve vers Bleu -->
+    <linearGradient id="gradIA" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" /> <!-- Mauve -->
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" /> <!-- Bleu -->
+    </linearGradient>
+    
+    <!-- Effet de lueur légère -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <blur stdDeviation="1.5" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Groupe Icône avec filtre de lueur -->
+  <g filter="url(#glow)">
+    <!-- Cercle extérieur stylisé -->
+    <circle cx="35" cy="35" r="28" fill="none" stroke="url(#gradIA)" stroke-width="2.5" stroke-dasharray="100 20" />
+    <!-- Cercle intérieur pulse -->
+    <circle cx="35" cy="35" r="20" fill="url(#gradIA)" fill-opacity="0.15" />
+    
+    <!-- Symbole IA Central -->
+    <text x="35" y="42" font-family="Verdana, sans-serif" font-size="16" font-weight="900" fill="url(#gradIA)" text-anchor="middle">IA</text>
+    
+    <!-- Points de connexion neuronaux -->
+    <circle cx="35" cy="7" r="3.5" fill="#a855f7" />
+    <circle cx="63" cy="35" r="3.5" fill="#00d4ff" />
+    <circle cx="35" cy="63" r="3.5" fill="#a855f7" />
+    <circle cx="7" cy="35" r="3.5" fill="#00d4ff" />
+  </g>
+
+  <!-- Texte Principal -->
+  <text x="80" y="45" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
+    IA-<tspan fill="url(#gradIA)">DIRECTORY</tspan>
+  </text>
+</svg>
+
+        </a>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>
+            L’intelligence artificielle
+            <span style="color:#00d4ff">à portée de clic</span>
+        </h1>
+
+        <p>
+            Adoptez les outils IA qui vous font gagner du temps et simplifient vos projets au quotidien.
+        </p>
+    </div>
+
+    <!-- RECHERCHE -->
+    <div class="search-container" role="search">
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"
+            aria-label="Rechercher une intelligence artificielle"
+        >
+    </div>
+
+    <!-- FILTRES -->
+    <nav class="filters" aria-label="Filtrer par catégorie">
+        <!-- Généré dynamiquement -->
+    </nav>
+<!-- Le Bouton avec flamme animée -->
+<a href="tendances.html" class="btn-ia">
+  <span class="icon-fire">🔥</span> Tendances et Nouveautés
+</a>
+</header>
+
+<main class="container">
+
+    <section aria-label="Liste des outils IA">
+        <div class="grid" id="aiGrid"></div>
+    </section>
+
+    <!-- PAGINATION -->
+    <nav id="pagination" class="pagination" aria-label="Pagination"></nav>
+
+    <!-- =======================
+         FAQ
+    ======================= -->
+    <section id="faq" class="faq-container">
+        <h2>Foire Aux Questions</h2>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Les outils listés sont-ils gratuits ?</button>
+            <div class="faq-answer"><p>L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique.</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Comment les outils sont-ils sélectionnés ?</button>
+            <div class="faq-answer"><p>Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées.</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Comment trouver l’outil adapté à mon besoin ?</button>
+            <div class="faq-answer"><p>Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.).</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Comment ajouter mon outil IA ?</button>
+            <div class="faq-answer"><p>Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h.</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">La soumission est-elle payante ?</button>
+            <div class="faq-answer"><p>Une soumission gratuite est disponible. Des options premium permettent une mise en avant.</p></div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer-ia" role="contentinfo">
+
     <div class="footer-container">
+
         <div class="footer-col">
             <h3>IA-DIRECTORY</h3>
-            <p>L'annuaire expert dédié aux outils d'intelligence artificielle. Nous testons et comparons les solutions pour votre productivité.</p>
+            <p>
+                Annuaire indépendant des meilleurs outils
+                d’intelligence artificielle. Comparaisons,
+                tests et guides pratiques.
+            </p>
         </div>
 
-        <div class="footer-col">
-            <h4>Explorer</h4>
-            <ul>
-                <li><a href="#">Génération Vidéo</a></li>
-                <li><a href="#">Outils Texte</a></li>
-                <li><a href="#">Images & Design</a></li>
-            </ul>
-        </div>
-
+        
         <div class="footer-col">
             <h4>Informations</h4>
             <ul>
+                <li><a href="a-propos.html">À propos</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="mentions-legales.html">Mentions Légales</a></li>
-                <li><a href="confidentialite.html">Politique de Confidentialité</a></li>
+                <li><a href="mentions-legales.html">Mentions légales</a></li>
             </ul>
         </div>
+
     </div>
 
     <div class="footer-bottom">
-        <p>&copy; 2026 IA-DIRECTORY - Tous droits réservés.</p>
+        <p>© 2026 IA-DIRECTORY – Tous droits réservés.</p>
         <p class="legal-disclaimer">
-            <strong>Transparence :</strong> Certains liens sont des liens d’affiliation. Nous pouvons percevoir une commission sans frais supplémentaires pour vous.
+            Certains liens peuvent être affiliés. Cela n’impacte pas
+            notre indépendance éditoriale.
         </p>
     </div>
+
 </footer>
 
 <script>
@@ -192,222 +561,1843 @@ header { padding: 100px 5% 60px; text-align: center; background: radial-gradient
    BASE DE DONNÉES OUTILS
 ========================= */
 const tools = [
-
-/* =====================
-   TEXTE / CHAT (5)
-===================== */
-{
-    name: "ChatGPT",
+  // 📝 Texte (Écriture, NLP & SEO)
+  {
+    name: "Sudowrite",
     category: "texte",
-    domain: "openai.com",
-    desc: "Assistant conversationnel polyvalent pour le texte, le code et l’analyse.",
-    label: "Freemium",
-    url: "https://chat.openai.com"
-},
-{
-    name: "Google Gemini",
+    domain: "sudowrite.com",
+    desc: "IA spécialisée dans l’écriture créative et la fiction.",
+    label: "Payant",
+    url: "https://www.sudowrite.com"
+  },
+  {
+    name: "TextCortex",
     category: "texte",
-    domain: "google.com",
-    desc: "IA conversationnelle de Google connectée à l’écosystème Google.",
+    domain: "textcortex.com",
+    desc: "Génération et reformulation de contenus textuels pour tous vos besoins.",
     label: "Freemium",
-    url: "https://gemini.google.com"
-},
-{
-    name: "Claude AI",
+    url: "https://textcortex.com"
+  },  
+  {
+    name: "AI Writer",
     category: "texte",
-    domain: "claude.ai",
-    desc: "IA orientée raisonnement, sécurité et rédaction naturelle.",
-    label: "Freemium",
-    url: "https://claude.ai"
-},
-{
-    name: "Perplexity AI",
+    domain: "ai-writer.com",
+    desc: "Rédigez des articles et contenus optimisés SEO en un temps record.",
+    label: "Payant",
+    url: "https://ai-writer.com"
+  },
+  {
+    name: "ContentBot",
     category: "texte",
-    domain: "perplexity.ai",
-    desc: "Moteur de recherche IA avec sources citées en temps réel.",
+    domain: "contentbot.ai",
+    desc: "Création de contenu automatisée pour blogs, emails et réseaux sociaux.",
     label: "Freemium",
-    url: "https://www.perplexity.ai"
-},
-{
-    name: "DeepSeek",
+    url: "https://contentbot.ai"
+  },
+  {
+    name: "HuggingChat",
     category: "texte",
-    domain: "deepseek.com",
-    desc: "IA spécialisée dans l’analyse avancée et le raisonnement logique.",
+    domain: "huggingface.co/chat",
+    desc: "Alternative open-source à ShortlyAI pour générer du texte et discuter.",
+    label: "Gratuit",
+    url: "https://huggingface.co/chat"
+  },
+  {
+    name: "WordAI",
+    category: "texte",
+    domain: "wordai.com",
+    desc: "Outil de reformulation automatique pour améliorer vos textes.",
+    label: "Payant",
+    url: "https://wordai.com"
+  },
+  {
+    name: "NovelAI",
+    category: "texte",
+    domain: "novelai.net",
+    desc: "Narration créative assistée par IA pour vos histoires et romans.",
+    label: "Payant",
+    url: "https://novelai.net"
+  },
+  {
+    name: "Sapling",
+    category: "texte",
+    domain: "sapling.ai",
+    desc: "Assistant IA pour CRM et support client afin d’accélérer la rédaction.",
     label: "Freemium",
-    url: "https://www.deepseek.com"
-},
-
-/* =====================
-   IMAGE (5)
-===================== */
-{
+    url: "https://sapling.ai"
+  },
+  {
+    name: "Textio",
+    category: "texte",
+    domain: "textio.com",
+    desc: "Rédaction inclusive et efficace, idéal pour RH et communications.",
+    label: "Payant",
+    url: "https://textio.com"
+  },
+  {
+    name: "Linguix",
+    category: "texte",
+    domain: "linguix.com",
+    desc: "Correction grammaticale et suggestions intelligentes pour vos textes.",
+    label: "Freemium",
+    url: "https://linguix.com"
+  },
+  {
+    name: "Writer.com",
+    category: "texte",
+    domain: "writer.com",
+    desc: "IA professionnelle pour les entreprises, rédaction et conformité.",
+    label: "Payant",
+    url: "https://writer.com"
+  },
+  {
+    name: "Textmetrics",
+    category: "texte",
+    domain: "textmetrics.com",
+    desc: "Optimisation SEO et génération de contenus pour sites web.",
+    label: "Payant",
+    url: "https://textmetrics.com"
+  },
+  {
+    name: "ProWritingAid",
+    category: "texte",
+    domain: "prowritingaid.com",
+    desc: "Assistant IA pour améliorer style, grammaire et cohérence des textes.",
+    label: "Payant",
+    url: "https://prowritingaid.com"
+  },
+  {
+    name: "Hemingway Editor",
+    category: "texte",
+    domain: "hemingwayapp.com",
+    desc: "Adjoint IA pour simplifier et rendre vos textes plus lisibles.",
+    label: "Freemium",
+    url: "https://hemingwayapp.com"
+  },
+  {
+    name: "Surfer SEO",
+    category: "texte",
+    domain: "surferseo.com",
+    desc: "Optimisation SEO et génération de contenu plus puissante que Frase.",
+    label: "Payant",
+    url: "https://surferseo.com"
+  },
+  {
+    name: "Outwrite",
+    category: "texte",
+    domain: "outwrite.com",
+    desc: "Correction grammaticale, reformulation et amélioration de texte.",
+    label: "Freemium",
+    url: "https://outwrite.com"
+  },  
+  {
+    name: "Hostinger AI Content",
+    category: "texte",
+    domain: "hostinger.com/ai-content",
+    desc: "Création de contenu IA pour sites web, ex-Zyro.",
+    label: "Freemium",
+    url: "https://hostinger.com/ai-content"
+  },
+  {
+    name: "Peppertype.ai",
+    category: "texte",
+    domain: "peppertype.ai",
+    desc: "Générateur de contenu AI pour blogs, posts et emails.",
+    label: "Payant",
+    url: "https://peppertype.ai"
+  },
+  {
+    name: "HubSpot AI Tools",
+    category: "business",
+    domain: "hubspot.com",
+    desc: "Outils IA intégrés au CRM HubSpot pour automatiser ventes et marketing.",
+    label: "Freemium",
+    url: "https://hubspot.com"
+  },
+  {
+    name: "Salesforce Einstein",
+    category: "business",
+    domain: "salesforce.com/einstein",
+    desc: "IA intégrée à Salesforce pour analyser et optimiser les ventes.",
+    label: "Payant",
+    url: "https://salesforce.com/einstein"
+  },
+  {
+    name: "Zoho Zia",
+    category: "business",
+    domain: "zoho.com/zia",
+    desc: "Assistant IA pour CRM Zoho, prévisions et automatisations.",
+    label: "Freemium",
+    url: "https://zoho.com/zia"
+  },
+  {
+    name: "Pipedrive AI",
+    category: "business",
+    domain: "pipedrive.com/ai",
+    desc: "IA pour automatiser le CRM, le suivi et les prévisions de ventes.",
+    label: "Payant",
+    url: "https://pipedrive.com/ai"
+  },
+  {
+    name: "Monday.com AI",
+    category: "business",
+    domain: "monday.com",
+    desc: "Assistant IA intégré pour la gestion de projets et tâches.",
+    label: "Freemium",
+    url: "https://monday.com"
+  },
+  {
+    name: "ClickUp Brain",
+    category: "business",
+    domain: "clickup.com",
+    desc: "IA pour planification, automatisation et productivité d’équipe.",
+    label: "Freemium",
+    url: "https://clickup.com"
+  },
+  {
+    name: "Trello + Butler AI",
+    category: "business",
+    domain: "trello.com",
+    desc: "Automatisation intelligente de tâches et boards Trello via IA.",
+    label: "Freemium",
+    url: "https://trello.com"
+  },
+  {
+    name: "Airtable AI",
+    category: "business",
+    domain: "airtable.com",
+    desc: "Assistant IA pour bases de données et automatisation de workflows.",
+    label: "Freemium",
+    url: "https://airtable.com"
+  },
+  {
+    name: "Superhuman AI",
+    category: "business",
+    domain: "superhuman.com",
+    desc: "Email ultra-rapide boosté à l’IA pour une productivité maximale.",
+    label: "Payant",
+    url: "https://superhuman.com"
+  },
+  {
+    name: "Crystal Knows",
+    category: "business",
+    domain: "crystalknows.com",
+    desc: "Analyse de personnalité IA pour améliorer vos interactions LinkedIn.",
+    label: "Payant",
+    url: "https://crystalknows.com"
+  },
+  {
+    name: "Gong.io",
+    category: "business",
+    domain: "gong.io",
+    desc: "Revenue Intelligence : analyse des appels et performance commerciale.",
+    label: "Payant",
+    url: "https://gong.io"
+  },
+  {
+    name: "Chorus.ai",
+    category: "business",
+    domain: "chorus.ai",
+    desc: "Analyse automatisée des appels et réunions commerciales.",
+    label: "Payant",
+    url: "https://chorus.ai"
+  },
+  {
+    name: "Clari",
+    category: "business",
+    domain: "clari.com",
+    desc: "Prévisions de revenus et insights IA pour vos équipes commerciales.",
+    label: "Payant",
+    url: "https://clari.com"
+  },
+  {
+    name: "GrowthBar",
+    category: "business",
+    domain: "growthbarseo.com",
+    desc: "Outils SEO et growth marketing propulsés par IA.",
+    label: "Payant",
+    url: "https://www.growthbarseo.com"
+  },
+  {
+    name: "Leadfeeder",
+    category: "business",
+    domain: "leadfeeder.com",
+    desc: "Identifie les entreprises qui visitent votre site et automatise la prospection.",
+    label: "Freemium",
+    url: "https://leadfeeder.com"
+  },
+  {
+    name: "Clearbit AI",
+    category: "business",
+    domain: "clearbit.com",
+    desc: "Enrichissement de données clients et automatisation marketing.",
+    label: "Payant",
+    url: "https://clearbit.com"
+  },
+  {
+    name: "Tidio Lyro",
+    category: "business",
+    domain: "tidio.com",
+    desc: "Chatbot IA pour automatiser le support client et les leads.",
+    label: "Freemium",
+    url: "https://tidio.com"
+  },
+  {
+    name: "Ada Support",
+    category: "business",
+    domain: "ada.support",
+    desc: "Agent IA de support client multilingue et automatisé.",
+    label: "Payant",
+    url: "https://ada.support"
+  },
+  {
+    name: "Drift AI",
+    category: "business",
+    domain: "drift.com",
+    desc: "IA conversationnelle pour convertir plus de leads et améliorer le support.",
+    label: "Payant",
+    url: "https://drift.com"
+  },
+  {
+    name: "Intercom Fin",
+    category: "business",
+    domain: "intercom.com",
+    desc: "Agent IA de référence pour le support client et l’engagement.",
+    label: "Payant",
+    url: "https://intercom.com"
+  },
+  {
     name: "Midjourney",
     category: "image",
     domain: "midjourney.com",
-    desc: "Génération d’images artistiques haut de gamme.",
+    desc: "Génération d’images créatives à partir de texte grâce à l’IA.",
     label: "Payant",
     url: "https://www.midjourney.com"
-},
-{
-    name: "DALL·E",
-    category: "image",
-    domain: "openai.com",
-    desc: "Création d’images réalistes et illustratives à partir de texte.",
-    label: "Freemium",
-    url: "https://openai.com/dall-e"
-},
-{
+  },
+  {
     name: "Stable Diffusion",
     category: "image",
-    domain: "stability.ai",
-    desc: "Génération d’images open-source, personnalisable.",
-    label: "Open Source",
-    url: "https://stability.ai"
-},
-{
+    domain: "stability.ai/stablediffusion",
+    desc: "Création d’images IA open-source et personnalisables.",
+    label: "Gratuit",
+    url: "https://stability.ai/stablediffusion"
+  },
+  {
+    name: "DALL‑E 3",
+    category: "image",
+    domain: "openai.com/dall-e-3",
+    desc: "Créez des visuels uniques et détaillés à partir de simples descriptions.",
+    label: "Freemium",
+    url: "https://openai.com/dall-e-3"
+  },
+  {
     name: "Canva Magic Studio",
     category: "image",
     domain: "canva.com",
-    desc: "Suite IA de Canva pour design, images et présentations.",
+    desc: "Outil IA intégré à Canva pour créer et éditer vos visuels en un clic.",
     label: "Freemium",
-    url: "https://www.canva.com"
-},
-{
+    url: "https://www.canva.com/magic-studio/"
+  },
+  {
+    name: "Artbreeder",
+    category: "image",
+    domain: "artbreeder.com",
+    desc: "Combinaison et génération d’images créatives via IA.",
+    label: "Freemium",
+    url: "https://www.artbreeder.com"
+  },
+  {
     name: "Adobe Firefly",
     category: "image",
-    domain: "adobe.com",
-    desc: "IA créative d’Adobe pour images, effets et contenus visuels.",
-    label: "Freemium",
-    url: "https://www.adobe.com/sensei/generative-ai/firefly.html"
-},
-
-/* =====================
-   VIDÉO (5)
-===================== */
-{
-    name: "Runway",
-    category: "video",
+    domain: "adobe.com/firefly",
+    desc: "Création d’images et de contenus créatifs IA, remplaçant de DeepArt.",
+    label: "Payant",
+    url: "https://www.adobe.com/firefly"
+  },
+  {
+    name: "Runway Gen-2/3",
+    category: "image",
     domain: "runwayml.com",
-    desc: "Création et montage vidéo assistés par IA.",
-    label: "Freemium",
+    desc: "Création et édition vidéo/image IA avancée pour créateurs.",
+    label: "Payant",
     url: "https://runwayml.com"
-},
-{
+  },
+  {
+    name: "Pixlr AI",
+    category: "image",
+    domain: "pixlr.com",
+    desc: "Éditeur photo IA pour retouches rapides et création graphique.",
+    label: "Freemium",
+    url: "https://pixlr.com"
+  },
+  {
+    name: "Photopea AI",
+    category: "image",
+    domain: "photopea.com",
+    desc: "Éditeur d’images IA en ligne, alternatif gratuit à Photoshop.",
+    label: "Gratuit",
+    url: "https://www.photopea.com"
+  },
+  {
+    name: "Deep Dream Generator",
+    category: "image",
+    domain: "deepdreamgenerator.com",
+    desc: "Transformez vos photos en œuvres artistiques avec IA.",
+    label: "Freemium",
+    url: "https://deepdreamgenerator.com"
+  },
+  {
+    name: "PaintsChainer",
+    category: "image",
+    domain: "paintschainer.preferred.tech",
+    desc: "Colorisation automatique d’illustrations avec IA.",
+    label: "Gratuit",
+    url: "https://paintschainer.preferred.tech"
+  },
+  {
+    name: "FaceApp",
+    category: "image",
+    domain: "faceapp.com",
+    desc: "Transformation faciale et retouches photo par IA.",
+    label: "Freemium",
+    url: "https://www.faceapp.com"
+  },
+  {
+    name: "Photomosh",
+    category: "image",
+    domain: "photomosh.com",
+    desc: "Effets visuels et glitch art instantanés sur vos images.",
+    label: "Gratuit",
+    url: "https://photomosh.com"
+  },
+  {
+    name: "Topaz Photo AI",
+    category: "image",
+    domain: "topazlabs.com",
+    desc: "Amélioration, upscale et restauration d’images via IA.",
+    label: "Payant",
+    url: "https://topazlabs.com"
+  },
+  {
+    name: "Let’s Enhance",
+    category: "image",
+    domain: "letsenhance.io",
+    desc: "Amélioration et upscaling d’images haute qualité par IA.",
+    label: "Freemium",
+    url: "https://letsenhance.io"
+  },
+  
+  {
+    name: "Deep Nostalgia",
+    category: "image",
+    domain: "myheritage.com/deep-nostalgia",
+    desc: "Animation réaliste des photos anciennes via IA.",
+    label: "Freemium",
+    url: "https://www.myheritage.com/deep-nostalgia"
+  },
+  {
+    name: "Hotpot AI",
+    category: "image",
+    domain: "hotpot.ai",
+    desc: "Création d’images et visuels marketing avec IA.",
+    label: "Freemium",
+    url: "https://hotpot.ai"
+  },
+  {
+    name: "AI Picasso",
+    category: "image",
+    domain: "aipicasso.studio",
+    desc: "Transforme vos photos en œuvres artistiques de style Picasso.",
+    label: "Freemium",
+    url: "https://aipicasso.studio"
+  },
+  {
+    name: "AI Gahaku",
+    category: "image",
+    domain: "ai-art.tokyo/en/",
+    desc: "Transforme vos portraits en peintures classiques via IA.",
+    label: "Gratuit",
+    url: "https://ai-art.tokyo/en/"
+  },
+  {
     name: "Synthesia",
-    category: "video",
+    category: "vidéo",
     domain: "synthesia.io",
-    desc: "Création de vidéos avec avatars IA multilingues.",
+    desc: "Créez des vidéos professionnelles avec avatars IA et voix réalistes.",
     label: "Payant",
-    url: "https://www.synthesia.io"
-},
-{
+    url: "https://www.synthesia.io" 
+  },
+  {
     name: "Pictory",
-    category: "video",
+    category: "vidéo",
     domain: "pictory.ai",
-    desc: "Transformation automatique de textes en vidéos.",
-    label: "Payant",
+    desc: "Transformez vos textes et scripts en vidéos attractives automatiquement.",
+    label: "Freemium",
     url: "https://pictory.ai"
-},
-{
+  },
+  {
     name: "Veed.io",
-    category: "video",
+    category: "vidéo",
     domain: "veed.io",
-    desc: "Éditeur vidéo en ligne simple et rapide.",
+    desc: "Éditeur vidéo en ligne avec outils IA pour sous-titres et montage.",
     label: "Freemium",
     url: "https://www.veed.io"
-},
-{
-    name: "Luma AI",
-    category: "video",
-    domain: "lumalabs.ai",
-    desc: "Génération vidéo et 3D réaliste par IA.",
+  },
+  {
+    name: "Lumen5",
+    category: "vidéo",
+    domain: "lumen5.com",
+    desc: "Créez des vidéos marketing à partir de vos contenus écrits.",
     label: "Freemium",
-    url: "https://lumalabs.ai"
-},
-
-/* =====================
-   AUDIO (2)
-===================== */
-{
-    name: "ElevenLabs",
-    category: "audio",
-    domain: "elevenlabs.io",
-    desc: "Synthèse vocale et clonage de voix ultra réalistes.",
-    label: "Premium",
-    url: "https://elevenlabs.io"
-},
-{
-    name: "Suno AI",
-    category: "audio",
-    domain: "suno.ai",
-    desc: "Génération de musique et chansons par IA.",
+    url: "https://lumen5.com"
+  },
+  {
+    name: "InVideo AI",
+    category: "vidéo",
+    domain: "invideo.io",
+    desc: "Plateforme IA pour transformer textes et scripts en vidéos.",
     label: "Freemium",
-    url: "https://suno.ai"
-},
-
-/* =====================
-   CODE / PRODUCTIVITÉ (2)
-===================== */
-{
-    name: "GitHub Copilot",
-    category: "code",
-    domain: "github.com",
-    desc: "Assistant IA pour écrire du code plus rapidement.",
+    url: "https://invideo.io"
+  },  
+  {
+    name: "Wisecut",
+    category: "vidéo",
+    domain: "wisecut.video",
+    desc: "Coupe automatique des silences et montage rapide de vidéos.",
+    label: "Freemium",
+    url: "https://wisecut.video"
+  },
+  {
+    name: "Elai.io",
+    category: "vidéo",
+    domain: "elai.io",
+    desc: "Créez des vidéos avec avatars IA et voix synthétiques.",
     label: "Payant",
-    url: "https://github.com/features/copilot"
+    url: "https://elai.io"
+  },
+  {
+    name: "HeyGen Pro",
+    category: "vidéo",
+    domain: "heygen.com",
+    desc: "Génération vidéo professionnelle avec IA et avatars.",
+    label: "Payant",
+    url: "https://heygen.com"
+  },
+  {
+    name: "Kaiber AI",
+    category: "vidéo",
+    domain: "kaiber.ai",
+    desc: "Créez des vidéos et animations AI facilement à partir de texte.",
+    label: "Freemium",
+    url: "https://kaiber.ai"
+  },
+  {
+    name: "Opus Clip",
+    category: "vidéo",
+    domain: "opus.ai",
+    desc: "Outil IA pour viraliser vos vidéos en Shorts et Reels.",
+    label: "Freemium",
+    url: "https://opus.ai"
+  },
+  {
+    name: "CapCut AI",
+    category: "vidéo",
+    domain: "capcut.com",
+    desc: "Éditeur vidéo complet avec fonctionnalités IA avancées.",
+    label: "Freemium",
+    url: "https://www.capcut.com"
+  },
+  {
+    name: "Argil",
+    category: "vidéo",
+    domain: "argil.ai",
+    desc: "Alternative moderne à Movio pour la création vidéo IA.",
+    label: "Payant",
+    url: "https://argil.ai"
+  },
+  {
+    name: "Vizard AI",
+    category: "vidéo",
+    domain: "vizard.ai",
+    desc: "Plateforme IA pour montage et édition vidéo simplifiée.",
+    label: "Freemium",
+    url: "https://vizard.ai"
+  },  
+  {
+    name: "Filmora AI",
+    category: "vidéo",
+    domain: "filmora.wondershare.com",
+    desc: "Édition vidéo rapide avec outils IA intégrés.",
+    label: "Payant",
+    url: "https://filmora.wondershare.com"
+  },
+  {
+    name: "Videoleap AI",
+    category: "vidéo",
+    domain: "videoleap.com",
+    desc: "Éditeur vidéo mobile avec fonctionnalités IA puissantes.",
+    label: "Freemium",
+    url: "https://videoleap.com"
+  },
+  {
+    name: "AutoEdit",
+    category: "vidéo",
+    domain: "autoedit.io",
+    desc: "Automatisation complète du montage vidéo via IA.",
+    label: "Freemium",
+    url: "https://autoedit.io"
+  },
+  {
+    name: "Luma Dream Machine",
+    category: "vidéo",
+    domain: "luma.ai",
+    desc: "Génération vidéo réaliste et immersive par IA.",
+    label: "Payant",
+    url: "https://luma.ai"
+  },  
+  {
+  name: "ElevenLabs",
+  category: "audio",
+  domain: "elevenlabs.io",
+  desc: "Le meilleur Text-to-Speech avec voix naturelles et expressives.",
+  label: "Payant",
+  url: "https://elevenlabs.io"
 },
 {
-    name: "Notion AI",
-    category: "business",
-    domain: "notion.so",
-    desc: "Assistant IA intégré pour notes, projets et documents.",
+  name: "Voicemod AI",
+  category: "audio",
+  domain: "voicemod.net",
+  desc: "Modulation vocale et effets sonores en temps réel avec IA.",
+  label: "Freemium",
+  url: "https://www.voicemod.net"
+},
+{
+  name: "Cleanvoice AI",
+  category: "audio",
+  domain: "cleanvoice.ai",
+  desc: "Nettoyage audio et suppression de bruits indésirables par IA.",
+  label: "Freemium",
+  url: "https://cleanvoice.ai"
+},
+{
+  name: "Auphonic",
+  category: "audio",
+  domain: "auphonic.com",
+  desc: "Amélioration automatique de la qualité audio et mastering IA.",
+  label: "Freemium",
+  url: "https://auphonic.com"
+},
+{
+  name: "Podcastle",
+  category: "audio",
+  domain: "podcastle.ai",
+  desc: "Création et édition de podcasts via intelligence artificielle.",
+  label: "Freemium",
+  url: "https://podcastle.ai"
+},
+{
+  name: "Resemble AI",
+  category: "audio",
+  domain: "resemble.ai",
+  desc: "Génération vocale réaliste et clonage de voix par IA.",
+  label: "Payant",
+  url: "https://www.resemble.ai"
+},
+{
+  name: "Altered Studio",
+  category: "audio",
+  domain: "altered.ai",
+  desc: "Studio de création vocale et modification de voix par IA.",
+  label: "Payant",
+  url: "https://altered.ai"
+},
+{
+  name: "Izotope RX AI",
+  category: "audio",
+  domain: "izotope.com/rx",
+  desc: "Nettoyage et restauration audio avancés avec IA.",
+  label: "Payant",
+  url: "https://www.izotope.com/en/products/rx.html"
+},
+{
+  name: "Suno AI",
+  category: "audio",
+  domain: "suno.ai",
+  desc: "Génération complète de chansons et compositions musicales par IA.",
+  label: "Freemium",
+  url: "https://suno.ai"
+},
+{
+  name: "Udio",
+  category: "audio",
+  domain: "udio.ai",
+  desc: "Concurrent n°1 de Suno pour création musicale IA complète.",
+  label: "Freemium",
+  url: "https://udio.ai"
+},
+{
+  name: "AmberScript",
+  category: "audio",
+  domain: "amberscript.com",
+  desc: "Transcription audio et vidéo avec intelligence artificielle.",
+  label: "Freemium",
+  url: "https://www.amberscript.com"
+},
+{
+  name: "Spext",
+  category: "audio",
+  domain: "spext.co",
+  desc: "Edition et transcription audio automatique avec IA.",
+  label: "Freemium",
+  url: "https://spext.co"
+},
+{
+  name: "GitHub Copilot",
+  category: "code",
+  domain: "github.com/copilot",
+  desc: "Assistant IA pour coder plus vite directement dans votre IDE.",
+  label: "Payant",
+  url: "https://github.com/copilot"
+},
+{
+  name: "Zed AI",
+  category: "code",
+  domain: "zed.run/ai",
+  desc: "Remplaçant moderne de Kite pour auto-complétion intelligente du code.",
+  label: "Freemium",
+  url: "https://zed.run/ai"
+},
+{
+  name: "Tabnine Pro",
+  category: "code",
+  domain: "tabnine.com",
+  desc: "Assistant IA multi-langages pour coder plus vite et sans erreur.",
+  label: "Payant",
+  url: "https://www.tabnine.com"
+},
+{
+  name: "Codeium",
+  category: "code",
+  domain: "codeium.com",
+  desc: "Complétion de code IA gratuite et open-source.",
+  label: "Gratuit",
+  url: "https://codeium.com"
+},
+{
+  name: "SourceAI",
+  category: "code",
+  domain: "sourceai.dev",
+  desc: "Génération automatique de code pour développeurs et startups.",
+  label: "Payant",
+  url: "https://sourceai.dev"
+},
+{
+  name: "CodeSquire",
+  category: "code",
+  domain: "codesquire.com",
+  desc: "Assistant IA pour la génération et amélioration du code.",
+  label: "Freemium",
+  url: "https://codesquire.com"
+},
+{
+  name: "CodeSandbox AI",
+  category: "code",
+  domain: "codesandbox.io",
+  desc: "Éditeur en ligne avec suggestions IA pour les projets web.",
+  label: "Freemium",
+  url: "https://codesandbox.io"
+},
+{
+  name: "AWS CodeWhisperer",
+  category: "code",
+  domain: "aws.amazon.com/codewhisperer",
+  desc: "Assistant IA pour coder plus vite dans l’écosystème Amazon.",
+  label: "Freemium",
+  url: "https://aws.amazon.com/codewhisperer"
+},
+{
+  name: "Codacy AI",
+  category: "code",
+  domain: "codacy.com",
+  desc: "Analyse de code et qualité logicielle assistée par IA.",
+  label: "Freemium",
+  url: "https://www.codacy.com"
+},
+{
+  name: "Snyk AI",
+  category: "code",
+  domain: "snyk.io",
+  desc: "Sécurité et analyse de code IA pour détecter vulnérabilités.",
+  label: "Freemium",
+  url: "https://snyk.io"
+},
+{
+  name: "DiffBlue Cover",
+  category: "code",
+  domain: "diffblue.com",
+  desc: "Génération automatique de tests unitaires pour votre code.",
+  label: "Payant",
+  url: "https://www.diffblue.com"
+},
+{
+  name: "Quix.ai",
+  category: "code",
+  domain: "quix.ai",
+  desc: "Exécution et débogage de code IA dans le cloud en temps réel.",
+  label: "Freemium",
+  url: "https://quix.ai"
+},
+{
+  name: "DuckDuckGo AI Chat",
+  category: "code",
+  domain: "duckduckgo.com/ai",
+  desc: "Accès gratuit aux modèles IA pour développeurs et requêtes techniques.",
+  label: "Gratuit",
+  url: "https://duckduckgo.com/ai"
+},
+{
+  name: "Socratic by Google",
+  category: "education",
+  domain: "socratic.org",
+  desc: "Aide aux devoirs et explications via IA pour tous les niveaux scolaires.",
+  label: "Gratuit",
+  url: "https://socratic.org"
+},
+{
+  name: "ELSA Speak",
+  category: "education",
+  domain: "elsaspeak.com",
+  desc: "Coach IA pour améliorer votre prononciation et accent.",
+  label: "Freemium",
+  url: "https://elsaspeak.com"
+},
+{
+  name: "ScribeSense",
+  category: "education",
+  domain: "scribesense.com",
+  desc: "Reconnaissance et analyse de documents pour l’éducation via IA.",
+  label: "Freemium",
+  url: "https://scribesense.com"
+},
+{
+  name: "Duolingo Max",
+  category: "education",
+  domain: "duolingo.com",
+  desc: "Apprentissage des langues boosté par IA pour progresser plus vite.",
+  label: "Freemium",
+  url: "https://www.duolingo.com/max"
+},
+{
+  name: "Brainscape AI",
+  category: "education",
+  domain: "brainscape.com",
+  desc: "Flashcards intelligentes pour réviser efficacement avec IA.",
+  label: "Freemium",
+  url: "https://www.brainscape.com"
+},
+{
+  name: "Quizlet AI",
+  category: "education",
+  domain: "quizlet.com",
+  desc: "Création et révision de flashcards optimisées par IA.",
+  label: "Freemium",
+  url: "https://quizlet.com"
+},
+{
+  name: "Photomath",
+  category: "education",
+  domain: "photomath.com",
+  desc: "Résolution et explications pas à pas de problèmes mathématiques.",
+  label: "Gratuit",
+  url: "https://photomath.com"
+},
+{
+  name: "Mathway AI",
+  category: "education",
+  domain: "mathway.com",
+  desc: "Résolution instantanée de problèmes mathématiques avec IA.",
+  label: "Freemium",
+  url: "https://mathway.com"
+},
+{
+  name: "Wolfram Alpha",
+  category: "education",
+  domain: "wolframalpha.com",
+  desc: "Moteur de calcul et réponses intelligentes pour éducation et recherche.",
+  label: "Freemium",
+  url: "https://www.wolframalpha.com"
+},
+{
+  name: "Memrise AI",
+  category: "education",
+  domain: "memrise.com",
+  desc: "Apprentissage des langues avec méthodes IA et répétition espacée.",
+  label: "Freemium",
+  url: "https://www.memrise.com"
+},
+{
+  name: "Lingvist",
+  category: "education",
+  domain: "lingvist.com",
+  desc: "Apprentissage rapide des langues via IA et statistiques personnalisées.",
+  label: "Freemium",
+  url: "https://lingvist.com"
+},
+{
+  name: "Write & Improve",
+  category: "education",
+  domain: "writeandimprove.com",
+  desc: "Évaluez et améliorez vos textes en anglais avec IA.",
+  label: "Gratuit",
+  url: "https://writeandimprove.com"
+},
+{
+  name: "Century Tech",
+  category: "education",
+  domain: "century.tech",
+  desc: "Plateforme d’apprentissage adaptatif basée sur IA pour écoles et étudiants.",
+  label: "Payant",
+  url: "https://century.tech"
+},
+{
+  name: "Edpuzzle AI",
+  category: "education",
+  domain: "edpuzzle.com",
+  desc: "Créez et personnalisez des leçons vidéo interactives avec IA.",
+  label: "Freemium",
+  url: "https://edpuzzle.com"
+},
+{
+  name: "Claude 3.5 Sonnet",
+  category: "agents",
+  domain: "anthropic.com/claude",
+  desc: "Assistant IA avancé pour conversation et assistance intelligente.",
+  label: "Payant",
+  url: "https://www.anthropic.com/claude"
+},
+{
+  name: "Poe AI",
+  category: "agents",
+  domain: "poe.com",
+  desc: "Plateforme multi-agents IA pour discussion et recherche intelligente.",
+  label: "Freemium",
+  url: "https://poe.com"
+},
+{
+  name: "Hume AI",
+  category: "agents",
+  domain: "hume.ai",
+  desc: "IA empathique et vocale pour analyse émotionnelle et conversations.",
+  label: "Freemium",
+  url: "https://hume.ai"
+},
+{
+  name: "GPT-Engineer",
+  category: "agents",
+  domain: "gpt-engineer.com",
+  desc: "Créez des agents IA personnalisés pour résoudre vos tâches.",
+  label: "Freemium",
+  url: "https://gpt-engineer.com"
+},
+{
+  name: "Bearly AI",
+  category: "agents",
+  domain: "bearly.ai",
+  desc: "Assistant IA pour productivité, recherches et résumé d’informations.",
+  label: "Freemium",
+  url: "https://bearly.ai"
+},
+{
+  name: "Synapse AI",
+  category: "agents",
+  domain: "synapse.ai",
+  desc: "Plateforme d’agents IA pour productivité et workflow automatisé.",
+  label: "Payant",
+  url: "https://synapse.ai"
+},
+{
+  name: "HyperWrite Personal Assistant",
+  category: "agents",
+  domain: "hyperwrite.ai",
+  desc: "Assistant personnel IA pour rédaction, recherche et organisation.",
+  label: "Freemium",
+  url: "https://hyperwrite.ai"
+},
+{
+  name: "MultiOn",
+  category: "agents",
+  domain: "multion.ai",
+  desc: "IA qui navigue sur le web et interagit pour accomplir vos tâches.",
+  label: "Payant",
+  url: "https://multion.ai"
+ },
+ {
+    name: "Jasper",
+    category: "texte",
+    domain: "jasper.ai",
+    desc: "Plateforme de création de contenu marketing pour les entreprises.",
+    label: "Payant",
+    url: "https://www.jasper.ai"
+  },
+  {
+    name: "Grammarly",
+    category: "texte",
+    domain: "grammarly.com",
+    desc: "Assistant d'écriture pour corriger la grammaire et le ton.",
     label: "Freemium",
-    url: "https://www.notion.so"
-}
-
-];
+    url: "https://www.grammarly.com"
+  },
+  {
+    name: "Copy.ai",
+    category: "texte",
+    domain: "copy.ai",
+    desc: "Générateur de textes marketing et de publications sociales.",
+    label: "Freemium",
+    url: "https://www.copy.ai"
+  },
+  {
+    name: "WriteSonic",
+    category: "texte",
+    domain: "writesonic.com",
+    desc: "Outil de rédaction SEO et création d'articles longs.",
+    label: "Freemium",
+    url: "https://writesonic.com"
+  },
+  {
+    name: "Quillbot",
+    category: "texte",
+    domain: "quillbot.com",
+    desc: "Outil de paraphrase et de reformulation de texte.",
+    label: "Freemium",
+    url: "https://quillbot.com"
+  },
+  {
+    name: "Otter.ai",
+    category: "business",
+    domain: "otter.ai",
+    desc: "Transcription automatique et résumé de réunions en temps réel.",
+    label: "Freemium",
+    url: "https://otter.ai"
+ },
+ {
+    name: "Fireflies.ai",
+    category: "business",
+    domain: "fireflies.ai",
+    desc: "Assistant de prise de notes pour les appels vidéo (Meet, Zoom).",
+    label: "Freemium",
+    url: "https://fireflies.ai"
+  },
+  {
+    name: "Tome",
+    category: "business",
+    domain: "tome.app",
+    desc: "Génération de présentations et de storytellings interactifs.",
+    label: "Freemium",
+    url: "https://tome.app"
+  },
+  {
+    name: "Gamma",
+    category: "business",
+    domain: "gamma.app",
+    desc: "Création de sites web et de présentations à partir de texte.",
+    label: "Freemium",
+    url: "https://gamma.app"
+  },
+  {
+    name: "Reclaim AI",
+    category: "business",
+    domain: "reclaim.ai",
+    desc: "Calendrier intelligent pour optimiser les emplois du temps.",
+    label: "Freemium",
+    url: "https://reclaim.ai"
+  },
+  {
+    name: "Motion",
+    category: "business",
+    domain: "usemotion.com",
+    desc: "Gestionnaire de tâches qui planifie automatiquement votre journée.",
+    label: "Payant",
+    url: "https://www.usemotion.com"
+  },
+  {
+    name: "Cody",
+    category: "business",
+    domain: "meetcody.ai",
+    desc: "Base de connaissances IA personnalisée pour les entreprises.",
+    label: "Freemium",
+    url: "https://meetcody.ai"
+  },
+  {
+    name: "Mem.ai",
+    category: "business",
+    domain: "mem.ai",
+    desc: "Prise de notes auto-organisée par l'intelligence artificielle.",
+    label: "Freemium",
+    url: "https://mem.ai"
+  },
+  {
+    name: "ChatPDF",
+    category: "texte",
+    domain: "chatpdf.com",
+    desc: "Discutez avec n'importe quel fichier PDF pour extraire des infos.",
+    label: "Freemium",
+    url: "https://www.chatpdf.com"
+  },
+  {
+    name: "Humata AI",
+    category: "texte",
+    domain: "humata.ai",
+    desc: "Analyse ultra-rapide de documents techniques et juridiques.",
+    label: "Freemium",
+    url: "https://www.humata.ai"
+  },
+  {
+    name: "Wordtune",
+    category: "texte",
+    domain: "wordtune.com",
+    desc: "Compagnon d'écriture qui reformule vos phrases avec style.",
+    label: "Freemium",
+    url: "https://www.wordtune.com"
+  },
+  {
+    name: "Rytr",
+    category: "texte",
+    domain: "rytr.me",
+    desc: "Assistant d'écriture abordable pour divers cas d'usage.",
+    label: "Freemium",
+    url: "https://rytr.me"
+  },
+  {
+    name: "Anyword",
+    category: "texte",
+    domain: "anyword.com",
+    desc: "IA de copywriting axée sur la performance et la conversion.",
+    label: "Payant",
+    url: "https://anyword.com"
+  },
+  {
+    name: "Character.ai",
+    category: "texte",
+    domain: "character.ai",
+    desc: "Discutez avec des personnages fictifs ou historiques célèbres.",
+    label: "Freemium",
+    url: "https://character.ai"
+  },
+  {
+    name: "Pi",
+    category: "texte",
+    domain: "heypi.com",
+    desc: "Assistant IA conversationnel personnel et empathique.",
+    label: "Gratuit",
+    url: "https://heypi.com"
+  },
+  {
+    name: "Leonardo.ai",
+    category: "image",
+    domain: "leonardo.ai",
+    desc: "Génération d'images et de modèles d'IA personnalisés.",
+    label: "Freemium",
+    url: "https://leonardo.ai"
+  },
+  {
+    name: "Lexica Art",
+    category: "image",
+    domain: "lexica.art",
+    desc: "Moteur de recherche et générateur d'images basés sur Stable Diffusion.",
+    label: "Freemium",
+    url: "https://lexica.art"
+  },
+  {
+    name: "Krea AI",
+    category: "image",
+    domain: "krea.ai",
+    desc: "Génération d'images et de vidéos en temps réel.",
+    label: "Freemium",
+    url: "https://www.krea.ai"
+  },
+  {
+    name: "Remove.bg",
+    category: "image",
+    domain: "remove.bg",
+    desc: "Suppression automatique de l'arrière-plan d'une image.",
+    label: "Freemium",
+    url: "https://www.remove.bg"
+  },
+  {
+    name: "Looka",
+    category: "image",
+    domain: "looka.com",
+    desc: "Création automatique de logos et d'identités visuelles.",
+    label: "Payant",
+    url: "https://looka.com"
+  },
+  {
+    name: "VanceAI",
+    category: "image",
+    domain: "vanceai.com",
+    desc: "Amélioration de la qualité d'image et agrandissement (Upscaling).",
+    label: "Freemium",
+    url: "https://vanceai.com"
+  },
+  {
+    name: "Magnific AI",
+    category: "image",
+    domain: "magnific.ai",
+    desc: "Upscaler d'images ultra-performant ajoutant des détails réels.",
+    label: "Payant",
+    url: "https://magnific.ai"
+  },
+  {
+    name: "Flair.ai",
+    category: "image",
+    domain: "flair.ai",
+    desc: "Design de photos de produits pour l'e-commerce.",
+    label: "Freemium",
+    url: "https://flair.ai"
+  },
+  {
+    name: "Uizard",
+    category: "image",
+    domain: "uizard.io",
+    desc: "Conception d'interfaces (UI) à partir de simples croquis.",
+    label: "Freemium",
+    url: "https://uizard.io"
+  },
+  {
+    name: "Photoroom",
+    category: "image",
+    domain: "photoroom.com",
+    desc: "Studio photo IA pour modifier les objets et les fonds.",
+    label: "Freemium",
+    url: "https://www.photoroom.com"
+  },
+  {
+    name: "Spline AI",
+    category: "image",
+    domain: "spline.design",
+    desc: "Génération de scènes 3D interactives par commandes textuelles.",
+    label: "Freemium",
+    url: "https://spline.design"
+  },
+  {
+    name: "Polycam",
+    category: "image",
+    domain: "poly.cam",
+    desc: "Capture et création de modèles 3D par photogrammétrie.",
+    label: "Freemium",
+    url: "https://poly.cam"
+  },
+  {
+    name: "Frammer",
+    category: "vidéo",
+    domain: "frammer.com",
+    desc: "Transforme des vidéos longues en shorts viraux pour réseaux sociaux.",
+    label: "Freemium",
+    url: "https://www.frammer.com"
+  },
+  {
+    name: "Clipdrop",
+    category: "image",
+    domain: "clipdrop.co",
+    desc: "Écosystème d'outils d'édition d'images par Stability AI.",
+    label: "Freemium",
+    url: "https://clipdrop.co"
+  },
+  {
+    name: "Interior AI",
+    category: "image",
+    domain: "interiorai.com",
+    desc: "IA pour la décoration d'intérieur et le staging virtuel.",
+    label: "Freemium",
+    url: "https://interiorai.com"
+  },
+  {
+    name: "Khroma",
+    category: "image",
+    domain: "khroma.co",
+    desc: "Générateur de palettes de couleurs personnalisé pour designers.",
+    label: "Gratuit",
+    url: "http://khroma.co"
+  },
+  {
+    name: "Recraft",
+    category: "image",
+    domain: "recraft.ai",
+    desc: "Génération d'illustrations vectorielles et d'icônes professionnelles.",
+    label: "Freemium",
+    url: "https://www.recraft.ai"
+  },
+  {
+    name: "Figma AI",
+    category: "image",
+    domain: "figma.com",
+    desc: "Fonctionnalités IA intégrées à Figma pour accélérer le design.",
+    label: "Payant",
+    url: "https://www.figma.com"
+  },
+  {
+    name: "WatermarkRemover",
+    category: "image",
+    domain: "watermarkremover.io",
+    desc: "Supprime les filigranes des images par IA.",
+    label: "Freemium",
+    url: "https://www.watermarkremover.io"
+  },
+  {
+    name: "DeepNude (Legacy/AI Art)",
+    category: "image",
+    domain: "deepart.io",
+    desc: "Transformation de photos en peintures artistiques.",
+    label: "Freemium",
+    url: "https://deepart.io"
+  },
+  {
+    name: "HeyGen",
+    category: "vidéo",
+    domain: "heygen.com",
+    desc: "Création d'avatars vidéo et traduction vidéo avec synchro labiale.",
+    label: "Freemium",
+    url: "https://www.heygen.com"
+  },
+  {
+    name: "Descript",
+    category: "vidéo",
+    domain: "descript.com",
+    desc: "Éditeur vidéo/audio basé sur l'édition du script texte.",
+    label: "Freemium",
+    url: "https://www.descript.com"
+  },
+  {
+    name: "Sora (OpenAI)",
+    category: "vidéo",
+    domain: "openai.com",
+    desc: "Génération de vidéos réalistes jusqu'à 60 secondes.",
+    label: "Payant",
+    url: "openai.com"
+  },
+  {
+    name: "InVideo",
+    category: "vidéo",
+    domain: "invideo.io",
+    desc: "Générateur de vidéos prêtes à l'emploi pour le marketing.",
+    label: "Freemium",
+    url: "https://invideo.io"
+  },
+  {
+    name: "Pika Labs",
+    category: "vidéo",
+    domain: "pika.art",
+    desc: "IA pour animer des images et créer des clips cinématiques.",
+    label: "Freemium",
+    url: "https://pika.art"
+  },
+  {
+    name: "Mubert",
+    category: "audio",
+    domain: "mubert.com",
+    desc: "IA génératrice de musique libre de droits pour créateurs.",
+    label: "Freemium",
+    url: "https://mubert.com"
+  },
+  {
+    name: "AIVA",
+    category: "audio",
+    domain: "aiva.ai",
+    desc: "IA de composition musicale pour films et jeux vidéo.",
+    label: "Freemium",
+    url: "https://www.aiva.ai"
+  },
+  {
+    name: "LALAL.AI",
+    category: "audio",
+    domain: "lalal.ai",
+    desc: "Extraction de voix et d'instruments à partir de n'importe quel titre.",
+    label: "Payant",
+    url: "https://www.lalal.ai"
+  },
+  {
+    name: "Adobe Podcast",
+    category: "audio",
+    domain: "adobe.com",
+    desc: "Amélioration de la voix pour une qualité de studio professionnel.",
+    label: "Freemium",
+    url: "https://podcast.adobe.com"
+  },
+  {
+    name: "D-ID",
+    category: "vidéo",
+    domain: "d-id.com",
+    desc: "Anime des portraits fixes pour créer des avatars parlants.",
+    label: "Freemium",
+    url: "https://www.d-id.com"
+  },
+  {
+    name: "Mojo",
+    category: "vidéo",
+    domain: "mojo-app.com",
+    desc: "Création de stories animées pour les réseaux sociaux.",
+    label: "Freemium",
+    url: "https://www.mojo-app.com"
+  },
+  {
+    name: "Murf AI",
+    category: "audio",
+    domain: "murf.ai",
+    desc: "Voix off réalistes pour présentations et publicités.",
+    label: "Freemium",
+    url: "https://murf.ai"
+  },
+  {
+    name: "Voicify AI",
+    category: "audio",
+    domain: "voicify.ai",
+    desc: "Créez des reprises musicales (covers) avec des voix célèbres.",
+    label: "Payant",
+    url: "https://www.voicify.ai"
+  },
+  {
+    name: "Boomy",
+    category: "audio",
+    domain: "boomy.com",
+    desc: "Créez des chansons et publiez-les sur les plateformes de streaming.",
+    label: "Freemium",
+    url: "https://boomy.com"
+  },
+  {
+    name: "Fliki",
+    category: "vidéo",
+    domain: "fliki.ai",
+    desc: "Transforme des articles de blog en vidéos avec voix off.",
+    label: "Freemium",
+    url: "https://fliki.ai"
+  },  
+  {
+    name: "Epidemic Sound AI",
+    category: "audio",
+    domain: "epidemicsound.com",
+    desc: "Moteur de recherche sonore intelligent pour vidéos.",
+    label: "Payant",
+    url: "https://www.epidemicsound.com"
+  },
+  {
+    name: "Speechify",
+    category: "audio",
+    domain: "speechify.com",
+    desc: "Transforme n'importe quel texte en livre audio de haute qualité.",
+    label: "Freemium",
+    url: "https://speechify.com"
+  },
+  {
+    name: "Captions.ai",
+    category: "vidéo",
+    domain: "captions.ai",
+    desc: "Sous-titrage automatique et édition vidéo pour créateurs mobiles.",
+    label: "Freemium",
+    url: "https://www.captions.ai"
+  },
+  {
+    name: "Soundraw",
+    category: "audio",
+    domain: "soundraw.io",
+    desc: "Composez votre propre musique d'ambiance personnalisable.",
+    label: "Freemium",
+    url: "https://soundraw.io"
+  },
+  {
+    name: "Cursor",
+    category: "code",
+    domain: "cursor.sh",
+    desc: "L'éditeur de code IA (fork de VS Code) le plus avancé en 2026.",
+    label: "Freemium",
+    url: "https://www.cursor.com"
+  },
+  {
+    name: "Replit Ghostwriter",
+    category: "code",
+    domain: "replit.com",
+    desc: "IDE en ligne avec assistant de codage intégré.",
+    label: "Freemium",
+    url: "https://replit.com"
+  },
+  {
+    name: "Tabnine",
+    category: "code",
+    domain: "tabnine.com",
+    desc: "Auto-complétion de code IA pour développeurs pro.",
+    label: "Freemium",
+    url: "https://www.tabnine.com"
+  },
+  {
+    name: "Vercel V0",
+    category: "code",
+    domain: "v0.dev",
+    desc: "Génération de composants d'interface (UI) à partir de texte.",
+    label: "Freemium",
+    url: "https://v0.dev"
+  },
+  {
+    name: "Hugging Face",
+    category: "code",
+    domain: "huggingface.co",
+    desc: "La plateforme de référence pour les modèles d'IA open-source.",
+    label: "Gratuit",
+    url: "https://huggingface.co"
+  },
+  {
+    name: "Amazon CodeWhisperer",
+    category: "code",
+    domain: "amazon.com",
+    desc: "L'assistant IA d'AWS pour le codage et les infrastructures.",
+    label: "Freemium",
+    url: "aws.amazon.com"
+  },
+  {
+    name: "Blackbox AI",
+    category: "code",
+    domain: "blackbox.ai",
+    desc: "Extension de codage ultra rapide pour copier-coller du code.",
+    label: "Freemium",
+    url: "https://www.blackbox.ai"
+  },
+  {
+    name: "Bito",
+    category: "code",
+    domain: "bito.ai",
+    desc: "Assistant IA pour générer des tests unitaires et documenter le code.",
+    label: "Freemium",
+    url: "https://bito.ai"
+  },
+  {
+    name: "Codeium",
+    category: "code",
+    domain: "codeium.com",
+    desc: "Alternative gratuite et puissante à GitHub Copilot.",
+    label: "Freemium",
+    url: "https://codeium.com"
+  },
+  {
+    name: "Sourcegraph Cody",
+    category: "code",
+    domain: "sourcegraph.com",
+    desc: "IA capable de lire et comprendre l'intégralité d'un répertoire de code.",
+    label: "Freemium",
+    url: "about.sourcegraph.com"
+  },  
+  {
+    name: "Akkio",
+    category: "business",
+    domain: "akkio.com",
+    desc: "Plateforme de data science prédictive sans code.",
+    label: "Freemium",
+    url: "https://www.akkio.com"
+  },
+  {
+    name: "Julius AI",
+    category: "business",
+    domain: "julius.ai",
+    desc: "Analyste de données IA qui crée des graphiques et des calculs.",
+    label: "Freemium",
+    url: "https://julius.ai"
+  },
+  {
+    name: "Tableau AI",
+    category: "business",
+    domain: "tableau.com",
+    desc: "Visualisation de données augmentée par l'intelligence artificielle.",
+    label: "Payant",
+    url: "https://www.tableau.com"
+  },  
+  {
+    name: "Mintlify",
+    category: "code",
+    domain: "mintlify.com",
+    desc: "Génération automatique de documentation technique.",
+    label: "Freemium",
+    url: "https://mintlify.com"
+  },
+  {
+    name: "Webflow Labs",
+    category: "code",
+    domain: "webflow.com",
+    desc: "IA intégrée pour générer des sites web dynamiques.",
+    label: "Payant",
+    url: "https://webflow.com"
+  },
+  {
+    name: "Bubble AI",
+    category: "code",
+    domain: "bubble.io",
+    desc: "Création d'applications complexes en No-code avec assistance IA.",
+    label: "Freemium",
+    url: "https://bubble.io"
+  },
+  {
+    name: "Warp AI",
+    category: "code",
+    domain: "warp.dev",
+    desc: "Le terminal moderne avec commande IA intégrée.",
+    label: "Freemium",
+    url: "https://www.warp.dev"
+  },
+  {
+    name: "Phind",
+    category: "code",
+    domain: "phind.com",
+    desc: "Moteur de recherche intelligent pour les développeurs.",
+    label: "Gratuit",
+    url: "https://www.phind.com"
+  },
+  {
+    name: "Khanmigo",
+    category: "education",
+    domain: "khanacademy.org",
+    desc: "Tuteur IA personnalisé par Khan Academy pour les étudiants.",
+    label: "Payant",
+    url: "www.khanacademy.org"
+},
+{
+    name: "Consensus",
+    category: "education",
+    domain: "consensus.app",
+    desc: "Moteur de recherche qui extrait des réponses de travaux scientifiques.",
+    label: "Freemium",
+    url: "https://consensus.app"
+},
+{
+    name: "Elicit",
+    category: "education",
+    domain: "elicit.org",
+    desc: "Assistant de recherche pour analyser les publications académiques.",
+    label: "Freemium",
+    url: "https://elicit.org"
+},
+{
+    name: "Quizgecko",
+    category: "education",
+    domain: "quizgecko.com",
+    desc: "Générateur de quiz et d'examens à partir de n'importe quel texte.",
+    label: "Freemium",
+    url: "https://quizgecko.com"
+},
+{
+    name: "AutoGPT",
+    category: "agents",
+    domain: "agpt.co",
+    desc: "Agent autonome capable d'exécuter des missions complexes seul.",
+    label: "Open Source",
+    url: "https://agpt.co"
+},
+{
+    name: "SuperAGI",
+    category: "agents",
+    domain: "superagi.com",
+    desc: "Framework pour construire et déployer des agents IA autonomes.",
+    label: "Open Source",
+    url: "https://superagi.com"
+},
+{
+    name: "Zapier Central",
+    category: "agents",
+    domain: "zapier.com",
+    desc: "Créez des agents IA qui interagissent avec plus de 6000 apps.",
+    label: "Freemium",
+    url: "zapier.com"
+},
+{
+    name: "AgentGPT",
+    category: "agents",
+    domain: "agentgpt.reworkd.ai",
+    desc: "Configurez et déployez des agents IA directement dans votre navigateur.",
+    label: "Freemium",
+    url: "https://agentgpt.reworkd.ai"
+},
+{
+    name: "Perplexity Pages",
+    category: "texte",
+    domain: "perplexity.ai",
+    desc: "Créez des rapports structurés et des pages web par simple prompt.",
+    label: "Freemium",
+    url: "www.perplexity.ai"
+},
+{
+    name: "Civitai",
+    category: "image",
+    domain: "civitai.com",
+    desc: "La plus grande bibliothèque de modèles Stable Diffusion (LoRA, Checkpoints).",
+    label: "Gratuit",
+    url: "https://civitai.com"
+},
+{
+    name: "Glean",
+    category: "business",
+    domain: "glean.com",
+    desc: "Moteur de recherche interne intelligent pour les grandes entreprises.",
+    label: "Payant",
+    url: "https://www.glean.com"
+},
+{
+    name: "Replika",
+    category: "texte",
+    domain: "replika.com",
+    desc: "Compagnon virtuel IA pour le bien-être émotionnel.",
+    label: "Freemium",
+    url: "https://replika.com"
+},
+{
+    name: "DoNotPay",
+    category: "business",
+    domain: "donotpay.com",
+    desc: "L'avocat robot pour contester des amendes et gérer la paperasse.",
+    label: "Payant",
+    url: "https://donotpay.com"
+},
+  {
+    name: "Poised",
+    category: "business",
+    domain: "poised.com",
+    desc: "Coach de communication en temps réel pour vos réunions vidéo.",
+    label: "Freemium",
+    url: "https://www.poised.com"
+  },
+  {
+    name: "Beautiful.ai",
+    category: "business",
+    domain: "beautiful.ai",
+    desc: "Logiciel de présentation qui applique les règles du design auto.",
+    label: "Payant",
+    url: "https://www.beautiful.ai"
+  },
+  {
+    name: "Krisp",
+    category: "audio",
+    domain: "krisp.ai",
+    desc: "Suppression du bruit de fond en temps réel pour vos appels.",
+    label: "Freemium",
+    url: "https://krisp.ai"
+  },
+  {
+    name: "Sembly AI",
+    category: "business",
+    domain: "sembly.ai",
+    desc: "Enregistre, transcrit et génère des actions après vos réunions.",
+    label: "Freemium",
+    url: "https://www.sembly.ai"
+  },
+  {
+    name: "Yoodli",
+    category: "education",
+    domain: "yoodli.ai",
+    desc: "IA pour s'entraîner à la prise de parole en public sans stress.",
+    label: "Freemium",
+    url: "https://yoodli.ai"
+  },
+  {
+    name: "Brandmark",
+    category: "image",
+    domain: "brandmark.io",
+    desc: "Créez un logo et des visuels de marque complets en quelques secondes.",
+    label: "Payant",
+    url: "https://brandmark.io"
+  }
+    ];
+    
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+let currentPage = 1;
+const itemsPerPage = 20; // 20 IA par page
+let currentCategory = 'tous';
+let filteredTools = [];
 
 /* =========================
    INIT
 ========================= */
 document.addEventListener('DOMContentLoaded', () => {
-    const filtersContainer = document.querySelector('.filters');
-    if (filtersContainer) {
-        filtersContainer.innerHTML =
-            `<button class="filter-btn active" onclick="setCategory('tous', this)">Tout</button>`;
-
-        [...new Set(tools.map(t => t.category))].forEach(cat => {
-            const btn = document.createElement('button');
-            btn.className = 'filter-btn';
-            btn.textContent = capitalize(cat);
-            btn.onclick = () => setCategory(cat, btn);
-            filtersContainer.appendChild(btn);
-        });
-    }
-
-    generateCards(tools);
+    buildFilters();
+    applyFilters();
 
     const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.addEventListener('input', filterTools);
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            currentPage = 1;
+            applyFilters();
+        });
+    }
 });
 
 /* =========================
-   GÉNÉRATION DES CARTES
+   FILTRES (CATÉGORIES)
 ========================= */
-function generateCards(list) {
+function buildFilters() {
+    const filtersContainer = document.querySelector('.filters');
+    if (!filtersContainer) return;
+
+    filtersContainer.innerHTML = '';
+
+    addFilterButton('tous', 'Tout', true);
+
+    [...new Set(tools.map(t => t.category))].forEach(cat => {
+        addFilterButton(cat, capitalize(cat));
+    });
+}
+
+function addFilterButton(value, label, active = false) {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (active ? ' active' : '');
+    btn.textContent = label;
+    btn.onclick = () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = value;
+        currentPage = 1;
+        applyFilters();
+    };
+    document.querySelector('.filters').appendChild(btn);
+}
+
+/* =========================
+   SEARCH + CATEGORY FILTER
+========================= */
+function applyFilters() {
+    const searchValue = document
+        .getElementById('searchInput')
+        ?.value
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ') || '';
+
+    filteredTools = tools.filter(tool => {
+        const matchSearch =
+            tool.name.toLowerCase().includes(searchValue) ||
+            tool.desc.toLowerCase().includes(searchValue);
+
+        const matchCategory =
+            currentCategory === 'tous' || tool.category === currentCategory;
+
+        return matchSearch && matchCategory;
+    });
+
+    generateCards();
+}
+
+/* =========================
+   GÉNÉRATION DES CARTES + PAGINATION
+========================= */
+function generateCards() {
     const grid = document.getElementById('aiGrid');
+    const pagination = document.getElementById('pagination');
     if (!grid) return;
 
     grid.innerHTML = "";
 
-    list.forEach(tool => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const pageItems = filteredTools.slice(start, start + itemsPerPage);
 
-        // ✅ GOOGLE FAVICON — GRATUIT, SANS CLÉ
+    pageItems.forEach(tool => {
         const logoImg = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
 
         const card = document.createElement('div');
         card.className = 'ai-card';
-        card.dataset.category = tool.category;
 
         card.innerHTML = `
             <div class="ai-icon">
@@ -434,32 +2424,93 @@ function generateCards(list) {
 
         grid.appendChild(card);
     });
+
+    renderPagination(pagination);
 }
 
 /* =========================
-   FILTRES
+   PAGINATION
+========================= */
+function renderPagination(container) {
+    if (!container) return;
+
+    container.innerHTML = '';
+    const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
+    if (totalPages <= 1) return;
+
+    // Définir la plage de pages visibles
+    const maxVisiblePages = 3;
+    let startPage = currentPage - Math.floor(maxVisiblePages / 2);
+    let endPage = currentPage + Math.floor(maxVisiblePages / 2);
+
+    if (startPage < 1) {
+        startPage = 1;
+        endPage = Math.min(maxVisiblePages, totalPages);
+    }
+    if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, totalPages - maxVisiblePages + 1);
+    }
+
+    // Affichage des boutons de page
+    if (currentPage > 1) {
+        container.innerHTML += `<button onclick="goPage(${currentPage - 1})">←</button>`;
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        container.innerHTML += `
+            <button class="${i === currentPage ? 'active' : ''}"
+            onclick="goPage(${i})">${i}</button>
+        `;
+    }
+
+    if (currentPage < totalPages) {
+        container.innerHTML += `<button onclick="goPage(${currentPage + 1})">→</button>`;
+    }
+}
+
+function goPage(page) {
+    currentPage = page;
+    generateCards();
+}
+
+/* =========================
+   UTILS
 ========================= */
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function filterTools() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('.ai-card').forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(input) ? 'flex' : 'none';
-    });
-}
+// Gestion du menu Kebab
+const kebabBtn = document.getElementById('kebabBtn');
+const kebabDropdown = document.getElementById('kebabDropdown');
 
-function setCategory(category, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
+kebabBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    kebabDropdown.classList.toggle('show');
+});
 
-    document.querySelectorAll('.ai-card').forEach(card => {
-        card.style.display =
-            category === 'tous' || card.dataset.category === category ? 'flex' : 'none';
+// Fermer le menu si on clique ailleurs
+document.addEventListener('click', (e) => {
+    if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
+        kebabDropdown.classList.remove('show');
+    }
+});
+
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', !expanded);
+
+        const answer = button.nextElementSibling;
+        if (!expanded) {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        } else {
+            answer.style.maxHeight = 0;
+        }
     });
-}
+});
 </script>
+<script async src="https://tally.so/widgets/embed.js"></script>
 </body>   
 </html>
-
