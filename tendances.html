@@ -1,0 +1,476 @@
+<!DOCTYPE html> 
+<html lang="fr">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>IA-Directory 2026 | Annuaire IA</title>  
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">  
+<style>  
+:root {  
+    --body-bg: #f8f9fb;  
+    --card-bg: #fff;  
+    --primary: #6b4eff;  
+    --text-main: #333;  
+    --text-dim: #555;  
+    .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+}  
+nav a {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 20px; /* Ajoute un peu de padding pour les rendre plus grands */
+  font-size: 1.1rem; /* Augmente légèrement la taille de la police */
+  border-radius: 25px; /* Ajoute des bords arrondis */
+  background: transparent; /* Fond transparent */
+  border: 2px solid var(--primary); /* Ajoute une bordure autour des boutons */
+  text-decoration: none; /* Retire le soulignement par défaut */
+  transition: all 0.3s ease; /* Transition pour un effet fluide */
+}
+
+nav a.active {
+  background: var(--primary); /* Change le fond lorsque le bouton est actif */
+  color: #fff; /* Change la couleur du texte en blanc lorsqu'il est actif */
+}
+
+nav a:hover {
+  background: var(--primary); /* Change le fond au survol */
+  color: #fff; /* Change la couleur du texte en blanc au survol */
+  transform: scale(1.05); /* Légère augmentation de la taille pour l'effet au survol */
+}        
+        
+    /* MENU TROIS POINTS (KEBAB) */
+        .kebab-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .kebab-button {
+            background: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #374151;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .kebab-button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .kebab-button span {
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .kebab-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 55px;
+            background: #111827;
+            border: 1px solid #374151;
+            border-radius: 16px;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            overflow: hidden;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kebab-dropdown.show { display: block; }
+
+        .kebab-dropdown a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .kebab-dropdown a:hover { background: #1f2937; color: var(--accent); }
+
+        .kebab-dropdown hr {
+            border: 0;
+            border-top: 1px solid #374151;
+            margin: 5px 0;
+        }
+
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Inter', sans-serif; }  
+body { background: var(--body-bg); color: var(--text-main); line-height:1.6; }  
+a { text-decoration:none; }  
+header { text-align:center; }  
+.logo-container {  
+    padding: 40px 0;  
+    background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 80%);  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+}  
+nav {  
+    display: flex;  
+    justify-content: center;  
+    gap: 2rem;  
+    padding: 20px 0;  
+    background: var(--body-bg);  
+}  
+nav a {  
+    color: var(--primary);  
+    font-weight: 600;  
+    cursor: pointer;  
+}  
+nav a.active { text-decoration: underline; }  
+.ai-section { padding:3rem 1rem; max-width:1200px; margin:auto; }  
+.ai-section h2 { text-align:center; margin-bottom:0.5rem; font-size:2rem; }  
+.ai-section p.description { text-align:center; margin-bottom:2rem; color: var(--text-dim); font-size:1rem; }  .ai-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr); /* 3 cartes par ligne sur grand écran */
+gap: 1rem;
+}
+
+.ai-card {
+position: relative;
+padding: 1rem;
+border-radius: 12px;
+background: var(--card-bg);
+box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+transition: transform 0.2s ease, box-shadow 0.2s ease;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-between;
+text-align: center;
+aspect-ratio: 1 / 1; /* cartes carrées */
+}
+
+.ai-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.1); }
+
+.ai-card img {
+width: 50px;
+height: 50px;
+object-fit: contain;
+margin-top: 1rem;
+}
+
+.ai-card h3 {
+margin: 0.8rem 0 0.5rem 0;
+font-size: 1rem;
+}
+
+.ai-card p {
+font-size: 0.85rem;
+color: var(--text-dim);
+margin-bottom: 0.8rem;
+}
+
+.ai-link {
+font-size: 0.85rem;
+margin-top: auto;
+font-weight:600;
+color: var(--primary);
+}
+
+.badge { position:absolute; top:12px; left:12px; padding:4px 10px; font-size:0.75rem; font-weight:600; border-radius:20px; color:#fff; }
+.badge.tendance { background: linear-gradient(135deg,#ff9800,#ff5722); }
+.badge.nouveau { background: linear-gradient(135deg,#4caf50,#2e7d32); }
+
+footer { background:#0b0f19; padding:40px 20px; text-align:center; color: #aaa; }
+footer a { color: var(--primary); margin:0 0.5rem; }
+
+@media (max-width: 1024px) {
+.ai-grid { grid-template-columns: repeat(2, 1fr); } /* 2 cartes par ligne sur tablette */
+}
+   
+@media (max-width: 600px) {
+.ai-grid { grid-template-columns: 1fr; } /* 1 carte par ligne sur mobile */
+.ai-card { aspect-ratio: auto; }
+}
+</style>
+
+</head>  
+<body>
+<!-- MENU TROIS POINTS -->
+<div class="kebab-container">
+    <button class="kebab-button" id="kebabBtn" aria-label="Menu de navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div id="kebabDropdown" class="kebab-dropdown">
+        <a href="blog.html">Blog et Guides</a>
+        <hr>
+        <a href="#tally-open=XxJkxd&tally-emoji-text=👋&tally-emoji-animation=wave"
+   style="color: var(--primary); font-weight: 800;">
+   ✨ Soumettre une IA</a>
+       <hr>
+        <a href="#faq">FAQ</a>
+       </div>
+</div>
+    
+    <header>  
+  <div class="logo-container">  
+    <svg width="300" height="70" viewBox="0 0 300 70" xmlns="http://www.w3.org/2000/svg">  
+      <defs>  
+        <linearGradient id="gradIA" x1="0%" y1="0%" x2="100%" y2="0%">  
+          <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" />  
+          <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />  
+        </linearGradient>  
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">  
+          <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />  
+          <feMerge>  
+            <feMergeNode in="coloredBlur" />  
+            <feMergeNode in="SourceGraphic" />  
+          </feMerge>  
+        </filter>  
+      </defs>  
+      <g filter="url(#glow)">  
+        <circle cx="35" cy="35" r="28" fill="none" stroke="url(#gradIA)" stroke-width="2.5" stroke-dasharray="100 20" />  
+        <circle cx="35" cy="35" r="20" fill="url(#gradIA)" fill-opacity="0.15" />  
+        <text x="35" y="42" font-family="Verdana, sans-serif" font-size="16" font-weight="900" fill="url(#gradIA)" text-anchor="middle">IA</text>  
+        <circle cx="35" cy="7" r="3.5" fill="#a855f7" />  
+        <circle cx="63" cy="35" r="3.5" fill="#00d4ff" />  
+        <circle cx="35" cy="63" r="3.5" fill="#a855f7" />  
+        <circle cx="7" cy="35" r="3.5" fill="#00d4ff" />  
+      </g>  
+      <text x="80" y="45" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="26" font-weight="900" fill="#ffffff">  
+        IA-<tspan fill="url(#gradIA)">DIRECTORY</tspan>  
+      </text>  
+    </svg>  
+  </div>       
+        <nav>  
+  <a id="tendanceBtn" class="active">Tendance</a>  
+  <a id="nouveauBtn">Nouveauté</a>  
+</nav>
+</header> 
+<div class="container">
+    <a href="index.html" class="back-link">← Retour à l'accueil</a>       
+    <section id="selection" class="ai-section">  
+      <h2>Tendances & Nouveautés</h2>    <!-- Description contrôlée UNIQUEMENT par JavaScript -->    <p id="description" class="description"></p>    <div class="ai-grid" id="aiGrid">  
+    <!-- Les cartes seront générées automatiquement via JavaScript -->  
+  </div>  
+</section>
+ 
+    <script>
+// ================= LISTE DES IA =================  
+const iaTools = [
+  { name: "ChatGPT", desc: "Assistant IA polyvalent pour écrire, apprendre, coder et résoudre des problèmes. Très populaire pour sa précision et sa flexibilité.", domain: "chat.openai.com", type: "tendance", link: "https://chat.openai.com" },
+  { name: "Notion AI", desc: "IA intégrée à Notion pour organiser vos idées, rédiger du contenu et automatiser vos tâches quotidiennes.", domain: "www.notion.so", type: "tendance", link: "https://www.notion.so/product/ai" },
+  { name: "Midjourney", desc: "Génération d’images artistiques et créatives à partir de textes, très utilisée par les designers et créateurs visuels.", domain: "www.midjourney.com", type: "tendance", link: "https://www.midjourney.com" },
+  { name: "Canva AI", desc: "Outils de design graphique assistés par IA, pour créer des visuels, présentations et contenus marketing rapidement.", domain: "www.canva.com", type: "tendance", link: "https://www.canva.com/ai/" },
+  { name: "Jasper AI", desc: "Assistant IA pour la rédaction de contenus marketing, blogs, e-mails et publications sociales, apprécié pour sa rapidité.", domain: "www.jasper.ai", type: "tendance", link: "https://www.jasper.ai" },
+  { name: "GitHub Copilot", desc: "Assistant de codage intelligent qui aide les développeurs à écrire et compléter du code rapidement.", domain: "github.com", type: "tendance", link: "https://github.com/features/copilot" },
+  { name: "DALL·E", desc: "IA capable de générer des images originales et créatives à partir de descriptions textuelles simples.", domain: "openai.com", type: "tendance", link: "https://openai.com/dall-e" },
+  { name: "Runway", desc: "Suite d’outils IA pour la vidéo et l’animation, utilisée pour créer des effets visuels et montages rapides.", domain: "runwayml.com", type: "tendance", link: "https://runwayml.com" },
+  { name: "Otter.ai", desc: "Service de transcription et prise de notes automatiques, pratique pour réunions, conférences et interviews.", domain: "otter.ai", type: "tendance", link: "https://otter.ai" },
+  { name: "Lumen5", desc: "Création automatique de vidéos marketing à partir de contenus textuels, idéal pour réseaux sociaux et promotion.", domain: "lumen5.com", type: "tendance", link: "https://lumen5.com" },
+  { name: "Perplexity AI", desc: "Moteur de recherche conversationnel dopé à l’IA, combinant réponses précises, sources fiables et recherche en temps réel. Très apprécié pour la veille et l’analyse rapide.", domain: "www.perplexity.ai", type: "nouveau", link: "https://www.perplexity.ai" },
+  { name: "Copy.ai", desc: "Plateforme de rédaction assistée par IA spécialisée dans le marketing, la publicité et le contenu professionnel, avec automatisations avancées.", domain: "www.copy.ai", type: "nouveau", link: "https://www.copy.ai" },
+  { name: "Gamma AI", desc: "Outil de création de présentations, documents et pages visuelles générées automatiquement par l’IA, sans compétences en design.", domain: "gamma.app", type: "nouveau", link: "https://gamma.app" },
+  { name: "Speechify", desc: "Solution de conversion texte-vers-voix alimentée par l’IA, offrant des voix naturelles pour la lecture de documents, articles et livres.", domain: "speechify.com", type: "nouveau", link: "https://speechify.com" },
+  { name: "INK AI", desc: "Assistant IA pour la création de contenu optimisé SEO, combinant rédaction intelligente, analyse sémantique et optimisation pour les moteurs de recherche.", domain: "inkforall.com", type: "nouveau", link: "https://inkforall.com" },
+  { name: "Suno AI", desc: "Générateur de musique par intelligence artificielle permettant de créer des morceaux originaux à partir de simples descriptions textuelles.", domain: "www.suno.ai", type: "nouveau", link: "https://www.suno.ai" },
+  { name: "Timely AI", desc: "Outil de suivi du temps et de planification automatisée par IA, conçu pour améliorer la productivité des équipes et des freelances.", domain: "www.timelyapp.com", type: "nouveau", link: "https://www.timelyapp.com" },
+  { name: "Scenario", desc: "Plateforme IA dédiée à la génération d’assets visuels et narratifs pour les jeux vidéo, le storytelling et les univers créatifs.", domain: "scenario.com", type: "nouveau", link: "https://scenario.com" }
+];
+
+// ================= CONFIGURATION PAGINATION =================
+const itemsPerPage = 25; // nombre de cartes par page (pour tests on peut ajuster)
+const visiblePages = 5; // nombre maximum de pages visibles dans le bloc
+let currentPage = 1;
+
+// ================= ELEMENTS =================
+const aiGrid = document.getElementById('aiGrid');
+const tendanceBtn = document.getElementById('tendanceBtn');  // Renommé
+const nouveauBtn = document.getElementById('nouveauBtn');
+const description = document.getElementById('description');
+    
+// ================= AFFICHAGE CARDS =================
+function renderPage(page) {
+  // Vérifier quel bouton est actif et filtrer les IA en conséquence
+  const filteredType = tendanceBtn.classList.contains('active') ? 'tendance' : 'nouveau';
+  
+  // Filtrer les outils selon le type (tendance ou nouveau)
+  const filteredIA = iaTools.filter(tool => tool.type === filteredType);
+
+  // Calculer le nombre total de pages
+  const totalPages = Math.ceil(filteredIA.length / itemsPerPage);
+    
+  if (page < 1) page = 1;
+  if (page > totalPages) page = totalPages;
+  currentPage = page;
+
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageItems = filteredIA.slice(start, end);
+
+  aiGrid.innerHTML = '';
+  pageItems.forEach(tool => {
+    const logoImg = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
+    const card = document.createElement('article');
+    card.className = `ai-card ${tool.type}`;
+    card.innerHTML = `
+      <span class="badge ${tool.type}">${tool.type === 'tendance' ? '⭐ Tendance' : '🆕 Nouveau'}</span>
+      <img src="${logoImg}" alt="Logo ${tool.name}" loading="lazy" width="48" height="48">
+      <h3>${tool.name}</h3>
+      <p>${tool.desc}</p>
+      <a href="${tool.link}" target="_blank" class="ai-link">Découvrir</a>
+    `;
+    aiGrid.appendChild(card);
+  });
+
+  renderPagination(totalPages);
+}
+
+// ================= PAGINATION DYNAMIQUE =================
+function renderPagination(totalPages) {
+  let pagination = document.getElementById('pagination');
+  if (!pagination) {
+    pagination = document.createElement('div');
+    pagination.id = 'pagination';
+    pagination.style.textAlign = 'center';
+    pagination.style.marginTop = '2rem';
+    document.getElementById('selection').appendChild(pagination);
+  }
+
+  pagination.innerHTML = '';
+
+  const createButton = (text, pageNum, disabled = false) => {
+    const btn = document.createElement('button');
+    btn.textContent = text;
+    btn.disabled = disabled;
+    btn.style.margin = '0 5px';
+    btn.style.padding = '5px 10px';
+    btn.style.border = '1px solid var(--primary)';
+    btn.style.background = pageNum === currentPage ? 'var(--primary)' : '#fff';
+    btn.style.color = pageNum === currentPage ? '#fff' : 'var(--primary)';
+    btn.style.borderRadius = '5px';
+    btn.style.cursor = disabled ? 'default' : 'pointer';
+    if (!disabled) btn.addEventListener('click', () => renderPage(pageNum));
+    return btn;
+  };
+
+  // Flèche précédente
+  pagination.appendChild(createButton('◀', currentPage - 1, currentPage === 1));
+
+  // Calcul bloc pages dynamiques
+  let startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+  let endPage = startPage + visiblePages - 1;
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - visiblePages + 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pagination.appendChild(createButton(i, i));
+  }
+
+  // Flèche suivante
+  pagination.appendChild(createButton('▶', currentPage + 1, currentPage === totalPages));
+}
+
+// ================= FILTRAGE =================
+tendanceBtn.addEventListener('click', () => {
+  // Ajouter la classe 'active' au bouton "Tendances"
+  tendanceBtn.classList.add('active');
+  
+  // Retirer la classe 'active' du bouton "Nouveautés"
+  nouveauBtn.classList.remove('active');
+
+  // Mettre à jour la description pour les "Tendances"
+  description.innerHTML = `
+    <strong>⭐ Tendance : La crème de l'intelligence artificielle</strong><br><br>
+    Cette catégorie regroupe exclusivement les IA populaires et incontournables qui dominent le marché par leur performance,
+    leur fiabilité et leur adoption massive.<br><br>
+    <strong>Pourquoi consulter cette catégorie ?</strong><br>
+    Pour accéder immédiatement aux solutions les plus robustes et éprouvées.
+  `;
+
+  // Réinitialiser à la première page et afficher les outils "Tendances"
+  currentPage = 1;
+  renderPage(currentPage);
+});
+
+nouveauBtn.addEventListener('click', () => {
+  // Ajouter la classe 'active' au bouton "Nouveautés"
+  nouveauBtn.classList.add('active');
+  
+  // Retirer la classe 'active' du bouton "Tendances"
+  tendanceBtn.classList.remove('active');
+
+  // Mettre à jour la description pour les "Nouveautés"
+  description.innerHTML = `
+    <strong>🆕 Nouveauté : Les dernières IA innovantes</strong><br><br>
+    Cette catégorie met en avant les IA récemment lancées sur le marché, souvent à la pointe de l'innovation.<br><br>
+    <strong>Pourquoi consulter cette catégorie ?</strong><br>
+    Pour rester à la pointe des innovations avant qu'elles ne deviennent la norme.
+  `;
+
+  // Réinitialiser à la première page et afficher les outils "Nouveaux"
+  currentPage = 1;
+  renderPage(currentPage);
+});
+    /* =========================
+   UTILS
+========================= */
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+// Gestion du menu Kebab
+    const kebabBtn = document.getElementById('kebabBtn');
+    const kebabDropdown = document.getElementById('kebabDropdown');
+
+    kebabBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        kebabDropdown.classList.toggle('show');
+    });
+
+    // Fermer le menu si on clique ailleurs
+    document.addEventListener('click', (e) => {
+        if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
+            kebabDropdown.classList.remove('show');
+        }
+    });
+
+// ================= INITIALISATION =================
+tendanceBtn.click();
+</script>  
+    <script async src="https://tally.so/widgets/embed.js"></script>
+
+    <footer>
+
+  <p>&copy; 2026 Annuaire IA</p>  
+</footer>
+</body>  
+</html>
+
+
+
+  
