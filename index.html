@@ -2359,8 +2359,8 @@ const tools = [
     url: "https://brandmark.io"
   }
     ];
-    
-/* =========================
+
+    /* =========================
    VARIABLES GLOBALES
 ========================= */
 let currentPage = 1;
@@ -2440,14 +2440,14 @@ function applyFilters() {
 }
 
 /* =========================
-   GÉNÉRATION DES CARTES + PAGINATION
+   GÉNÉRATION DES CARTES
 ========================= */
 function generateCards() {
     const grid = document.getElementById('aiGrid');
-    const pagination = document.getElementById('pagination');
+    const paginationContainer = document.getElementById('pagination');
+    
     if (!grid) return;
-
-    grid.innerHTML = "";
+    grid.innerHTML = ""; 
 
     const start = (currentPage - 1) * itemsPerPage;
     const pageItems = filteredTools.slice(start, start + itemsPerPage);
@@ -2457,82 +2457,81 @@ function generateCards() {
 
         const card = document.createElement('div');
         card.className = 'ai-card';
-
         card.innerHTML = `
             <div class="ai-icon">
-                <img
-                    src="${logoImg}"
-                    alt="Logo ${tool.name}"
-                    loading="lazy"
-                    width="48"
-                    height="48"
-                    onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=ffffff&bold=true';"
-                >
+                <img src="${logoImg}" alt="Logo de l'outil ${tool.name}" loading="lazy" width="48" height="48" 
+                     onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=ffffff&bold=true';">
             </div>
-
             <h3>${tool.name}</h3>
             <p>${tool.desc}</p>
-
             <div class="ai-footer">
                 <span class="label">${tool.label}</span>
-                <a href="${tool.url}" target="_blank" rel="noopener" class="btn-visit">
-                    Explorer →
-                </a>
+                <a href="${tool.url}" target="_blank" rel="sponsored noopener" class="btn-visit">Explorer →</a>
             </div>
         `;
-
         grid.appendChild(card);
     });
 
-    renderPagination(pagination);
+    renderPagination(paginationContainer);
 }
-
 /* =========================
-   PAGINATION
+   PAGINATION AMÉLIORÉE
 ========================= */
 function renderPagination(container) {
     if (!container) return;
+    container.innerHTML = ''; // On vide la pagination
 
-    container.innerHTML = '';
     const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
     if (totalPages <= 1) return;
 
-    // Définir la plage de pages visibles
+    // Bouton PRÉCÉDENT (Plus visible)
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'nav-btn-long';
+    prevBtn.innerHTML = '◀';
+    prevBtn.disabled = (currentPage === 1);
+    prevBtn.onclick = () => goPage(currentPage - 1);
+    container.appendChild(prevBtn);
+
+    // Numéros de pages
     const maxVisiblePages = 3;
-    let startPage = currentPage - Math.floor(maxVisiblePages / 2);
-    let endPage = currentPage + Math.floor(maxVisiblePages / 2);
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
-    if (startPage < 1) {
-        startPage = 1;
-        endPage = Math.min(maxVisiblePages, totalPages);
-    }
-    if (endPage > totalPages) {
-        endPage = totalPages;
-        startPage = Math.max(1, totalPages - maxVisiblePages + 1);
-    }
-
-    // Affichage des boutons de page
-    if (currentPage > 1) {
-        container.innerHTML += `<button onclick="goPage(${currentPage - 1})">←</button>`;
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
 
     for (let i = startPage; i <= endPage; i++) {
-        container.innerHTML += `
-            <button class="${i === currentPage ? 'active' : ''}"
-            onclick="goPage(${i})">${i}</button>
-        `;
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        pageBtn.className = (i === currentPage) ? 'active' : '';
+        pageBtn.onclick = () => goPage(i);
+        container.appendChild(pageBtn);
     }
 
-    if (currentPage < totalPages) {
-        container.innerHTML += `<button onclick="goPage(${currentPage + 1})">→</button>`;
-    }
+    // Bouton SUIVANT (Plus visible)
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'nav-btn-long';
+    nextBtn.innerHTML = '▶';
+    nextBtn.disabled = (currentPage === totalPages);
+    nextBtn.onclick = () => goPage(currentPage + 1);
+    container.appendChild(nextBtn);
 }
 
+// Fonction globale pour changer de page
 function goPage(page) {
     currentPage = page;
     generateCards();
+    
+    // Remontée fluide vers le haut de la grille
+    const gridElement = document.getElementById('aiGrid');
+    if(gridElement) {
+        window.scrollTo({
+            top: gridElement.offsetTop - 120,
+            behavior: 'smooth'
+        });
+    }
 }
-
 /* =========================
    UTILS
 ========================= */
@@ -2573,3 +2572,5 @@ document.querySelectorAll('.faq-question').forEach(button => {
 <script async src="https://tally.so/widgets/embed.js"></script>
 </body>   
 </html>
+    
+            
