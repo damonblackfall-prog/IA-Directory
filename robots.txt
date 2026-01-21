@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Indiquez ici l'emplacement de votre sitemap
+Sitemap: https://ia-directory.github.io/sitemap.xml
