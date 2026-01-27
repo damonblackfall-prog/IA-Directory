@@ -1,0 +1,26 @@
+[
+  {
+    "file": "neon-cyber-city.jpg",
+    "tool": "Midjourney v6",
+    "url": "https://www.midjourney.com",
+    "prompt": "Cinematic wide shot of a futuristic Tokyo street, heavy rain, glowing neon signs in cyan and pink, hyper-realistic reflections, 8k resolution."
+  },
+  {
+    "file": "steampunk-cat.png",
+    "tool": "DALL-E 3",
+    "url": "https://openai.com/dall-e-3",
+    "prompt": "A fluffy ginger cat wearing steampunk goggles and a small brass waistcoat, sitting on a pile of old books, Victorian library background."
+  },
+  {
+    "file": "abstract-glass-structure.webp",
+    "tool": "Flux.1",
+    "url": "https://replicate.com/black-forest-labs/flux-pro",
+    "prompt": "Breathtaking architectural photography of a glass pavilion in the middle of a desert, sunset lighting, sharp edges, minimalist style."
+  },
+  {
+    "file": "retro-robot-painting.jpg",
+    "tool": "Stable Diffusion",
+    "url": "https://stability.ai",
+    "prompt": "Vintage 1950s sci-fi poster art, a friendly robot serving coffee, warm oil painting texture, muted retro colors."
+  }
+]
