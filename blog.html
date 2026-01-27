@@ -82,14 +82,17 @@
             transition: transform 0.2s;
         }
 
-        .article-card:hover {
-            transform: translateY(-3px);
-        }
-
+        /* TOUS LES ARTICLES DISPONIBLES EN BLEU */
         .article-card.active {
             border-left: 5px solid var(--primary);
         }
 
+        .article-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        /* ARTICLES À VENIR EN GRIS */
         .article-card.upcoming {
             opacity: 0.7;
             background: #fafafa;
@@ -196,9 +199,21 @@
 <div class="container">
     <a href="index.html" class="back-link">← Retour à l'accueil</a>
 
-    
+    <div class="articles-grid">
 
         <article class="article-card active">
+            <div>
+                <span class="status available">Disponible</span>
+                <p class="date">25 Janvier 2026</p>
+                <h2>L’Algorithme Intime : Peut-on tisser des liens réels avec une IA ?</h2>
+                <p style="font-size:0.9rem; color:var(--text-dim);">
+                    Entre effet ELIZA et design de l'empathie, découvrez comment l'attachement à la machine redéfinit nos liens sociaux.
+                </p>
+            </div>
+            <a href="algorithme-intime/" class="read-btn">Lire l'article</a>
+        </article>
+
+  <article class="article-card active">
     <div>
         <span class="status available">Disponible</span>
         <p class="date">13 Janvier 2026</p>
@@ -208,21 +223,7 @@
         </p>
     </div>
     <a href="monetisation-ia.html" class="read-btn">Lire l'article</a>
-</article>
-
-    <div class="articles-grid">
-
-        <article class="article-card new">
-            <div>
-                <span class="status available">Disponible</span>
-                <p class="date">25 Janvier 2026</p>
-                <h2>L’Algorithme Intime : Peut-on tisser des liens réels avec une IA ?</h2>
-                <p style="font-size:0.9rem; color:var(--text-dim);">
-                    Entre effet ELIZA et design de l'empathie, découvrez comment l'attachement à la machine redéfinit nos liens sociaux.
-                </p>
-            </div>
-            <a href="algorithme-intime/" class="read-btn special">Lire l'article</a>
-        </article>
+  </article>      
 
         <article class="article-card upcoming">
             <div>
