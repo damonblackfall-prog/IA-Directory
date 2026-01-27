@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galerie IA - IA-DIRECTORY</title>
+<style>
+  :root { --primary: #007bff; --dark: #000; --white: #fff; --gray: #f9f9f9; }
+  .back-link { display: inline-block; margin: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+  body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--gray); }
+  h1 { text-align:center; margin-top: 10px; color: #333; }
+  .subtitle { text-align:center; color:#666; margin-bottom:20px; }
+
+  .gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
+  }
+  .gallery img {
+    width:100%; height: 250px; object-fit: cover;
+    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
+  }
+  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+  .lightbox {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.96); display: none;
+    justify-content: center; align-items: center; z-index: 1000; flex-direction: column; padding: 20px;
+  }
+  .lightbox img { max-width: 90%; max-height: 65vh; border-radius:8px; }
+
+  .prompt-box { margin-top: 20px; text-align: center; max-width: 600px; }
+  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 1rem; line-height: 1.5; }
+  .copy-btn {
+    background: transparent; border: 1px solid var(--primary); color: var(--primary);
+    padding: 6px 15px; border-radius: 4px; cursor: pointer; transition: 0.2s;
+  }
+  .copy-btn:hover { background: var(--primary); color: #fff; }
+
+  .tool-link { margin-top: 20px; background: var(--primary); color: #fff; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; }
+  .close { position: fixed; top: 20px; right: 30px; font-size: 40px; color: #fff; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<a href="../" class="back-link">← Retour à l'accueil</a>
+
+<h1>Galerie IA</h1>
+<p class="subtitle">Cliquez sur une œuvre pour copier son prompt et découvrir l'outil.</p>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="lightbox" id="lightbox">
+  <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>
+  <img id="lightbox-img" src="" alt="">
+  <div class="prompt-box">
+    <p id="prompt-text"></p>
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
+  </div>
+  <a id="tool-link" href="#" target="_blank" class="tool-link"></a>
+</div>
+
+<script>
+fetch('../image/galerie/items/galerie.json')
+  .then(res => res.json())
+  .then(images => {
+    const gallery = document.getElementById('gallery');
+    images.forEach(imgData => {
+      const img = document.createElement('img');
+      img.src = '../image/galerie/items/' + imgData.file;
+      img.alt = imgData.tool;
+      img.onclick = () => {
+        document.getElementById('lightbox').style.display = 'flex';
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
+        document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
+        document.getElementById('tool-link').href = imgData.url;
+      };
+      gallery.appendChild(img);
+    });
+  });
+
+function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = "✅ Copié !";
+    setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
