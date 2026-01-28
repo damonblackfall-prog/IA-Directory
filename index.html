@@ -138,6 +138,23 @@ h1, h2, .gradient-title {
     transition: opacity 0.3s;
 }
 
+        .nav-buttons {
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    gap: 15px;               /* Espace entre les deux boutons */
+    margin: 20px 0;          /* Espace au-dessus et en-dessous */
+    flex-wrap: wrap;         /* Permet de passer à la ligne sur de très petits écrans */
+}
+
+/* On s'assure que les boutons gardent une taille cohérente */
+.btn-ia {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    /* Gardez vos styles existants ici (couleurs, bordures, etc.) */
+}
+
 .btn-visit:hover {
     opacity: 0.9;
     box-shadow: 0 0 15px var(--accent);
@@ -520,22 +537,25 @@ h1, h2, .gradient-title {
 
     <!-- RECHERCHE -->
     <div class="search-container" role="search">
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"
-            aria-label="Rechercher une intelligence artificielle"
-        >
-    </div>
+    <input
+        type="search"
+        id="searchInput"
+        placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"
+        aria-label="Rechercher une intelligence artificielle"
+    >
+</div>
 
-    <!-- FILTRES -->
-    <nav class="filters" aria-label="Filtrer par catégorie">
-        <!-- Généré dynamiquement -->
+<nav class="filters" aria-label="Filtrer par catégorie">
     </nav>
-<!-- Le Bouton avec flamme animée -->
-<a href="tendances" class="btn-ia">
-  <span class="icon-fire">🔥</span> Tendances et Nouveautés
-</a>
+
+<div class="nav-buttons">
+    <a href="tendances" class="btn-ia">
+        <span class="icon-fire">🔥</span> Tendances
+    </a>
+    <a href="galerie" class="btn-ia">
+        <span class="icon-gallery">🖼️</span> Galerie IA
+    </a>
+</div>
 </header>
 
 <main class="container">
