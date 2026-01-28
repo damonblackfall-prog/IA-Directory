@@ -43,6 +43,36 @@
   height: 100vh;
   object-fit: contain; /* ← cover si tu veux remplir quitte à couper */
 }
+  .prompt-box {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1100;
+  background: rgba(0,0,0,0.55);
+  padding: 12px 18px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.tool-link {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1100;
+}
+
+.copy-btn {
+  color: #fff;
+  border-color: #fff;
+}
+
+.copy-btn:hover {
+  background: #fff;
+  color: #000;
+    }
+  
   .prompt-box { margin-top: 20px; text-align: center; max-width: 600px; }
   #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 1rem; line-height: 1.5; }
   .copy-btn {
