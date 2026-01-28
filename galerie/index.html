@@ -5,17 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galerie IA - IA-DIRECTORY</title>
   <link rel="canonical" href="https://ia-directory.github.io/galerie/" />
-  <meta name="description" content="Découvrez les meilleures créations générées par intelligence artificielle. Prompts inclus pour Midjourney, DALL-E 3 et plus.">
+  <meta name="description" content="Découvrez les meilleures créations générées par intelligence artificielle.">
   
-  <meta property="og:title" content="Galerie IA - IA-DIRECTORY">
-  <meta property="og:description" content="Explorez l'art de l'IA et copiez les meilleurs prompts.">
-  <meta property="og:url" content="https://ia-directory.github.io/galerie/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://ia-directory.github.io/image/galerie/items/neon-cyber-city.jpg">
 <style>
   :root { --primary: #007bff; --dark: #000; --white: #fff; --gray: #f9f9f9; }
-  .back-link { display: inline-block; margin: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+  
+  /* Bloquer le scroll du body quand la lightbox est ouverte */
+  body.modal-open { overflow: hidden; }
+
   body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--gray); }
+  .back-link { display: inline-block; margin: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
   h1 { text-align:center; margin-top: 10px; color: #333; }
   .subtitle { text-align:center; color:#666; margin-bottom:20px; }
 
@@ -29,79 +28,60 @@
   }
   .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
 
-  /* Remplace ton bloc .lightbox par celui-ci */
-.lightbox {
-  display: none; /* Masqué par défaut */
-  position: fixed;
-  z-index: 1000;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.9);
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
+  .lightbox {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+  }
 
-.lightbox img {
-  max-width: 90%;
-  max-height: 80vh;
-  object-fit: contain;
-  transition: transform 0.25s ease;
-  touch-action: none;
-  cursor: zoom-in;
-  user-select: none;
-  display: block;
-  margin: 0 auto;
-}
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    transition: transform 0.25s ease-out;
+    cursor: zoom-in;
+    user-select: none;
+    will-change: transform; /* Optimisation performance */
+  }
   
   .prompt-box {
-  position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1100;
-  background: rgba(0,0,0,0.55);
-  padding: 12px 18px;
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
-}
-
-.tool-link {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1100;
-}
-
-.copy-btn {
-  color: #fff;
-  border-color: #fff;
-}
-
-.copy-btn:hover {
-  background: #fff;
-  color: #000;
-    }
-  
-  .prompt-box { margin-top: 20px; text-align: center; max-width: 600px; }
-  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 1rem; line-height: 1.5; }
-  .copy-btn {
-    background: transparent; border: 1px solid var(--primary); color: var(--primary);
-    padding: 6px 15px; border-radius: 4px; cursor: pointer; transition: 0.2s;
+    position: fixed; bottom: 90px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: rgba(0,0,0,0.6); padding: 12px 18px;
+    border-radius: 12px; backdrop-filter: blur(8px);
+    text-align: center; width: 80%; max-width: 500px;
   }
-  .copy-btn:hover { background: var(--primary); color: #fff; }
 
-  .tool-link { margin-top: 20px; background: var(--primary); color: #fff; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; }
-  .close { position: fixed; top: 20px; right: 30px; font-size: 40px; color: #fff; text-decoration: none; }
+  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; }
+  
+  .tool-link {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: var(--primary); color: #fff; padding: 10px 20px;
+    border-radius: 30px; text-decoration: none; font-weight: bold;
+  }
+
+  .copy-btn {
+    background: transparent; border: 1px solid #fff; color: #fff;
+    padding: 5px 12px; border-radius: 4px; cursor: pointer;
+  }
+  .copy-btn:hover { background: #fff; color: #000; }
+
+  .close { position: fixed; top: 20px; right: 30px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; }
 </style>
 </head>
 <body>
 
 <a href="../" class="back-link">← Retour à l'accueil</a>
-
 <h1>Galerie IA</h1>
-<p class="subtitle">Cliquez sur une œuvre pour copier son prompt et découvrir l'outil.</p>
+<p class="subtitle">Double-cliquez pour zoomer et glisser l'image.</p>
 
 <div class="gallery" id="gallery"></div>
 
@@ -121,104 +101,81 @@ let currentIndex = 0;
 let startX = 0;
 let zoomed = false;
 let isDragging = false;
-let lastX = 0;
-let lastY = 0;
-let translateX = 0;
-let translateY = 0;
+let lastX = 0, lastY = 0;
+let translateX = 0, translateY = 0;
 
-/* 📦 Chargement des images */
 fetch('../image/galerie/items/galerie.json')
   .then(res => res.json())
   .then(images => {
     imagesData = images;
     const gallery = document.getElementById('gallery');
-
     images.forEach((imgData, index) => {
       const img = document.createElement('img');
       img.src = '../image/galerie/items/' + imgData.file;
-      img.alt = "Œuvre générée par " + imgData.tool;
       img.onclick = () => openLightbox(index);
       gallery.appendChild(img);
     });
   });
 
-/* 🖼️ Ouvrir lightbox */
 function openLightbox(index) {
   currentIndex = index;
-  zoomed = false;
-  translateX = 0;
-  translateY = 0;
-
+  resetZoomState();
+  
   const imgData = imagesData[index];
   const img = document.getElementById('lightbox-img');
+  const lb = document.getElementById('lightbox');
 
-  document.getElementById('lightbox').style.display = 'flex';
+  lb.style.display = 'flex';
+  document.body.classList.add('modal-open');
+  
   img.src = '../image/galerie/items/' + imgData.file;
-  img.style.transform = 'scale(1)';
-  img.style.cursor = 'zoom-in';
-
-  document.getElementById('prompt-text').textContent =
-    imgData.prompt || "Pas de prompt disponible";
-
-  document.getElementById('tool-link').textContent =
-    "Créer avec " + imgData.tool;
+  document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
+  document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
   document.getElementById('tool-link').href = imgData.url;
 
   setupZoom();
 }
 
-/* ❌ Fermeture */
 function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
+  document.body.classList.remove('modal-open');
+  resetZoomState();
 }
 
-/* 🔄 Navigation */
-function showNext() {
-  currentIndex = (currentIndex + 1) % imagesData.length;
-  openLightbox(currentIndex);
+function resetZoomState() {
+  zoomed = false;
+  isDragging = false;
+  translateX = 0;
+  translateY = 0;
+  const img = document.getElementById('lightbox-img');
+  img.style.transform = 'scale(1) translate(0px, 0px)';
+  img.style.cursor = 'zoom-in';
 }
 
-function showPrev() {
-  currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length;
-  openLightbox(currentIndex);
+function updateTransform() {
+  const img = document.getElementById('lightbox-img');
+  if (zoomed) {
+    // IMPORTANT: On divise la translation par 2 car scale(2) double les distances perçues
+    img.style.transform = `scale(2) translate(${translateX / 2}px, ${translateY / 2}px)`;
+  } else {
+    img.style.transform = `scale(1) translate(0px, 0px)`;
+  }
 }
 
-/* 👆 Swipe mobile */
-const lightbox = document.getElementById('lightbox');
-
-lightbox.addEventListener('touchstart', e => {
-  startX = e.touches[0].clientX;
-});
-
-lightbox.addEventListener('touchend', e => {
-  if (zoomed) return; // 🚫 pas de swipe quand zoomé
-  const endX = e.changedTouches[0].clientX;
-  const diff = startX - endX;
-  if (Math.abs(diff) > 50) diff > 0 ? showNext() : showPrev();
-});
-
-/* 🔍 Zoom + Drag (mobile & desktop) */
 function setupZoom() {
   const img = document.getElementById('lightbox-img');
   if (img.dataset.zoomReady) return;
   img.dataset.zoomReady = "true";
 
-  // Double clic / double tap
   img.addEventListener('dblclick', () => {
     zoomed = !zoomed;
     translateX = 0;
     translateY = 0;
-
-    if (zoomed) {
-      img.style.transform = `scale(2) translate(0px, 0px)`;
-      img.style.cursor = 'grab';
-    } else {
-      img.style.transform = 'scale(1)';
-      img.style.cursor = 'zoom-in';
-    }
+    img.style.cursor = zoomed ? 'grab' : 'zoom-in';
+    updateTransform();
   });
 
-  // Drag desktop
+  // Events Souris
   img.addEventListener('mousedown', e => {
     if (!zoomed) return;
     isDragging = true;
@@ -227,59 +184,60 @@ function setupZoom() {
     img.style.cursor = 'grabbing';
   });
 
+  window.addEventListener('mousemove', e => {
+    if (!zoomed || !isDragging) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    updateTransform();
+  });
+
   window.addEventListener('mouseup', () => {
     isDragging = false;
     if (zoomed) img.style.cursor = 'grab';
   });
 
-  window.addEventListener('mousemove', e => {
-    if (!zoomed || !isDragging) return;
-
-    translateX += e.clientX - lastX;
-    translateY += e.clientY - lastY;
-    lastX = e.clientX;
-    lastY = e.clientY;
-
-    img.style.transform = `scale(2) translate(${translateX}px, ${translateY}px)`;
-  });
-
-  // Drag tactile
+  // Events Tactile
   img.addEventListener('touchstart', e => {
     if (!zoomed) return;
     isDragging = true;
     lastX = e.touches[0].clientX;
     lastY = e.touches[0].clientY;
-  });
+  }, {passive: true});
 
   img.addEventListener('touchmove', e => {
     if (!zoomed || !isDragging) return;
-    e.preventDefault();
-
     translateX += e.touches[0].clientX - lastX;
     translateY += e.touches[0].clientY - lastY;
     lastX = e.touches[0].clientX;
     lastY = e.touches[0].clientY;
+    updateTransform();
+  }, {passive: true});
 
-    img.style.transform = `scale(2) translate(${translateX}px, ${translateY}px)`;
-  }, { passive: false });
-
-  img.addEventListener('touchend', () => {
-    isDragging = false;
-  });
+  img.addEventListener('touchend', () => isDragging = false);
 }
 
-/*  Copier le prompt */
+// Swipe pour changer d'image
+const lightbox = document.getElementById('lightbox');
+lightbox.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
+lightbox.addEventListener('touchend', e => {
+  if (zoomed) return;
+  const diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 60) diff > 0 ? showNext() : showPrev();
+}, {passive: true});
+
+function showNext() { currentIndex = (currentIndex + 1) % imagesData.length; openLightbox(currentIndex); }
+function showPrev() { currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length; openLightbox(currentIndex); }
+
 function copyPrompt() {
   const text = document.getElementById('prompt-text').textContent;
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.querySelector('.copy-btn');
     btn.textContent = "✅ Copié !";
-    setTimeout(() => {
-      btn.textContent = " Copier le prompt";
-    }, 2000);
+    setTimeout(() => { btn.textContent = "Copier le prompt"; }, 2000);
   });
 }
 </script>
-
 </body>
-</html>
+  </html> 
