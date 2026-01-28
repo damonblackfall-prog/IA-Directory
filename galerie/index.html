@@ -10,7 +10,6 @@
 <style>
   :root { --primary: #007bff; --dark: #000; --white: #fff; --gray: #f9f9f9; }
   
-  /* Bloquer le scroll du body quand la lightbox est ouverte */
   body.modal-open { overflow: hidden; }
 
   body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--gray); }
@@ -45,10 +44,10 @@
     max-width: 90%;
     max-height: 80vh;
     object-fit: contain;
-    transition: transform 0.25s ease-out;
+    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
     cursor: zoom-in;
     user-select: none;
-    will-change: transform; /* Optimisation performance */
+    will-change: transform;
   }
   
   .prompt-box {
@@ -56,32 +55,33 @@
     transform: translateX(-50%); z-index: 1100;
     background: rgba(0,0,0,0.6); padding: 12px 18px;
     border-radius: 12px; backdrop-filter: blur(8px);
-    text-align: center; width: 80%; max-width: 500px;
+    text-align: center; width: 85%; max-width: 500px;
   }
 
-  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; }
+  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
   
   .tool-link {
     position: fixed; bottom: 30px; left: 50%;
     transform: translateX(-50%); z-index: 1100;
     background: var(--primary); color: #fff; padding: 10px 20px;
-    border-radius: 30px; text-decoration: none; font-weight: bold;
+    border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
   }
 
   .copy-btn {
     background: transparent; border: 1px solid #fff; color: #fff;
-    padding: 5px 12px; border-radius: 4px; cursor: pointer;
+    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
   }
   .copy-btn:hover { background: #fff; color: #000; }
 
-  .close { position: fixed; top: 20px; right: 30px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; }
+  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
+  .close:hover { opacity: 1; }
 </style>
 </head>
 <body>
 
 <a href="../" class="back-link">← Retour à l'accueil</a>
 <h1>Galerie IA</h1>
-<p class="subtitle">Double-cliquez pour zoomer et glisser l'image.</p>
+<p class="subtitle">Double-cliquez pour zoomer. Glissez pour explorer.</p>
 
 <div class="gallery" id="gallery"></div>
 
@@ -104,6 +104,7 @@ let isDragging = false;
 let lastX = 0, lastY = 0;
 let translateX = 0, translateY = 0;
 
+/* 📦 Chargement JSON */
 fetch('../image/galerie/items/galerie.json')
   .then(res => res.json())
   .then(images => {
@@ -112,6 +113,7 @@ fetch('../image/galerie/items/galerie.json')
     images.forEach((imgData, index) => {
       const img = document.createElement('img');
       img.src = '../image/galerie/items/' + imgData.file;
+      img.loading = "lazy";
       img.onclick = () => openLightbox(index);
       gallery.appendChild(img);
     });
@@ -148,14 +150,23 @@ function resetZoomState() {
   translateX = 0;
   translateY = 0;
   const img = document.getElementById('lightbox-img');
+  img.style.transition = "transform 0.25s ease";
   img.style.transform = 'scale(1) translate(0px, 0px)';
   img.style.cursor = 'zoom-in';
 }
 
+/* 🔒 Logique de calcul des limites (Clamping) */
 function updateTransform() {
   const img = document.getElementById('lightbox-img');
   if (zoomed) {
-    // IMPORTANT: On divise la translation par 2 car scale(2) double les distances perçues
+    // Calcul de la zone de débordement (le surplus créé par le scale(2))
+    // On limite la translation à la moitié de la taille de l'image
+    const limitX = img.offsetWidth / 2;
+    const limitY = img.offsetHeight / 2;
+
+    translateX = Math.max(-limitX, Math.min(limitX, translateX));
+    translateY = Math.max(-limitY, Math.min(limitY, translateY));
+
     img.style.transform = `scale(2) translate(${translateX / 2}px, ${translateY / 2}px)`;
   } else {
     img.style.transform = `scale(1) translate(0px, 0px)`;
@@ -167,18 +178,20 @@ function setupZoom() {
   if (img.dataset.zoomReady) return;
   img.dataset.zoomReady = "true";
 
-  img.addEventListener('dblclick', () => {
+  img.addEventListener('dblclick', (e) => {
     zoomed = !zoomed;
     translateX = 0;
     translateY = 0;
+    img.style.transition = "transform 0.3s ease";
     img.style.cursor = zoomed ? 'grab' : 'zoom-in';
     updateTransform();
   });
 
-  // Events Souris
+  // Desktop Drag
   img.addEventListener('mousedown', e => {
     if (!zoomed) return;
     isDragging = true;
+    img.style.transition = "none"; // Désactive la transition pour un drag instantané
     lastX = e.clientX;
     lastY = e.clientY;
     img.style.cursor = 'grabbing';
@@ -195,13 +208,17 @@ function setupZoom() {
 
   window.addEventListener('mouseup', () => {
     isDragging = false;
-    if (zoomed) img.style.cursor = 'grab';
+    if (zoomed) {
+        img.style.cursor = 'grab';
+        img.style.transition = "transform 0.2s ease-out"; // Rend un petit effet de glisse
+    }
   });
 
-  // Events Tactile
+  // Mobile Drag
   img.addEventListener('touchstart', e => {
     if (!zoomed) return;
     isDragging = true;
+    img.style.transition = "none";
     lastX = e.touches[0].clientX;
     lastY = e.touches[0].clientY;
   }, {passive: true});
@@ -215,16 +232,19 @@ function setupZoom() {
     updateTransform();
   }, {passive: true});
 
-  img.addEventListener('touchend', () => isDragging = false);
+  img.addEventListener('touchend', () => {
+    isDragging = false;
+    img.style.transition = "transform 0.2s ease-out";
+  });
 }
 
-// Swipe pour changer d'image
+/* ↔️ Navigation Swipe */
 const lightbox = document.getElementById('lightbox');
 lightbox.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
 lightbox.addEventListener('touchend', e => {
   if (zoomed) return;
   const diff = startX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 60) diff > 0 ? showNext() : showPrev();
+  if (Math.abs(diff) > 70) diff > 0 ? showNext() : showPrev();
 }, {passive: true});
 
 function showNext() { currentIndex = (currentIndex + 1) % imagesData.length; openLightbox(currentIndex); }
@@ -235,9 +255,9 @@ function copyPrompt() {
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.querySelector('.copy-btn');
     btn.textContent = "✅ Copié !";
-    setTimeout(() => { btn.textContent = "Copier le prompt"; }, 2000);
+    setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
   });
 }
 </script>
 </body>
-  </html> 
+  </html>
