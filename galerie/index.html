@@ -68,33 +68,81 @@
 </div>
 
 <script>
+let imagesData = [];
+let currentIndex = 0;
+let startX = 0;
+
 fetch('../image/galerie/items/galerie.json')
   .then(res => res.json())
   .then(images => {
+    imagesData = images;
     const gallery = document.getElementById('gallery');
-    images.forEach(imgData => {
+
+    images.forEach((imgData, index) => {
       const img = document.createElement('img');
       img.src = '../image/galerie/items/' + imgData.file;
-      img.alt = imgData.tool;
-      img.onclick = () => {
-        document.getElementById('lightbox').style.display = 'flex';
-        document.getElementById('lightbox-img').src = img.src;
-        document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
-        document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
-        document.getElementById('tool-link').href = imgData.url;
-      };
+      img.alt = "Œuvre générée par " + imgData.tool;
+
+      img.onclick = () => openLightbox(index);
+
       gallery.appendChild(img);
     });
   });
 
-function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+function openLightbox(index) {
+  currentIndex = index;
+  const imgData = imagesData[index];
+
+  document.getElementById('lightbox').style.display = 'flex';
+  document.getElementById('lightbox-img').src =
+    '../image/galerie/items/' + imgData.file;
+  document.getElementById('prompt-text').textContent =
+    imgData.prompt || "Pas de prompt disponible";
+  document.getElementById('tool-link').textContent =
+    "Créer avec " + imgData.tool;
+  document.getElementById('tool-link').href = imgData.url;
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+}
+
+/* 🔄 Navigation */
+function showNext() {
+  currentIndex = (currentIndex + 1) % imagesData.length;
+  openLightbox(currentIndex);
+}
+
+function showPrev() {
+  currentIndex =
+    (currentIndex - 1 + imagesData.length) % imagesData.length;
+  openLightbox(currentIndex);
+}
+
+/* 👆 Gestion du swipe */
+const lightbox = document.getElementById('lightbox');
+
+lightbox.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener('touchend', e => {
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
+
+  if (Math.abs(diff) > 50) {
+    diff > 0 ? showNext() : showPrev();
+  }
+});
 
 function copyPrompt() {
   const text = document.getElementById('prompt-text').textContent;
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.querySelector('.copy-btn');
     btn.textContent = "✅ Copié !";
-    setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
+    setTimeout(() => {
+      btn.textContent = "📋 Copier le prompt";
+    }, 2000);
   });
 }
 </script>
