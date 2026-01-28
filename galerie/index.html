@@ -43,6 +43,26 @@
   height: 100vh;
   object-fit: contain; /* ← cover si tu veux remplir quitte à couper */
 }
+  .lightbox img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+  }
+
+  .lightbox img {
+  max-width: 100%;
+  max-height: 90vh;       /* l'image occupe presque tout l'écran */
+  object-fit: contain;    /* "cover" si tu veux remplir l'écran quitte à couper */
+  transition: transform 0.25s ease;
+  touch-action: none;     /* nécessaire pour le drag tactile */
+  cursor: zoom-in;
+  user-select: none;      /* empêche la sélection de texte lors du drag */
+  display: block;
+  margin: 0 auto;
+    }
+  
   .prompt-box {
   position: fixed;
   bottom: 90px;
@@ -108,7 +128,14 @@
 let imagesData = [];
 let currentIndex = 0;
 let startX = 0;
+let zoomed = false;
+let isDragging = false;
+let lastX = 0;
+let lastY = 0;
+let translateX = 0;
+let translateY = 0;
 
+/* 📦 Chargement des images */
 fetch('../image/galerie/items/galerie.json')
   .then(res => res.json())
   .then(images => {
@@ -119,27 +146,37 @@ fetch('../image/galerie/items/galerie.json')
       const img = document.createElement('img');
       img.src = '../image/galerie/items/' + imgData.file;
       img.alt = "Œuvre générée par " + imgData.tool;
-
       img.onclick = () => openLightbox(index);
-
       gallery.appendChild(img);
     });
   });
 
+/* 🖼️ Ouvrir lightbox */
 function openLightbox(index) {
   currentIndex = index;
+  zoomed = false;
+  translateX = 0;
+  translateY = 0;
+
   const imgData = imagesData[index];
+  const img = document.getElementById('lightbox-img');
 
   document.getElementById('lightbox').style.display = 'flex';
-  document.getElementById('lightbox-img').src =
-    '../image/galerie/items/' + imgData.file;
+  img.src = '../image/galerie/items/' + imgData.file;
+  img.style.transform = 'scale(1)';
+  img.style.cursor = 'zoom-in';
+
   document.getElementById('prompt-text').textContent =
     imgData.prompt || "Pas de prompt disponible";
+
   document.getElementById('tool-link').textContent =
     "Créer avec " + imgData.tool;
   document.getElementById('tool-link').href = imgData.url;
+
+  setupZoom();
 }
 
+/* ❌ Fermeture */
 function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
 }
@@ -151,12 +188,11 @@ function showNext() {
 }
 
 function showPrev() {
-  currentIndex =
-    (currentIndex - 1 + imagesData.length) % imagesData.length;
+  currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length;
   openLightbox(currentIndex);
 }
 
-/* 👆 Gestion du swipe */
+/* 👆 Swipe mobile */
 const lightbox = document.getElementById('lightbox');
 
 lightbox.addEventListener('touchstart', e => {
@@ -164,21 +200,91 @@ lightbox.addEventListener('touchstart', e => {
 });
 
 lightbox.addEventListener('touchend', e => {
+  if (zoomed) return; // 🚫 pas de swipe quand zoomé
   const endX = e.changedTouches[0].clientX;
   const diff = startX - endX;
-
-  if (Math.abs(diff) > 50) {
-    diff > 0 ? showNext() : showPrev();
-  }
+  if (Math.abs(diff) > 50) diff > 0 ? showNext() : showPrev();
 });
 
+/* 🔍 Zoom + Drag (mobile & desktop) */
+function setupZoom() {
+  const img = document.getElementById('lightbox-img');
+  if (img.dataset.zoomReady) return;
+  img.dataset.zoomReady = "true";
+
+  // Double clic / double tap
+  img.addEventListener('dblclick', () => {
+    zoomed = !zoomed;
+    translateX = 0;
+    translateY = 0;
+
+    if (zoomed) {
+      img.style.transform = `scale(2) translate(0px, 0px)`;
+      img.style.cursor = 'grab';
+    } else {
+      img.style.transform = 'scale(1)';
+      img.style.cursor = 'zoom-in';
+    }
+  });
+
+  // Drag desktop
+  img.addEventListener('mousedown', e => {
+    if (!zoomed) return;
+    isDragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    img.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    if (zoomed) img.style.cursor = 'grab';
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!zoomed || !isDragging) return;
+
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    img.style.transform = `scale(2) translate(${translateX}px, ${translateY}px)`;
+  });
+
+  // Drag tactile
+  img.addEventListener('touchstart', e => {
+    if (!zoomed) return;
+    isDragging = true;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+  });
+
+  img.addEventListener('touchmove', e => {
+    if (!zoomed || !isDragging) return;
+    e.preventDefault();
+
+    translateX += e.touches[0].clientX - lastX;
+    translateY += e.touches[0].clientY - lastY;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+
+    img.style.transform = `scale(2) translate(${translateX}px, ${translateY}px)`;
+  }, { passive: false });
+
+  img.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+}
+
+/*  Copier le prompt */
 function copyPrompt() {
   const text = document.getElementById('prompt-text').textContent;
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.querySelector('.copy-btn');
     btn.textContent = "✅ Copié !";
     setTimeout(() => {
-      btn.textContent = "📋 Copier le prompt";
+      btn.textContent = " Copier le prompt";
     }, 2000);
   });
 }
