@@ -18,9 +18,9 @@
     "prompt": "Breathtaking architectural photography of a glass pavilion in the middle of a desert, sunset lighting, sharp edges, minimalist style."
   },
   {
-    "file": "retro-robot-painting.jpg",
+    "file": "femme-retro-peinture.jpg",
     "tool": "Stable Diffusion",
     "url": "https://stability.ai",
-    "prompt": "Vintage 1950s sci-fi poster art, a friendly robot serving coffee, warm oil painting texture, muted retro colors."
+    "prompt": "Portrait d'une belle femme, élégante et mystérieuse, dans un style artistique rétro, lumière douce et atmosphérique, texture de peinture à l'huile riche, couleurs chaudes et subtiles, pose gracieuse et captivante, ambiance poétique et intemporelle."
   }
 ]
