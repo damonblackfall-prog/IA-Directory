@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Sudowrite",
+    "slug": "sudowrite",
+    "category": "texte",
+    "domain": "sudowrite.com",
+    "label": "Payant",
+    "url": "https://www.sudowrite.com",
+
+    "seo": {
+      "title": "Sudowrite – L’outil IA d’écriture créative pour auteurs et romanciers (2026)",
+      "description": "Sudowrite est un outil d’intelligence artificielle conçu pour aider les écrivains à développer leurs histoires, enrichir leurs descriptions et vaincre la page blanche."
+    },
+
+    "tagline": "Un copilote d’écriture pensé pour la fiction et l’imaginaire",
+
+    "type": "Écriture créative assistée par IA",
+    "language": "Anglais",
+    "platform": "Web",
+
+    "desc": "IA dédiée à l’écriture créative, aux romans et à la fiction.",
+
+    "description": "Sudowrite est un outil d’intelligence artificielle spécialement conçu pour les écrivains, romanciers et auteurs de fiction. Contrairement aux IA généralistes, Sudowrite se concentre sur la narration, l’émotion et l’imaginaire. Il accompagne l’auteur à chaque étape du processus créatif : trouver une idée, développer un personnage, enrichir une scène ou encore débloquer une situation narrative complexe.\n\nPensé comme un véritable assistant d’écriture, Sudowrite ne cherche pas à remplacer l’auteur, mais à stimuler son imagination. Il est particulièrement apprécié par celles et ceux qui font face au syndrome de la page blanche ou qui souhaitent explorer de nouvelles directions créatives sans perdre leur propre voix.",
+
+    "features": [
+      "Génération d’idées narratives à partir d’un simple concept",
+      "Suggestions de descriptions plus immersives et sensorielles",
+      "Aide au développement psychologique des personnages",
+      "Exploration de différentes directions possibles pour une scène",
+      "Assistance à la structure et au rythme des récits"
+    ],
+
+    "pros": [
+      "Spécialement conçu pour la fiction et la narration",
+      "Stimule la créativité sans imposer un style rigide",
+      "Interface claire et agréable à utiliser",
+      "Outils uniques orientés imagination et émotions"
+    ],
+
+    "cons": [
+      "Interface disponible uniquement en anglais",
+      "Peu adapté à la rédaction SEO ou marketing",
+      "Modèle payant pouvant freiner les débutants"
+    ],
+
+    "alternatives": [
+      "ChatGPT",
+      "NovelAI",
+      "Rytr"
+    ],
+
+    "faq": [
+      {
+        "q": "Sudowrite est-il gratuit ?",
+        "a": "Sudowrite est un outil payant. Il propose généralement une période d’essai ou un accès limité afin de tester ses fonctionnalités avant de s’abonner."
+      },
+      {
+        "q": "Sudowrite peut-il écrire un roman à ma place ?",
+        "a": "Non. Sudowrite est conçu comme un assistant créatif. Il aide à générer des idées et à enrichir les textes, mais l’auteur reste au centre du processus."
+      },
+      {
+        "q": "À qui s’adresse Sudowrite ?",
+        "a": "Sudowrite s’adresse principalement aux écrivains, romanciers, scénaristes et auteurs de fiction, qu’ils soient débutants ou expérimentés."
+      }
+    ]
+  }
+    ]
