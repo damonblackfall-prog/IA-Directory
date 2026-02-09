@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>{{seo.title}}</title>
+  <meta name="description" content="{{seo.description}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+<header>
+  <a href="../index.html">← Retour à l’annuaire</a>
+</header>
+
+<main class="tool-page">
+
+  <!-- HERO -->
+  <section class="tool-hero">
+    <img src="https://www.google.com/s2/favicons?domain={{domain}}&sz=128"
+         alt="Logo {{name}}" width="64" height="64">
+    <h1>{{name}}</h1>
+    <p>{{tagline}}</p>
+    <a href="{{url}}" target="_blank" rel="sponsored noopener">
+      🚀 Découvrir {{name}}
+    </a>
+  </section>
+
+  <!-- MÉTADONNÉES -->
+  <section class="tool-meta">
+    <ul>
+      <li><strong>Catégorie :</strong> {{category}}</li>
+      <li><strong>Type :</strong> {{type}}</li>
+      <li><strong>Langue :</strong> {{language}}</li>
+      <li><strong>Plateforme :</strong> {{platform}}</li>
+    </ul>
+  </section>
+
+  <!-- PRÉSENTATION LONGUE -->
+  <section>
+    <h2>Présentation</h2>
+    <p>{{description}}</p>
+  </section>
+
+  <!-- FONCTIONNALITÉS -->
+  <section>
+    <h2>Fonctionnalités</h2>
+    <ul>
+      {{#each features}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+
+  <!-- AVANTAGES / INCONVÉNIENTS -->
+  <section class="pros-cons">
+    <div>
+      <h3>✅ Avantages</h3>
+      <ul>
+        {{#each pros}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div>
+      <h3>❌ Inconvénients</h3>
+      <ul>
+        {{#each cons}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ALTERNATIVES -->
+  <section>
+    <h2>Alternatives</h2>
+    <ul>
+      {{#each alternatives}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+
+  <!-- FAQ pliable -->
+  <section class="faq">
+    <h2>FAQ</h2>
+    {{#each faq}}
+      <div class="faq-item">
+        <button class="faq-question">{{q}}</button>
+        <div class="faq-answer">
+          <p>{{a}}</p>
+        </div>
+      </div>
+    {{/each}}
+  </section>
+
+  <!-- CTA -->
+  <section class="tool-cta">
+    <h2>Notre avis</h2>
+    <p>{{name}} est un outil IA pertinent dans sa catégorie pour tous ceux qui souhaitent améliorer leur écriture et stimuler leur créativité.</p>
+    <a href="{{url}}" target="_blank" rel="sponsored noopener">
+      👉 Tester {{name}}
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 – Annuaire IA</p>
+</footer>
+
+<script>
+  // FAQ pliable / dépliable
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const answer = button.nextElementSibling;
+      const expanded = button.classList.contains('active');
+      if(expanded){
+        button.classList.remove('active');
+        answer.style.maxHeight = null;
+      } else {
+        button.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + "px";
+      }
+    });
+  });
+</script>
+
+</body>
+      </html>
