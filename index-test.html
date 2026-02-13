@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IA-Directory 2026 | L'Annuaire de Référence des Outils IA</title>
+<meta name="description" content="Découvrez les meilleures Intelligences Artificielles de 2026. Plus de 500 outils testés pour booster votre productivité.">
+<meta name="robots" content="index, follow">
+
+<!-- index-test.html -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://ia-directory.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IA-Directory">
+<meta property="og:url" content="https://ia-directory.github.io/">
+<meta property="og:title" content="IA-Directory 2026 | Trouvez l'outil IA qu'il vous faut">
+<meta property="og:description" content="Accédez au répertoire complet des IA : Texte, Image, Vidéo et Business.">
+<meta property="og:image" content="https://ia-directory.github.io/images/share-preview.jpg">
+
+<link rel="icon" type="image/png" href="https://ia-directory.github.io/images/favicon.png">
+<link rel="apple-touch-icon" href="https://ia-directory.github.io/images/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    :root {
+    /* PALETTE TOXIC NEON - OPTIMISÉE 2026 */
+    --bg-deep: #020617;
+    --bg-glass: rgba(15, 23, 42, 0.7);
+    
+    --primary: #22d3ee;          /* Cyan pur */
+    --accent: #f472b6;           /* Rose bonbon électrique */
+    --accent-glow: rgba(244, 114, 182, 0.3);
+    
+    --text-main: #ffffff;
+    --text-dim: #94a3b8;        /* Gris bleuté pour le texte secondaire */
+    
+    --border-glow: rgba(34, 211, 238, 0.2);
+    --gradient-text: linear-gradient(90deg, #22d3ee 0%, #f472b6 100%);
+    --glass-blur: blur(12px);
+}
+
+/* RÉINITIALISATION & BASE */
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+
+    /* FOND COSMIQUE DYNAMIQUE */
+    background-image: 
+        radial-gradient(circle at 50% -10%, #2e1065 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(34, 211, 238, 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+/* TYPOGRAPHIE IA */
+h1, h2, .gradient-title {
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.3));
+    font-weight: 800;
+}
+
+/* BARRE DE RECHERCHE / FILTRES IA */
+.search-container {
+    background: var(--bg-glass);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-glow);
+    padding: 1rem;
+    border-radius: 50px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    max-width: 600px;
+    margin: 2rem auto;
+    display: flex;
+    gap: 10px;
+}
+
+/* CARTES DE L'ANNUAIRE (GRID) */
+.ai-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.ai-card {
+    background: var(--bg-glass);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-glow);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--accent);
+    box-shadow: 0 15px 30px -10px var(--accent-glow);
+}
+
+
+.ai-card {
+    position: relative;
+}
+
+.card-kebab {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.card-kebab-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+}
+
+.card-kebab-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 22px;
+    background: #111;
+    border-radius: 8px;
+    min-width: 150px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    z-index: 20;
+}
+
+.card-kebab-menu.show {
+    display: block;
+}
+
+.kebab-link {
+    display: block;
+    padding: 10px 14px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.kebab-link:hover {
+    background: rgba(255,255,255,.08);
+}
+
+/* BADGES DE CATÉGORIES */
+.badge {
+    background: rgba(34, 211, 238, 0.1);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* BOUTONS D'ACTION */
+.btn-visit {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    margin-top: 1.5rem;
+    background: var(--gradient-text);
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: opacity 0.3s;
+}
+
+.btn-visit:hover {
+    opacity: 0.9;
+    box-shadow: 0 0 15px var(--accent);
+}
+
+/* SCROLLBAR PERSONNALISÉE */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { 
+    background: var(--gradient-text);
+    border-radius: 10px; 
+}
+
+/* EFFET DE SÉLECTION */
+::selection { background: var(--accent); color: white; }
+
+    /* MENU KEBAB (Glassmorphism) */
+    .kebab-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+    
+    .kebab-button {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--border-glow);
+        border-radius: 50%;
+        width: 45px; height: 45px;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center; gap: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+    .kebab-button:hover {
+        background: var(--primary);
+        box-shadow: 0 0 20px var(--primary);
+        transform: rotate(90deg);
+    }
+    .kebab-button span { width: 4px; height: 4px; background: white; border-radius: 50%; }
+
+    .kebab-dropdown {
+        display: none; position: absolute; right: 0; top: 60px;
+        background: #0f172a; border: 1px solid var(--border-glow);
+        border-radius: 16px; min-width: 220px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        overflow: hidden; z-index: 2001;
+    }
+    .kebab-dropdown.show { display: block; animation: slideDown 0.2s ease-out forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .kebab-dropdown a {
+        color: var(--text-main); padding: 14px 20px; text-decoration: none;
+        display: flex; align-items: center; font-size: 14px; transition: 0.2s;
+    }
+    .kebab-dropdown a:hover { background: rgba(99, 102, 241, 0.1); color: var(--accent); padding-left: 25px; }
+    .kebab-dropdown hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 5px 0; }
+
+    /* HEADER */
+    header { padding: 120px 5% 60px; text-align: center; position: relative; }
+    
+    .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        margin-bottom: 20px;
+        /* Texte en dégradé */
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.3));
+    }
+    .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto 50px; line-height: 1.6; font-size: 1.1rem; }
+
+    /* SEARCH */
+    .search-container { max-width: 600px; margin: 0 auto 50px; }
+    #searchInput {
+        width: 100%; padding: 18px 28px;
+        border-radius: 50px;
+        border: 2px solid transparent;
+        background: linear-gradient(#050b14, #050b14) padding-box,
+                    linear-gradient(45deg, var(--primary), var(--accent)) border-box;
+        color: white; font-size: 16px;
+        box-sizing: border-box;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        transition: 0.3s;
+    }
+    #searchInput:focus { outline: none; box-shadow: 0 0 30px rgba(99, 102, 241, 0.3); }
+
+    /* FILTERS */
+    .filters { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 70px; }
+    .filter-btn {
+        padding: 10px 22px; background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text-dim); border-radius: 50px;
+        cursor: pointer; font-weight: 600; transition: 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+        background: var(--primary); border-color: var(--primary);
+        color: white; box-shadow: 0 0 15px var(--primary);
+    }
+
+    /* BUTTON IA FLAMME */
+    .btn-ia {
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        color: white; text-decoration: none; font-weight: 700;
+        border-radius: 50px; transition: 0.3s;
+        box-shadow: 0 4px 20px rgba(217, 70, 239, 0.4);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-ia:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 30px rgba(217, 70, 239, 0.6);
+    }
+    .icon-fire { margin-right: 8px; font-size: 1.3rem; animation: burning 1.5s ease-in-out infinite; }
+    @keyframes burning {
+        0%, 100% { transform: scale(1) rotate(-5deg); filter: brightness(1.2) drop-shadow(0 0 5px #ff9100); }
+        50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.5) drop-shadow(0 0 10px #ff5e00); }
+    }
+
+    /* GRID & CARDS */
+    .container { padding: 0 5% 100px; max-width: 1400px; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
+    
+    .ai-card {
+        background: var(--bg-glass);
+        backdrop-filter: blur(10px); /* Effet de flou derrière la carte */
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px; padding: 25px;
+        display: flex; flex-direction: column;
+        transition: all 0.3s ease; position: relative; overflow: hidden;
+    }
+    .ai-card:hover {
+        transform: translateY(-7px);
+        border-color: var(--primary);
+        box-shadow: 0 15px 40px -10px rgba(99, 102, 241, 0.2);
+    }
+    /* Petite lueur en haut de la carte */
+    .ai-card::before {
+        content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        opacity: 0; transition: 0.3s;
+    }
+    .ai-card:hover::before { opacity: 1; }
+
+    .ai-card img { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; background: #1e1b4b; }
+    .ai-card h3 { margin: 15px 0 10px; font-size: 1.25rem; color: white; }
+    .ai-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; flex: 1; margin-bottom: 20px; }
+    
+    .ai-footer {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-top: auto; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .btn-visit {
+        background: rgba(255,255,255,0.05); padding: 8px 18px;
+        border-radius: 10px; text-decoration: none; color: white;
+        font-size: 0.9rem; font-weight: 600; transition: 0.3s; border: 1px solid transparent;
+    }
+    .btn-visit:hover {
+        background: var(--primary); border-color: var(--primary);
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    }
+
+    /* FAQ */
+    .faq-container { max-width: 700px; margin: 80px auto; padding: 0 20px; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .faq-question {
+        width: 100%; background: none; border: none; color: white;
+        font-size: 1.1rem; font-weight: 600; text-align: left; padding: 20px 0;
+        cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-question:hover { color: var(--accent); }
+    .faq-question::after { content: '+'; font-size: 1.5rem; transition: 0.3s; }
+    .faq-question[aria-expanded="true"]::after { transform: rotate(45deg); color: var(--accent); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: 0.4s ease; color: var(--text-dim); line-height: 1.6; }
+    .faq-question[aria-expanded="true"] + .faq-answer { padding-bottom: 20px; }
+    
+    /* PAGINATION AMÉLIORÉE */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 50px 0;
+}
+
+.pagination button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-glow);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    min-width: 45px;
+}
+
+/* Boutons Précédent/Suivant plus larges */
+.pagination .nav-btn {
+    padding: 10px 20px;
+    background: rgba(34, 211, 238, 0.1);
+    color: var(--primary);
+}
+
+.pagination button:hover {
+    background: var(--primary);
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--border-glow);
+}
+
+.pagination button.active {
+    background: var(--gradient-text);
+    border: none;
+    color: white;
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+}
+
+.pagination button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+    /* FOOTER */
+    footer {
+        background: #020617; border-top: 1px solid rgba(255,255,255,0.05);
+        padding: 60px 20px; text-align: center; color: var(--text-dim); margin-top: 80px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+        header { padding: 80px 20px 40px; }
+        .hero h1 { font-size: 2.2rem; }
+        .grid { grid-template-columns: 1fr; }
+    }
+    </style>
+
+    <script type="application/ld+json">
+    [
+      {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "IA-Directory",
+    "alternateName": ["IA Directory 2026", "Annuaire IA"],
+    "url": "https://ia-directory.github.io/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://ia-directory.github.io/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Les outils listés sont-ils gratuits ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment les outils sont-ils sélectionnés ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment trouver l’outil adapté à mon besoin ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment ajouter mon outil IA ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "La soumission est-elle payante ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Une soumission gratuite est disponible. Des options premium permettent une mise en avant."
+      }
+      }
+    ]
+  }
+]
+</script>
+</head>        
+<body>
+
+    <!-- MENU TROIS POINTS -->
+<div class="kebab-container">
+    <button class="kebab-button" id="kebabBtn" aria-label="Menu de navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div id="kebabDropdown" class="kebab-dropdown">
+        <a href="blog.html">Blog et Guides</a>
+        <hr>
+        <a href="#tally-open=XxJkxd&tally-emoji-text=👋&tally-emoji-animation=wave"
+   style="color: var(--primary); font-weight: 800;">
+   ✨ Soumettre une IA</a>
+       <hr>
+        <a href="#faq">FAQ</a>
+       </div>
+</div>
+
+<header role="banner">
+    
+    <!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
+<svg width="300" height="70" viewBox="0 0 300 70" xmlns="www.w3.org">
+  <defs>
+    <!-- Dégradé Mauve vers Bleu -->
+    <linearGradient id="gradIA" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#a855f7;stop-opacity:1" /> <!-- Mauve -->
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" /> <!-- Bleu -->
+    </linearGradient>
+    
+    <!-- Effet de lueur légère -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <blur stdDeviation="1.5" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Groupe Icône avec filtre de lueur -->
+  <g filter="url(#glow)">
+    <!-- Cercle extérieur stylisé -->
+    <circle cx="35" cy="35" r="28" fill="none" stroke="url(#gradIA)" stroke-width="2.5" stroke-dasharray="100 20" />
+    <!-- Cercle intérieur pulse -->
+    <circle cx="35" cy="35" r="20" fill="url(#gradIA)" fill-opacity="0.15" />
+    
+    <!-- Symbole IA Central -->
+    <text x="35" y="42" font-family="Verdana, sans-serif" font-size="16" font-weight="900" fill="url(#gradIA)" text-anchor="middle">IA</text>
+    
+    <!-- Points de connexion neuronaux -->
+    <circle cx="35" cy="7" r="3.5" fill="#a855f7" />
+    <circle cx="63" cy="35" r="3.5" fill="#00d4ff" />
+    <circle cx="35" cy="63" r="3.5" fill="#a855f7" />
+    <circle cx="7" cy="35" r="3.5" fill="#00d4ff" />
+  </g>
+
+  <!-- Texte Principal -->
+  <text x="80" y="45" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
+    IA-<tspan fill="url(#gradIA)">DIRECTORY</tspan>
+  </text>
+</svg>
+
+        </a>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>
+            L’intelligence artificielle
+            <span style="color:#00d4ff">à portée de clic</span>
+        </h1>
+
+        <p>
+            Adoptez les outils IA qui vous font gagner du temps et simplifient vos projets au quotidien.
+        </p>
+    </div>
+
+    <!-- RECHERCHE -->
+    <div class="search-container" role="search">
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"
+            aria-label="Rechercher une intelligence artificielle"
+        >
+    </div>
+
+    <!-- FILTRES -->
+    <nav class="filters" aria-label="Filtrer par catégorie">
+        <!-- Généré dynamiquement -->
+    </nav>
+<!-- Le Bouton avec flamme animée -->
+<a href="URL_DE_TA_PAGE" class="btn-ia">
+  <span class="icon-fire">🔥</span> Tendances et Nouveautés
+</a>
+</header>
+
+<main class="container">
+
+    <section aria-label="Liste des outils IA">
+        <div class="grid" id="aiGrid"></div>
+    </section>
+
+    <!-- PAGINATION -->
+    <nav id="pagination" class="pagination" aria-label="Pagination"></nav>
+
+    <!-- =======================
+         FAQ
+    ======================= -->
+    <section id="faq" class="faq-container">
+        <h2>Foire Aux Questions</h2>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Les outils listés sont-ils gratuits ?</button>
+            <div class="faq-answer"><p>L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique.</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Comment les outils sont-ils sélectionnés ?</button>
+            <div class="faq-answer"><p>Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées.</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Comment trouver l’outil adapté à mon besoin ?</button>
+            <div class="faq-answer"><p>Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.).</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">Comment ajouter mon outil IA ?</button>
+            <div class="faq-answer"><p>Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h.</p></div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">La soumission est-elle payante ?</button>
+            <div class="faq-answer"><p>Une soumission gratuite est disponible. Des options premium permettent une mise en avant.</p></div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer-ia" role="contentinfo">
+
+    <div class="footer-container">
+
+        <div class="footer-col">
+            <h3>IA-DIRECTORY</h3>
+            <p>
+                Annuaire indépendant des meilleurs outils
+                d’intelligence artificielle. Comparaisons,
+                tests et guides pratiques.
+            </p>
+        </div>
+
+        
+        <div class="footer-col">
+            <h4>Informations</h4>
+            <ul>
+                <li><a href="a-propos.html">À propos</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="mentions-legales.html">Mentions légales</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 IA-DIRECTORY – Tous droits réservés.</p>
+        <p class="legal-disclaimer">
+            Certains liens peuvent être affiliés. Cela n’impacte pas
+            notre indépendance éditoriale.
+        </p>
+    </div>
+
+</footer>
+
+<script>
+let tools = []; // vide au départ
+
+fetch('data/tools.json')
+  .then(res => res.json())
+  .then(data => {
+    tools = data;       // Charger les outils
+    buildFilters();     // Générer les filtres
+    applyFilters();     // Afficher les cartes
+  })
+  .catch(err => console.error("Erreur chargement tools.json :", err));
+</script>
+
+
+
+<script>
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+let currentPage = 1;
+const itemsPerPage = 20; // 20 IA par page
+let currentCategory = 'tous';
+let filteredTools = [];
+
+/* =========================
+   INIT
+========================= */
+document.addEventListener('DOMContentLoaded', () => {
+    buildFilters();
+    applyFilters();
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            currentPage = 1;
+            applyFilters();
+        });
+    }
+});
+
+/* =========================
+   FILTRES (CATÉGORIES)
+========================= */
+function buildFilters() {
+    const filtersContainer = document.querySelector('.filters');
+    if (!filtersContainer) return;
+
+    filtersContainer.innerHTML = '';
+
+    addFilterButton('tous', 'Tout', true);
+
+    [...new Set(tools.map(t => t.category))].forEach(cat => {
+        addFilterButton(cat, capitalize(cat));
+    });
+}
+
+function addFilterButton(value, label, active = false) {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (active ? ' active' : '');
+    btn.textContent = label;
+    btn.onclick = () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = value;
+        currentPage = 1;
+        applyFilters();
+    };
+    document.querySelector('.filters').appendChild(btn);
+}
+
+/* =========================
+   SEARCH + CATEGORY FILTER
+========================= */
+function applyFilters() {
+    const searchValue = document
+        .getElementById('searchInput')
+        ?.value
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ') || '';
+
+    filteredTools = tools.filter(tool => {
+        const matchSearch =
+            tool.name.toLowerCase().includes(searchValue) ||
+            tool.desc.toLowerCase().includes(searchValue);
+
+        const matchCategory =
+            currentCategory === 'tous' || tool.category === currentCategory;
+
+        return matchSearch && matchCategory;
+    });
+
+    generateCards();
+}
+
+function generateCards() {
+    const grid = document.getElementById('aiGrid');
+    const paginationContainer = document.getElementById('pagination');
+    
+    if (!grid) return;
+    grid.innerHTML = ""; 
+
+    const start = (currentPage - 1) * itemsPerPage;
+    const pageItems = filteredTools.slice(start, start + itemsPerPage);
+
+    pageItems.forEach(tool => {
+        const logoImg = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
+
+        const card = document.createElement('div');
+        card.className = 'ai-card';
+        card.innerHTML = `
+            <!-- Menu kebab par carte -->
+            <div class="card-kebab">
+                <button class="card-kebab-btn" aria-label="Menu">⋮</button>
+                <div class="card-kebab-menu">
+                    <a href="${tool.infoUrl}" class="kebab-link">📄 Plus d’infos</a>
+                </div>
+            </div>
+
+            <div class="ai-icon">
+                <img src="${logoImg}" alt="Logo de l'outil ${tool.name}" loading="lazy" width="48" height="48"
+                     onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=ffffff&bold=true';">
+            </div>
+
+            <h3>${tool.name}</h3>
+            <p>${tool.desc}</p>
+
+            <div class="ai-footer">
+                <span class="label">${tool.label}</span>
+                <a href="${tool.url}" target="_blank" rel="sponsored noopener" class="btn-visit">
+                    Explorer →
+                </a>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    renderPagination(paginationContainer);
+}
+
+document.addEventListener('click', (e) => {
+    // Fermer tous les menus
+    document.querySelectorAll('.card-kebab-menu')
+        .forEach(menu => menu.classList.remove('show'));
+
+    // Si clic sur un bouton kebab
+    if (e.target.classList.contains('card-kebab-btn')) {
+        e.stopPropagation();
+        const menu = e.target.nextElementSibling;
+        menu.classList.toggle('show');
+    }
+});
+
+/* =========================
+   PAGINATION AMÉLIORÉE
+========================= */
+function renderPagination(container) {
+    if (!container) return;
+    container.innerHTML = ''; // On vide la pagination
+
+    const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
+    if (totalPages <= 1) return;
+
+    // Bouton PRÉCÉDENT (Plus visible)
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'nav-btn-long';
+    prevBtn.innerHTML = '◀';
+    prevBtn.disabled = (currentPage === 1);
+    prevBtn.onclick = () => goPage(currentPage - 1);
+    container.appendChild(prevBtn);
+
+    // Numéros de pages
+    const maxVisiblePages = 3;
+    let startPage = Math.max(1, currentPage - 1);
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        pageBtn.className = (i === currentPage) ? 'active' : '';
+        pageBtn.onclick = () => goPage(i);
+        container.appendChild(pageBtn);
+    }
+
+    // Bouton SUIVANT (Plus visible)
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'nav-btn-long';
+    nextBtn.innerHTML = '▶';
+    nextBtn.disabled = (currentPage === totalPages);
+    nextBtn.onclick = () => goPage(currentPage + 1);
+    container.appendChild(nextBtn);
+}
+
+// Fonction globale pour changer de page
+function goPage(page) {
+    currentPage = page;
+    generateCards();
+    
+    // Remontée fluide vers le haut de la grille
+    const gridElement = document.getElementById('aiGrid');
+    if(gridElement) {
+        window.scrollTo({
+            top: gridElement.offsetTop - 120,
+            behavior: 'smooth'
+        });
+    }
+}
+/* =========================
+   UTILS
+========================= */
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Gestion du menu Kebab
+const kebabBtn = document.getElementById('kebabBtn');
+const kebabDropdown = document.getElementById('kebabDropdown');
+
+kebabBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    kebabDropdown.classList.toggle('show');
+});
+
+// Fermer le menu si on clique ailleurs
+document.addEventListener('click', (e) => {
+    if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
+        kebabDropdown.classList.remove('show');
+    }
+});
+
+document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', !expanded);
+
+        const answer = button.nextElementSibling;
+        if (!expanded) {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        } else {
+            answer.style.maxHeight = 0;
+        }
+    });
+});
+</script>
+<script async src="https://tally.so/widgets/embed.js"></script>
+</body>   
+</html>
+
