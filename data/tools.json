@@ -6,6 +6,7 @@
     "domain": "gemini.google.com",
     "label": "Freemium",
     "url": "https://gemini.google.com",
+    "infoUrl": "outil/google-gemini.html",
     "seo": {
       "title": "Google Gemini – L'IA multimodale intégrée à l'écosystème Google",
       "description": "Anciennement Bard, Gemini est l'IA de Google capable de raisonner sur du texte, des images, de la vidéo et du code."
