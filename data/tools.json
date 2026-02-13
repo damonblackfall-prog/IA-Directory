@@ -1,19 +1,5 @@
 [
   {
-    "name": "Sudowrite",
-    "slug": "sudowrite",
-    "category": "texte",
-    "domain": "sudowrite.com",
-    "label": "Payant",
-    "url": "https://www.sudowrite.com",
-    "infoUrl": "outil/template.html?tool=sudowrite"
-
-    "seo": {
-      "title": "Sudowrite – L’outil IA d’écriture créative pour auteurs et romanciers (2026)",
-      "description": "Sudowrite est un outil d’intelligence artificielle conçu pour aider les écrivains à développer leurs histoires, enrichir leurs descriptions et vaincre la page blanche."
-    },
-[
-  {
     "name": "Google Gemini",
     "slug": "google-gemini",
     "category": "assistant",
@@ -68,8 +54,7 @@
         "avatar": "https://votre-site.com/images/avatars/marc.jpg",
         "text": "La fenêtre de contexte est impressionnante, il analyse des PDF de 500 pages sans broncher.",
         "rating": 4
-     
-    }
+      }
     ]
   }
     ]
