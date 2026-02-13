@@ -6,7 +6,8 @@
     "domain": "sudowrite.com",
     "label": "Payant",
     "url": "https://www.sudowrite.com",
-    "infoUrl": "google-gemini.html"
+    "infoUrl": "template.html?tool=sudowrite"
+    
 
     "seo": {
       "title": "Sudowrite – L’outil IA d’écriture créative pour auteurs et romanciers (2026)",
