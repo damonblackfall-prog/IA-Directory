@@ -765,7 +765,7 @@ fetch('data/tools.json')
 
 
 <script>
-/* =========================
+                /* =========================
    VARIABLES GLOBALES
 ========================= */
 let currentPage = 1;
@@ -797,7 +797,6 @@ function buildFilters() {
     if (!filtersContainer) return;
 
     filtersContainer.innerHTML = '';
-
     addFilterButton('tous', 'Tout', true);
 
     [...new Set(tools.map(t => t.category))].forEach(cat => {
@@ -844,10 +843,13 @@ function applyFilters() {
     generateCards();
 }
 
+/* =========================
+   GENERATION DES CARTES
+========================= */
 function generateCards() {
     const grid = document.getElementById('aiGrid');
     const paginationContainer = document.getElementById('pagination');
-    
+
     if (!grid) return;
     grid.innerHTML = ""; 
 
@@ -860,15 +862,12 @@ function generateCards() {
         const card = document.createElement('div');
         card.className = 'ai-card';
         card.innerHTML = `
-            <!-- Menu kebab par carte -->
             <div class="card-kebab">
                 <button class="card-kebab-btn" aria-label="Menu">⋮</button>
                 <div class="card-kebab-menu">
-    <button class="open-modal" data-slug="${tool.slug}">📄 Plus d’infos</button>
-</div>
-
+                    <button class="open-modal" data-slug="${tool.slug}">📄 Plus d’infos</button>
+                </div>
             </div>
-    
 
             <div class="ai-icon">
                 <img src="${logoImg}" alt="Logo de l'outil ${tool.name}" loading="lazy" width="48" height="48"
@@ -891,12 +890,11 @@ function generateCards() {
     renderPagination(paginationContainer);
 }
 
+/* =========================
+   GESTION DU MENU KEBAB
+========================= */
 document.addEventListener('click', (e) => {
-    // Fermer tous les menus
-    document.querySelectorAll('.card-kebab-menu')
-        .forEach(menu => menu.classList.remove('show'));
-
-    // Si clic sur un bouton kebab
+    document.querySelectorAll('.card-kebab-menu').forEach(menu => menu.classList.remove('show'));
     if (e.target.classList.contains('card-kebab-btn')) {
         e.stopPropagation();
         const menu = e.target.nextElementSibling;
@@ -909,12 +907,10 @@ document.addEventListener('click', (e) => {
 ========================= */
 function renderPagination(container) {
     if (!container) return;
-    container.innerHTML = ''; // On vide la pagination
-
+    container.innerHTML = '';
     const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
     if (totalPages <= 1) return;
 
-    // Bouton PRÉCÉDENT (Plus visible)
     const prevBtn = document.createElement('button');
     prevBtn.className = 'nav-btn-long';
     prevBtn.innerHTML = '◀';
@@ -922,7 +918,6 @@ function renderPagination(container) {
     prevBtn.onclick = () => goPage(currentPage - 1);
     container.appendChild(prevBtn);
 
-    // Numéros de pages
     const maxVisiblePages = 3;
     let startPage = Math.max(1, currentPage - 1);
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
@@ -939,7 +934,6 @@ function renderPagination(container) {
         container.appendChild(pageBtn);
     }
 
-    // Bouton SUIVANT (Plus visible)
     const nextBtn = document.createElement('button');
     nextBtn.className = 'nav-btn-long';
     nextBtn.innerHTML = '▶';
@@ -948,12 +942,9 @@ function renderPagination(container) {
     container.appendChild(nextBtn);
 }
 
-// Fonction globale pour changer de page
 function goPage(page) {
     currentPage = page;
     generateCards();
-    
-    // Remontée fluide vers le haut de la grille
     const gridElement = document.getElementById('aiGrid');
     if(gridElement) {
         window.scrollTo({
@@ -962,6 +953,7 @@ function goPage(page) {
         });
     }
 }
+
 /* =========================
    UTILS
 ========================= */
@@ -969,86 +961,45 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Gestion du menu Kebab
-const kebabBtn = document.getElementById('kebabBtn');
-const kebabDropdown = document.getElementById('kebabDropdown');
-
-kebabBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    kebabDropdown.classList.toggle('show');
-});
-
-// Fermer le menu si on clique ailleurs
-document.addEventListener('click', (e) => {
-    if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
-        kebabDropdown.classList.remove('show');
-    }
-});
-
-document.querySelectorAll('.faq-question').forEach(button => {
-    button.addEventListener('click', () => {
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', !expanded);
-
-        const answer = button.nextElementSibling;
-        if (!expanded) {
-            answer.style.maxHeight = answer.scrollHeight + "px";
-        } else {
-            answer.style.maxHeight = 0;
-        }
-    });
-});
-
-    // Sélection du modal
+/* =========================
+   MODAL
+========================= */
 const modal = document.getElementById('toolModal');
 const closeBtn = document.querySelector('.modal-close');
 
-// Fonction pour ouvrir le modal avec les données
+document.getElementById('aiGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.open-modal');
+    if (!btn) return;
+    openModal(btn.dataset.slug);
+});
+
 function openModal(slug) {
-  const tool = tools.find(t => t.slug === slug);
-  if(!tool) return;
+    const tool = tools.find(t => t.slug === slug);
+    if(!tool) return;
 
-  // Logo
-  const logo = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
-  document.getElementById('modalLogo').src = logo;
+    document.getElementById('modalLogo').src =
+      `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
+    document.getElementById('modalName').textContent = tool.name;
+    document.getElementById('modalTagline').textContent = tool.tagline;
+    document.getElementById('modalDesc').textContent = tool.desc;
+    document.getElementById('modalLabel').textContent = tool.label;
 
-  // Texte
-  document.getElementById('modalName').textContent = tool.name;
-  document.getElementById('modalTagline').textContent = tool.tagline;
-  document.getElementById('modalDesc').textContent = tool.desc;
-  document.getElementById('modalLabel').textContent = tool.label;
+    document.getElementById('modalFeatures').innerHTML =
+      '<h4>Fonctionnalités :</h4><ul>' + tool.features.map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
 
-  // Features
-  const featuresDiv = document.getElementById('modalFeatures');
-  featuresDiv.innerHTML = '<h4>Fonctionnalités :</h4>' +
-    '<ul>' + tool.features.map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
+    document.getElementById('modalPros').innerHTML =
+      '<h4>Avantages :</h4><ul>' + tool.pros.map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
+    document.getElementById('modalCons').innerHTML =
+      '<h4>Inconvénients :</h4><ul>' + tool.cons.map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
 
-  // Pros / Cons
-  document.getElementById('modalPros').innerHTML = '<h4>Avantages :</h4><ul>' +
-    tool.pros.map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
-  document.getElementById('modalCons').innerHTML = '<h4>Inconvénients :</h4><ul>' +
-    tool.cons.map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
-
-  // CTA
-  document.getElementById('modalCTA').href = tool.url;
-
-  // Afficher le modal
-  modal.style.display = 'block';
+    document.getElementById('modalCTA').href = tool.url;
+    modal.style.display = 'block';
 }
 
-// Fermer le modal
 closeBtn.onclick = () => modal.style.display = 'none';
 window.onclick = (e) => {
-  if(e.target === modal) modal.style.display = 'none';
+    if(e.target === modal) modal.style.display = 'none';
 };
-
-// Ajouter aux boutons
-document.querySelectorAll('.open-modal').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const slug = btn.dataset.slug;
-    openModal(slug);
-  });
-});
 
     
 </script>
