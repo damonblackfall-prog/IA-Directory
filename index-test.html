@@ -890,15 +890,33 @@ function generateCards() {
     renderPagination(paginationContainer);
 }
 
-/* =========================
-   GESTION DU MENU KEBAB
-========================= */
+/* ======= Kebab des cartes ======= */
 document.addEventListener('click', (e) => {
-    document.querySelectorAll('.card-kebab-menu').forEach(menu => menu.classList.remove('show'));
+    // Fermer tous les menus des cartes
+    document.querySelectorAll('.card-kebab-menu')
+        .forEach(menu => menu.classList.remove('show'));
+
+    // Si clic sur un bouton kebab d'une carte
     if (e.target.classList.contains('card-kebab-btn')) {
         e.stopPropagation();
         const menu = e.target.nextElementSibling;
         menu.classList.toggle('show');
+    }
+});
+
+/* ======= Kebab global (accueil) ======= */
+const kebabBtn = document.getElementById('kebabBtn');
+const kebabDropdown = document.getElementById('kebabDropdown');
+
+kebabBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    kebabDropdown.classList.toggle('show');
+});
+
+// Fermer le menu global si on clique ailleurs (sans toucher les cartes)
+document.addEventListener('click', (e) => {
+    if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
+        kebabDropdown.classList.remove('show');
     }
 });
 
@@ -1000,6 +1018,29 @@ closeBtn.onclick = () => modal.style.display = 'none';
 window.onclick = (e) => {
     if(e.target === modal) modal.style.display = 'none';
 };
+
+    // =========================
+// FAQ : déplier / réduire
+// =========================
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // empêche conflit avec modal ou kebab
+
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !expanded);
+
+            const answer = button.nextElementSibling;
+            if (!expanded) {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            } else {
+                answer.style.maxHeight = 0;
+            }
+        });
+    });
+});
+
+    
 
     
 </script>
