@@ -585,31 +585,7 @@ h1, h2, .gradient-title {
   font-weight: bold;
 }
 
-/* =========================
-   FAQ DANS MODAL SI BESOIN
-========================= */
-.faq-question {
-  width: 100%;
-  text-align: left;
-  background: #f5f5f5;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 5px;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-.faq-question:hover { background: #e0e0e0; }
 
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  background: #fafafa;
-  padding: 0 15px;
-  border-radius: 0 0 8px 8px;
-}
     
                                                        }
 
@@ -907,13 +883,15 @@ fetch('data/tools.json')
 
 
 <script>
-                /* =========================
+    
+    /* =========================
    VARIABLES GLOBALES
 ========================= */
 let currentPage = 1;
-const itemsPerPage = 20; // 20 IA par page
+const itemsPerPage = 20;
 let currentCategory = 'tous';
 let filteredTools = [];
+let reviewInterval;
 
 /* =========================
    INIT
@@ -922,6 +900,7 @@ document.addEventListener('DOMContentLoaded', () => {
     buildFilters();
     applyFilters();
 
+    // Recherche
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', () => {
@@ -929,6 +908,9 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFilters();
         });
     }
+
+    // FAQ accueil
+    initFaqAccueil();
 });
 
 /* =========================
@@ -993,7 +975,7 @@ function generateCards() {
     const paginationContainer = document.getElementById('pagination');
 
     if (!grid) return;
-    grid.innerHTML = ""; 
+    grid.innerHTML = "";
 
     const start = (currentPage - 1) * itemsPerPage;
     const pageItems = filteredTools.slice(start, start + itemsPerPage);
@@ -1032,13 +1014,13 @@ function generateCards() {
     renderPagination(paginationContainer);
 }
 
-/* ======= Kebab des cartes ======= */
+/* =========================
+   KEBAB CARTES
+========================= */
 document.addEventListener('click', (e) => {
-    // Fermer tous les menus des cartes
     document.querySelectorAll('.card-kebab-menu')
         .forEach(menu => menu.classList.remove('show'));
 
-    // Si clic sur un bouton kebab d'une carte
     if (e.target.classList.contains('card-kebab-btn')) {
         e.stopPropagation();
         const menu = e.target.nextElementSibling;
@@ -1046,24 +1028,27 @@ document.addEventListener('click', (e) => {
     }
 });
 
-/* ======= Kebab global (accueil) ======= */
+/* =========================
+   KEBAB GLOBAL (ACCUEIL)
+========================= */
 const kebabBtn = document.getElementById('kebabBtn');
 const kebabDropdown = document.getElementById('kebabDropdown');
 
-kebabBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    kebabDropdown.classList.toggle('show');
-});
+if (kebabBtn && kebabDropdown) {
+    kebabBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        kebabDropdown.classList.toggle('show');
+    });
 
-// Fermer le menu global si on clique ailleurs (sans toucher les cartes)
-document.addEventListener('click', (e) => {
-    if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
-        kebabDropdown.classList.remove('show');
-    }
-});
+    document.addEventListener('click', (e) => {
+        if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
+            kebabDropdown.classList.remove('show');
+        }
+    });
+}
 
 /* =========================
-   PAGINATION AMÉLIORÉE
+   PAGINATION
 ========================= */
 function renderPagination(container) {
     if (!container) return;
@@ -1127,62 +1112,52 @@ function capitalize(str) {
 const modal = document.getElementById('toolModal');
 const closeBtn = document.querySelector('.modal-close');
 
-/* Ouvrir le modal depuis les cartes */
 document.getElementById('aiGrid').addEventListener('click', (e) => {
     const btn = e.target.closest('.open-modal');
     if (!btn) return;
     openModal(btn.dataset.slug);
 });
 
-/* Fonction pour ouvrir le modal */
 function openModal(slug) {
     const tool = tools.find(t => t.slug === slug);
     if(!tool) return;
 
-    // Logo
     document.getElementById('modalLogo').src = tool.logo || `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
     document.getElementById('modalName').textContent = tool.name;
     document.getElementById('modalTagline').textContent = tool.tagline;
     document.getElementById('modalDesc').textContent = tool.desc;
     document.getElementById('modalLabel').textContent = tool.label;
 
-    // Features
+    document.getElementById('modalType').textContent = tool.type || '';
+    document.getElementById('modalLanguage').textContent = tool.language || '';
+    document.getElementById('modalPlatform').textContent = tool.platform || '';
+
     document.getElementById('modalFeatures').innerHTML =
-      '<h4>Fonctionnalités :</h4><ul>' + tool.features.map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
-
-    // Pros / Cons
+        '<h4>Fonctionnalités :</h4><ul>' + (tool.features || []).map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
     document.getElementById('modalPros').innerHTML =
-      '<h4>Avantages :</h4><ul>' + tool.pros.map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
+        '<h4>Avantages :</h4><ul>' + (tool.pros || []).map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
     document.getElementById('modalCons').innerHTML =
-      '<h4>Inconvénients :</h4><ul>' + tool.cons.map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
+        '<h4>Inconvénients :</h4><ul>' + (tool.cons || []).map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
 
-    // CTA
-    document.getElementById('modalCTA').href = tool.url;
+    document.getElementById('modalCTA').href = tool.url || '#';
 
-    // Reviews
     initReviews(tool.reviews || []);
-
-    // FAQ (si besoin)
     initFaq(tool.faq || []);
 
-    // Afficher le modal
     modal.style.display = 'block';
 }
 
-/* Fermer le modal */
 closeBtn.onclick = () => modal.style.display = 'none';
 window.onclick = (e) => {
     if(e.target === modal) modal.style.display = 'none';
 };
 
 /* =========================
-   REVIEWS (défilement automatique)
+   REVIEWS MODAL
 ========================= */
-let reviewInterval;
-
 function initReviews(reviews) {
     const container = document.getElementById('modalReviews');
-    container.innerHTML = ''; // vide avant insertion
+    container.innerHTML = '';
 
     if (!reviews.length) {
         container.innerHTML = '<p>Aucun avis pour cet outil.</p>';
@@ -1204,21 +1179,19 @@ function initReviews(reviews) {
         `;
         wrapper.appendChild(div);
     });
-
     container.appendChild(wrapper);
 
     let offset = 0;
-    const reviewHeight = wrapper.children[0].offsetHeight + 10; // marge incluse
+    const reviewHeight = wrapper.children[0].offsetHeight + 10;
 
-    clearInterval(reviewInterval); // stoppe si déjà lancé
+    clearInterval(reviewInterval);
     reviewInterval = setInterval(() => {
         offset += reviewHeight;
         if (offset >= wrapper.scrollHeight) offset = 0;
         wrapper.style.transform = `translateY(-${offset}px)`;
         wrapper.style.transition = 'transform 0.5s linear';
-    }, 3000); // change toutes les 3s
+    }, 3000);
 
-    // Pause au survol
     wrapper.addEventListener('mouseenter', () => clearInterval(reviewInterval));
     wrapper.addEventListener('mouseleave', () => {
         reviewInterval = setInterval(() => {
@@ -1231,10 +1204,10 @@ function initReviews(reviews) {
 }
 
 /* =========================
-   FAQ DANS MODAL
+   FAQ MODAL
 ========================= */
 function initFaq(faqs) {
-    const faqContainer = document.getElementById('modalFaq');
+    const faqContainer = document.getElementById('modalFAQ');
     if(!faqContainer) return;
 
     faqContainer.innerHTML = '';
@@ -1250,43 +1223,30 @@ function initFaq(faqs) {
         faqContainer.appendChild(item);
     });
 
-    // Ajouter comportement toggle
     faqContainer.querySelectorAll('.faq-question').forEach(button => {
         button.addEventListener('click', () => {
             const expanded = button.getAttribute('aria-expanded') === 'true';
             button.setAttribute('aria-expanded', !expanded);
             const answer = button.nextElementSibling;
-            if(!expanded) {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-            } else {
-                answer.style.maxHeight = 0;
-            }
+            answer.style.maxHeight = !expanded ? answer.scrollHeight + "px" : 0;
         });
     });
 }
 
-    // =========================
-// FAQ : déplier / réduire
-// =========================
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.faq-question').forEach(button => {
+/* =========================
+   FAQ ACCUEIL
+========================= */
+function initFaqAccueil() {
+    document.querySelectorAll('#faq .faq-question').forEach(button => {
         button.addEventListener('click', (e) => {
-            e.stopPropagation(); // empêche conflit avec modal ou kebab
-
+            e.stopPropagation();
             const expanded = button.getAttribute('aria-expanded') === 'true';
             button.setAttribute('aria-expanded', !expanded);
-
             const answer = button.nextElementSibling;
-            if (!expanded) {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-            } else {
-                answer.style.maxHeight = 0;
-            }
+            answer.style.maxHeight = !expanded ? answer.scrollHeight + "px" : 0;
         });
     });
-});
-
-    
+    }
 
     
 </script>
