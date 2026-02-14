@@ -937,7 +937,7 @@ fetch('data/tools.json')
 
 <script>
     
-    /* =========================
+        /* =========================
    VARIABLES GLOBALES
 ========================= */
 let currentPage = 1;
@@ -964,6 +964,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FAQ accueil
     initFaqAccueil();
+
+    // Initialiser le kebab global
+    initKebabGlobal();
 });
 
 /* =========================
@@ -999,12 +1002,7 @@ function addFilterButton(value, label, active = false) {
    SEARCH + CATEGORY FILTER
 ========================= */
 function applyFilters() {
-    const searchValue = document
-        .getElementById('searchInput')
-        ?.value
-        .toLowerCase()
-        .trim()
-        .replace(/\s+/g, ' ') || '';
+    const searchValue = document.getElementById('searchInput')?.value.toLowerCase().trim().replace(/\s+/g, ' ') || '';
 
     filteredTools = tools.filter(tool => {
         const matchSearch =
@@ -1026,7 +1024,6 @@ function applyFilters() {
 function generateCards() {
     const grid = document.getElementById('aiGrid');
     const paginationContainer = document.getElementById('pagination');
-
     if (!grid) return;
     grid.innerHTML = "";
 
@@ -1035,7 +1032,6 @@ function generateCards() {
 
     pageItems.forEach(tool => {
         const logoImg = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
-
         const card = document.createElement('div');
         card.className = 'ai-card';
         card.innerHTML = `
@@ -1071,12 +1067,12 @@ function generateCards() {
    KEBAB CARTES
 ========================= */
 document.addEventListener('click', (e) => {
-    document.querySelectorAll('.card-kebab-menu')
-        .forEach(menu => menu.classList.remove('show'));
+    document.querySelectorAll('.card-kebab-menu').forEach(menu => menu.classList.remove('show'));
 
-    if (e.target.classList.contains('card-kebab-btn')) {
+    const kebabBtnCard = e.target.closest('.card-kebab-btn');
+    if (kebabBtnCard) {
         e.stopPropagation();
-        const menu = e.target.nextElementSibling;
+        const menu = kebabBtnCard.nextElementSibling;
         menu.classList.toggle('show');
     }
 });
@@ -1084,20 +1080,22 @@ document.addEventListener('click', (e) => {
 /* =========================
    KEBAB GLOBAL (ACCUEIL)
 ========================= */
-const kebabBtn = document.getElementById('kebabBtn');
-const kebabDropdown = document.getElementById('kebabDropdown');
+function initKebabGlobal() {
+    const kebabBtn = document.getElementById('kebabBtn');
+    const kebabDropdown = document.getElementById('kebabDropdown');
 
-if (kebabBtn && kebabDropdown) {
-    kebabBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        kebabDropdown.classList.toggle('show');
-    });
+    if (kebabBtn && kebabDropdown) {
+        kebabBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            kebabDropdown.classList.toggle('show');
+        });
 
-    document.addEventListener('click', (e) => {
-        if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
-            kebabDropdown.classList.remove('show');
-        }
-    });
+        document.addEventListener('click', (e) => {
+            if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
+                kebabDropdown.classList.remove('show');
+            }
+        });
+    }
 }
 
 /* =========================
@@ -1119,10 +1117,7 @@ function renderPagination(container) {
     const maxVisiblePages = 3;
     let startPage = Math.max(1, currentPage - 1);
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
+    if (endPage - startPage + 1 < maxVisiblePages) startPage = Math.max(1, endPage - maxVisiblePages + 1);
 
     for (let i = startPage; i <= endPage; i++) {
         const pageBtn = document.createElement('button');
@@ -1144,11 +1139,8 @@ function goPage(page) {
     currentPage = page;
     generateCards();
     const gridElement = document.getElementById('aiGrid');
-    if(gridElement) {
-        window.scrollTo({
-            top: gridElement.offsetTop - 120,
-            behavior: 'smooth'
-        });
+    if (gridElement) {
+        window.scrollTo({ top: gridElement.offsetTop - 120, behavior: 'smooth' });
     }
 }
 
@@ -1206,13 +1198,11 @@ window.onclick = (e) => {
 };
 
 /* =========================
-   REVIEWS MODAL
+   REVIEWS MODAL HORIZONTAUX
 ========================= */
-let reviewInterval;
-
 function initReviews(reviews) {
     const container = document.getElementById('modalReviews');
-    container.innerHTML = ''; // vide avant insertion
+    container.innerHTML = '';
 
     if (!reviews.length) {
         container.innerHTML = '<p>Aucun avis pour cet outil.</p>';
@@ -1221,8 +1211,6 @@ function initReviews(reviews) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'reviews-wrapper';
-
-    // On duplique les avis pour un défilement continu
     const allReviews = [...reviews, ...reviews];
 
     allReviews.forEach(r => {
@@ -1240,16 +1228,15 @@ function initReviews(reviews) {
     container.appendChild(wrapper);
 
     let offset = 0;
-    const totalWidth = wrapper.scrollWidth / 2; // largeur des avis originaux
+    const totalWidth = wrapper.scrollWidth / 2;
 
-    clearInterval(reviewInterval); // stoppe si déjà lancé
+    clearInterval(reviewInterval);
     reviewInterval = setInterval(() => {
-        offset += 1; // vitesse du défilement (pixels)
-        if (offset >= totalWidth) offset = 0; // boucle
+        offset += 1;
+        if (offset >= totalWidth) offset = 0;
         wrapper.style.transform = `translateX(-${offset}px)`;
-    }, 20); // intervalle pour défilement fluide
+    }, 20);
 
-    // Pause au survol
     wrapper.addEventListener('mouseenter', () => clearInterval(reviewInterval));
     wrapper.addEventListener('mouseleave', () => {
         reviewInterval = setInterval(() => {
@@ -1304,7 +1291,6 @@ function initFaqAccueil() {
         });
     });
     }
-
     
 </script>
 <script async src="https://tally.so/widgets/embed.js"></script>
