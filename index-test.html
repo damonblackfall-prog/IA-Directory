@@ -423,7 +423,8 @@ h1, h2, .gradient-title {
         .grid { grid-template-columns: 1fr; }
     }
 
-        /* =========================
+        
+/* =========================
    MODAL OVERLAY
 ========================= */
 .modal {
@@ -435,8 +436,8 @@ h1, h2, .gradient-title {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  background: rgba(0,0,0,0.6); /* fond semi-transparent */
-  backdrop-filter: blur(4px); /* effet flou */
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
   transition: opacity 0.3s ease;
 }
 
@@ -450,6 +451,7 @@ h1, h2, .gradient-title {
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   position: relative;
   animation: slideDown 0.4s ease;
+  color: #222; /* couleur par défaut du texte dans le modal */
 }
 
 /* Animation d'apparition */
@@ -482,13 +484,14 @@ h1, h2, .gradient-title {
 .modal-logo {
   width: 64px;
   height: 64px;
-  border-radius: 50%; /* logo arrondi */
+  border-radius: 50%;
   object-fit: cover;
   border: 2px solid #00d4ff;
 }
 
 .modal-title {
   flex-grow: 1;
+  color: #111; /* titre en noir foncé */
 }
 
 .badge {
@@ -506,12 +509,18 @@ h1, h2, .gradient-title {
 ========================= */
 .modal-tagline {
   font-style: italic;
-  color: #555;
+  color: #555; /* gris moyen pour tagline */
   margin-top: 5px;
 }
 
 .modal-desc {
   margin: 10px 0 15px;
+  color: #333; /* texte descriptif en gris foncé */
+}
+
+#modalDetails p {
+  color: #333;
+  margin: 3px 0;
 }
 
 #modalFeatures ul,
@@ -522,8 +531,36 @@ h1, h2, .gradient-title {
 }
 
 #modalFeatures li { color: #ff9500; } /* étoiles dorées */
-#modalPros li { color: #28a745; }
-#modalCons li { color: #dc3545; }
+#modalPros li { color: #28a745; }    /* vert pour avantages */
+#modalCons li { color: #dc3545; }    /* rouge pour inconvénients */
+
+/* FAQ */
+.faq-item {
+  margin-bottom: 10px;
+}
+
+.faq-question {
+  background: #f7f7f7;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #222; /* question en noir foncé */
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer p {
+  margin: 5px 10px;
+  color: #333; /* réponse en gris foncé */
+}
 
 /* =========================
    CTA BUTTON
@@ -547,25 +584,35 @@ h1, h2, .gradient-title {
 /* =========================
    AVIS / REVIEWS
 ========================= */
-.modal-reviews {
-  max-height: 200px; /* hauteur fixe */
-  overflow: hidden; /* pas de scrollbar */
-  margin-top: 15px;
+/* Container des reviews */
+#modalReviews {
+  overflow: hidden;
+  width: 100%;
   border-top: 1px solid #eee;
+  margin-top: 15px;
   position: relative;
 }
 
+/* Wrapper pour tous les avis */
 .reviews-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 20px;
+  transform: translateX(0);
+  transition: transform 0.5s linear;
 }
 
+/* Chaque review */
 .review {
+  flex: 0 0 auto; /* largeur fixe et pas de flex-grow */
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
-  transition: transform 0.2s ease;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px; /* ajustable selon le design */
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .review-avatar {
@@ -577,13 +624,19 @@ h1, h2, .gradient-title {
 
 .review-rating {
   color: #ff9500;
-  margin-top: 3px;
+  margin: 5px 0;
 }
 
 .review strong {
-  display: block;
-  font-weight: bold;
+  color: #222;
 }
+
+.review p {
+  color: #333;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 
 
     
@@ -1155,9 +1208,11 @@ window.onclick = (e) => {
 /* =========================
    REVIEWS MODAL
 ========================= */
+let reviewInterval;
+
 function initReviews(reviews) {
     const container = document.getElementById('modalReviews');
-    container.innerHTML = '';
+    container.innerHTML = ''; // vide avant insertion
 
     if (!reviews.length) {
         container.innerHTML = '<p>Aucun avis pour cet outil.</p>';
@@ -1166,40 +1221,42 @@ function initReviews(reviews) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'reviews-wrapper';
-    reviews.forEach(r => {
+
+    // On duplique les avis pour un défilement continu
+    const allReviews = [...reviews, ...reviews];
+
+    allReviews.forEach(r => {
         const div = document.createElement('div');
         div.className = 'review';
         div.innerHTML = `
             <img class="review-avatar" src="${r.avatar}" alt="${r.author}">
-            <div>
-                <strong>${r.author}</strong>
-                <span class="review-rating">${'⭐'.repeat(r.rating)}</span>
-                <p>${r.text}</p>
-            </div>
+            <strong>${r.author}</strong>
+            <span class="review-rating">${'⭐'.repeat(r.rating)}</span>
+            <p>${r.text}</p>
         `;
         wrapper.appendChild(div);
     });
+
     container.appendChild(wrapper);
 
     let offset = 0;
-    const reviewHeight = wrapper.children[0].offsetHeight + 10;
+    const totalWidth = wrapper.scrollWidth / 2; // largeur des avis originaux
 
-    clearInterval(reviewInterval);
+    clearInterval(reviewInterval); // stoppe si déjà lancé
     reviewInterval = setInterval(() => {
-        offset += reviewHeight;
-        if (offset >= wrapper.scrollHeight) offset = 0;
-        wrapper.style.transform = `translateY(-${offset}px)`;
-        wrapper.style.transition = 'transform 0.5s linear';
-    }, 3000);
+        offset += 1; // vitesse du défilement (pixels)
+        if (offset >= totalWidth) offset = 0; // boucle
+        wrapper.style.transform = `translateX(-${offset}px)`;
+    }, 20); // intervalle pour défilement fluide
 
+    // Pause au survol
     wrapper.addEventListener('mouseenter', () => clearInterval(reviewInterval));
     wrapper.addEventListener('mouseleave', () => {
         reviewInterval = setInterval(() => {
-            offset += reviewHeight;
-            if (offset >= wrapper.scrollHeight) offset = 0;
-            wrapper.style.transform = `translateY(-${offset}px)`;
-            wrapper.style.transition = 'transform 0.5s linear';
-        }, 3000);
+            offset += 1;
+            if (offset >= totalWidth) offset = 0;
+            wrapper.style.transform = `translateX(-${offset}px)`;
+        }, 20);
     });
 }
 
