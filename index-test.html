@@ -1167,7 +1167,12 @@ function openModal(slug) {
     const tool = tools.find(t => t.slug === slug);
     if(!tool) return;
 
-    document.getElementById('modalLogo').src = tool.logo || `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
+    const modalLogo = document.getElementById('modalLogo');
+const faviconUrl = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
+modalLogo.src = faviconUrl;
+modalLogo.onerror = () => {
+    modalLogo.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=ffffff&bold=true`;
+};
     document.getElementById('modalName').textContent = tool.name;
     document.getElementById('modalTagline').textContent = tool.tagline;
     document.getElementById('modalDesc').textContent = tool.desc;
