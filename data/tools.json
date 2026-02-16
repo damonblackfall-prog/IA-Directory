@@ -59,24 +59,24 @@
     ],
 
     "reviews": [
-      {
-        "author": "Sophie L.",
-        "avatar": "images/avatars/sophie.jpg",
-        "text": "L'intégration avec Google Docs m'a fait gagner un temps fou pour mes rapports.",
-        "rating": 5
-      },
-      {
-        "author": "Marc-Antoine",
-        "avatar": "images/avatars/marc-antoine.jpg",
-        "text": "La fenêtre de contexte est impressionnante, il analyse des PDF de 500 pages sans broncher.",
-        "rating": 4
-      },
-      {
-        "author": "Elena R.",
-        "avatar": "images/avatars/elena.jpg",
-        "text": "Idéal pour le code, les suggestions sont souvent plus pertinentes que la concurrence.",
-        "rating": 5
-      }
+  {
+    "author": "Sophie L.",
+    "avatar": "image/Screenshot_20260216-165034.png",
+    "text": "L'intégration avec Google Docs m'a fait gagner un temps fou pour mes rapports.",
+    "rating": 5
+  },
+  {
+    "author": "Marc-Antoine",
+    "avatar": "image/marc-mnto/marc.png",
+    "text": "La fenêtre de contexte est impressionnante, il analyse des PDF de 500 pages sans broncher.",
+    "rating": 4
+  },
+  {
+    "author": "Elena R.",
+    "avatar": "image/Gemini_Generated_Image_5jhyi85jhyi85jhy.png",
+    "text": "Idéal pour le code, les suggestions sont souvent plus pertinentes que la concurrence.",
+    "rating": 5
+  }
     ]
   }
         ]
