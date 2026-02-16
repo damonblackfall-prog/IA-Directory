@@ -585,41 +585,62 @@ h1, h2, .gradient-title {
    AVIS / REVIEWS
 ========================= */
 /* 1. Le conteneur parent (la fenêtre de vision) */
+/* 1. Le conteneur (la fenêtre de visualisation) */
 #modalReviews {
-    width: 100%;           /* Ou une largeur fixe comme 400px */
-    overflow: hidden;      /* CACHE tout ce qui dépasse de la fenêtre */
+    width: 100%;
+    overflow: hidden; /* Masque les avis qui dépassent */
     position: relative;
-    border: 1px solid #eee;
-    padding: 20px 0;
+    padding: 10px 0;
+    background: #fff;
 }
 
-/* 2. Le wrapper (le long ruban qui contient tous les avis) */
+/* 2. Le ruban qui contient tous les avis */
 .reviews-wrapper-carousel {
-    display: flex;         /* Aligne les avis côte à côte horizontalement */
-    gap: 20px;            /* Espace entre chaque avis */
-    transition: transform 0.5s ease-in-out; /* Animation fluide du mouvement */
-    will-change: transform; /* Optimisation pour la fluidité (GPU) */
+    display: flex;
+    align-items: stretch;
+    /* La transition est gérée par le JS pour permettre le saut invisible */
+    will-change: transform; 
 }
 
-/* 3. L'élément "Avis" individuel */
+/* 3. La carte d'avis individuelle */
 .review {
-    min-width: 300px;      /* Largeur fixe pour chaque carte d'avis */
-    flex-shrink: 0;        /* Empêche l'avis de rétrécir pour tenir dans le parent */
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* Très important : Largeur fixe pour que le JS calcule toujours la même chose */
+    flex: 0 0 300px; 
+    margin-right: 20px; /* C'est le fameux "+ 20" dans ton code JS */
+    
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
-/* Style des éléments internes (Optionnel) */
+/* 4. Éléments internes de l'avis */
 .review-avatar {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 10px;
+    border: 2px solid #00d4ff;
 }
 
+.review-rating {
+    color: #ffc107;
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+.review p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+    margin-top: 10px;
+    font-style: italic;
+}
 
 
     
@@ -1187,10 +1208,17 @@ window.onclick = (e) => {
 /* =========================
    REVIEWS MODAL HORIZONTAUX
 ========================= */
-let intervalId; // Variable globale pour gérer le cycle
+/* =========================
+   REVIEWS MODAL HORIZONTAUX (CORRIGÉ)
+========================= */
+let intervalId; 
 
 function initReviews(reviews) {
     const container = document.getElementById('modalReviews');
+    if (!container) return;
+    
+    // 0. NETTOYAGE : Arrête l'ancien cycle s'il existe
+    clearInterval(intervalId);
     container.innerHTML = '';
 
     if (!reviews || reviews.length === 0) {
@@ -1200,12 +1228,10 @@ function initReviews(reviews) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'reviews-wrapper-carousel';
-    // Style important pour la transition fluide
     wrapper.style.display = 'flex';
     wrapper.style.transition = 'transform 0.5s ease-in-out';
     container.appendChild(wrapper);
 
-    // Fonction pour créer le HTML d'un avis
     const createReviewHTML = (r) => {
         const div = document.createElement('div');
         div.className = 'review';
@@ -1219,41 +1245,46 @@ function initReviews(reviews) {
         return div;
     };
 
-    // 1. Ajouter les avis originaux
     reviews.forEach(r => wrapper.appendChild(createReviewHTML(r)));
 
-    // 2. CLONAGE : On clone le premier avis et on l'ajoute à la fin
+    // CLONAGE
     const firstClone = wrapper.children[0].cloneNode(true);
     wrapper.appendChild(firstClone);
 
-    const reviewWidth = wrapper.children[0].offsetWidth + 20; // Largeur + gap
     let currentIndex = 0;
     const intervalSpeed = 2500;
 
+    // FONCTION DE DÉPLACEMENT
     function nextReview() {
-        currentIndex++;
+        // RE-CALCUL de la largeur ici au cas où le modal était caché au début
+        const reviewWidth = wrapper.children[0].offsetWidth + 20; 
         
-        // On déplace vers l'élément suivant
+        if (reviewWidth <= 20) return; // Sécurité si le modal est fermé
+
+        currentIndex++;
         wrapper.style.transition = 'transform 0.5s ease-in-out';
         wrapper.style.transform = `translateX(-${reviewWidth * currentIndex}px)`;
 
-        // Si on vient d'arriver sur le CLONE du premier avis
-        if (currentIndex === reviews.length) {
-            // On attend la fin de l'animation (500ms) pour revenir au début sans que ça se voie
+        if (currentIndex >= reviews.length) {
             setTimeout(() => {
-                wrapper.style.transition = 'none'; // On coupe l'animation
-                currentIndex = 0; // On revient à l'index 0
+                wrapper.style.transition = 'none';
+                currentIndex = 0;
                 wrapper.style.transform = `translateX(0px)`;
             }, 500); 
         }
     }
 
-    // Gestion du cycle
-    intervalId = setInterval(nextReview, intervalSpeed);
+    // Lancement du cycle après un court délai pour laisser le modal s'afficher
+    setTimeout(() => {
+        intervalId = setInterval(nextReview, intervalSpeed);
+    }, 100);
 
     // Pause au survol
     wrapper.addEventListener('mouseenter', () => clearInterval(intervalId));
-    wrapper.addEventListener('mouseleave', () => intervalId = setInterval(nextReview, intervalSpeed));
+    wrapper.addEventListener('mouseleave', () => {
+        clearInterval(intervalId); // Sécurité
+        intervalId = setInterval(nextReview, intervalSpeed);
+    });
 }
 
     
