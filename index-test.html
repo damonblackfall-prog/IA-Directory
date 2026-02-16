@@ -584,64 +584,48 @@ h1, h2, .gradient-title {
 /* =========================
    AVIS / REVIEWS
 ========================= */
-/* 1. Le conteneur parent (la fenêtre de vision) */
-/* 1. Le conteneur (la fenêtre de visualisation) */
+/* 1. La fenêtre de vision */
 #modalReviews {
     width: 100%;
-    overflow: hidden; /* Masque les avis qui dépassent */
+    overflow: hidden;
     position: relative;
-    padding: 10px 0;
-    background: #fff;
+    padding: 20px 0;
+    /* On crée un effet de fondu sur les côtés pour faire joli */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-/* 2. Le ruban qui contient tous les avis */
+/* 2. Le ruban qui défile */
 .reviews-wrapper-carousel {
     display: flex;
-    align-items: stretch;
-    /* La transition est gérée par le JS pour permettre le saut invisible */
-    will-change: transform; 
+    width: max-content; /* Très important pour que le ruban ne soit pas limité */
+    animation: scroll-infinite 20s linear infinite; /* 20s = Vitesse */
 }
 
-/* 3. La carte d'avis individuelle */
+/* 3. L'animation magique */
+@keyframes scroll-infinite {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* On se déplace de la moitié de la largeur du ruban */
+        transform: translateX(-50%);
+    }
+}
+
+/* 4. Pause au survol */
+.reviews-wrapper-carousel:hover {
+    animation-play-state: paused;
+}
+
+/* 5. Chaque avis */
 .review {
-    /* Très important : Largeur fixe pour que le JS calcule toujours la même chose */
-    flex: 0 0 300px; 
-    margin-right: 20px; /* C'est le fameux "+ 20" dans ton code JS */
-    
+    flex: 0 0 300px;
+    margin-right: 20px;
     background: #f8f9fa;
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    /* ... reste de ton style ... */
 }
-
-/* 4. Éléments internes de l'avis */
-.review-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    border: 2px solid #00d4ff;
-}
-
-.review-rating {
-    color: #ffc107;
-    margin: 5px 0;
-    font-size: 1.1rem;
-}
-
-.review p {
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.4;
-    margin-top: 10px;
-    font-style: italic;
-}
-
 
     
                                                        }
@@ -1208,17 +1192,9 @@ window.onclick = (e) => {
 /* =========================
    REVIEWS MODAL HORIZONTAUX
 ========================= */
-/* =========================
-   REVIEWS MODAL HORIZONTAUX (CORRIGÉ)
-========================= */
-let intervalId; 
-
 function initReviews(reviews) {
     const container = document.getElementById('modalReviews');
     if (!container) return;
-    
-    // 0. NETTOYAGE : Arrête l'ancien cycle s'il existe
-    clearInterval(intervalId);
     container.innerHTML = '';
 
     if (!reviews || reviews.length === 0) {
@@ -1228,10 +1204,9 @@ function initReviews(reviews) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'reviews-wrapper-carousel';
-    wrapper.style.display = 'flex';
-    wrapper.style.transition = 'transform 0.5s ease-in-out';
     container.appendChild(wrapper);
 
+    // Fonction interne pour créer une carte
     const createReviewHTML = (r) => {
         const div = document.createElement('div');
         div.className = 'review';
@@ -1245,46 +1220,10 @@ function initReviews(reviews) {
         return div;
     };
 
-    reviews.forEach(r => wrapper.appendChild(createReviewHTML(r)));
-
-    // CLONAGE
-    const firstClone = wrapper.children[0].cloneNode(true);
-    wrapper.appendChild(firstClone);
-
-    let currentIndex = 0;
-    const intervalSpeed = 2500;
-
-    // FONCTION DE DÉPLACEMENT
-    function nextReview() {
-        // RE-CALCUL de la largeur ici au cas où le modal était caché au début
-        const reviewWidth = wrapper.children[0].offsetWidth + 20; 
-        
-        if (reviewWidth <= 20) return; // Sécurité si le modal est fermé
-
-        currentIndex++;
-        wrapper.style.transition = 'transform 0.5s ease-in-out';
-        wrapper.style.transform = `translateX(-${reviewWidth * currentIndex}px)`;
-
-        if (currentIndex >= reviews.length) {
-            setTimeout(() => {
-                wrapper.style.transition = 'none';
-                currentIndex = 0;
-                wrapper.style.transform = `translateX(0px)`;
-            }, 500); 
-        }
-    }
-
-    // Lancement du cycle après un court délai pour laisser le modal s'afficher
-    setTimeout(() => {
-        intervalId = setInterval(nextReview, intervalSpeed);
-    }, 100);
-
-    // Pause au survol
-    wrapper.addEventListener('mouseenter', () => clearInterval(intervalId));
-    wrapper.addEventListener('mouseleave', () => {
-        clearInterval(intervalId); // Sécurité
-        intervalId = setInterval(nextReview, intervalSpeed);
-    });
+    // ON AJOUTE DEUX FOIS LA LISTE D'AVIS
+    // Cela crée un ruban [A, B, C] + [A, B, C]
+    const fullList = [...reviews, ...reviews];
+    fullList.forEach(r => wrapper.appendChild(createReviewHTML(r)));
 }
 
     
