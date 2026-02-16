@@ -1223,16 +1223,20 @@ function initReviews(reviews) {
     const allReviews = [...reviews, ...reviews];
 
     allReviews.forEach(r => {
-        const div = document.createElement('div');
-        div.className = 'review';
-        div.innerHTML = `
-            <img class="review-avatar" src="${r.avatar}" alt="${r.author}">
-            <strong>${r.author}</strong>
-            <span class="review-rating">${'⭐'.repeat(r.rating)}</span>
-            <p>${r.text}</p>
-        `;
-        wrapper.appendChild(div);
-    });
+    const div = document.createElement('div');
+    div.className = 'review';
+
+    const rating = Number(r.rating) || 0;
+
+    div.innerHTML = `
+        <img class="review-avatar" src="${r.avatar || ''}" alt="${r.author || ''}">
+        <strong>${r.author || 'Utilisateur'}</strong>
+        <span class="review-rating">${'⭐'.repeat(rating)}</span>
+        <p>${r.text || ''}</p>
+    `;
+
+    wrapper.appendChild(div);
+});
 
     container.appendChild(wrapper);
 
