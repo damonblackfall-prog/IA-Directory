@@ -584,26 +584,41 @@ h1, h2, .gradient-title {
 /* =========================
    AVIS / REVIEWS
 ========================= */
+/* 1. Le conteneur parent (la fenêtre de vision) */
 #modalReviews {
-    overflow: hidden;
-    width: 100%;
+    width: 100%;           /* Ou une largeur fixe comme 400px */
+    overflow: hidden;      /* CACHE tout ce qui dépasse de la fenêtre */
     position: relative;
+    border: 1px solid #eee;
+    padding: 20px 0;
 }
 
+/* 2. Le wrapper (le long ruban qui contient tous les avis) */
 .reviews-wrapper-carousel {
-    display: flex;
-    transition: transform 0.5s linear;
-    gap: 20px;
+    display: flex;         /* Aligne les avis côte à côte horizontalement */
+    gap: 20px;            /* Espace entre chaque avis */
+    transition: transform 0.5s ease-in-out; /* Animation fluide du mouvement */
+    will-change: transform; /* Optimisation pour la fluidité (GPU) */
 }
 
+/* 3. L'élément "Avis" individuel */
 .review {
-    flex: 0 0 auto;
-    width: 250px; /* fixe pour le carousel */
-    text-align: center;
+    min-width: 300px;      /* Largeur fixe pour chaque carte d'avis */
+    flex-shrink: 0;        /* Empêche l'avis de rétrécir pour tenir dans le parent */
     background: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    }
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Style des éléments internes (Optionnel) */
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
 
 
 
@@ -1172,7 +1187,7 @@ window.onclick = (e) => {
 /* =========================
    REVIEWS MODAL HORIZONTAUX
 ========================= */
-let reviewInterval;
+let intervalId; // Variable globale pour gérer le cycle
 
 function initReviews(reviews) {
     const container = document.getElementById('modalReviews');
@@ -1185,9 +1200,13 @@ function initReviews(reviews) {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'reviews-wrapper-carousel';
+    // Style important pour la transition fluide
+    wrapper.style.display = 'flex';
+    wrapper.style.transition = 'transform 0.5s ease-in-out';
     container.appendChild(wrapper);
 
-    reviews.forEach(r => {
+    // Fonction pour créer le HTML d'un avis
+    const createReviewHTML = (r) => {
         const div = document.createElement('div');
         div.className = 'review';
         const rating = Number(r.rating) || 0;
@@ -1197,24 +1216,42 @@ function initReviews(reviews) {
             <span class="review-rating">${'⭐'.repeat(rating)}</span>
             <p>${r.text || ''}</p>
         `;
-        wrapper.appendChild(div);
-    });
+        return div;
+    };
 
-    // calcul de largeur d'un avis + gap
-    const reviewWidth = wrapper.children[0].offsetWidth + 20;
+    // 1. Ajouter les avis originaux
+    reviews.forEach(r => wrapper.appendChild(createReviewHTML(r)));
+
+    // 2. CLONAGE : On clone le premier avis et on l'ajoute à la fin
+    const firstClone = wrapper.children[0].cloneNode(true);
+    wrapper.appendChild(firstClone);
+
+    const reviewWidth = wrapper.children[0].offsetWidth + 20; // Largeur + gap
     let currentIndex = 0;
-
-    // vitesse du défilement (ms)
-    const intervalSpeed = 2500; // toutes les 2,5s
-    let intervalId = setInterval(nextReview, intervalSpeed);
+    const intervalSpeed = 2500;
 
     function nextReview() {
         currentIndex++;
-        if (currentIndex >= reviews.length) currentIndex = 0; // retour au premier
+        
+        // On déplace vers l'élément suivant
+        wrapper.style.transition = 'transform 0.5s ease-in-out';
         wrapper.style.transform = `translateX(-${reviewWidth * currentIndex}px)`;
+
+        // Si on vient d'arriver sur le CLONE du premier avis
+        if (currentIndex === reviews.length) {
+            // On attend la fin de l'animation (500ms) pour revenir au début sans que ça se voie
+            setTimeout(() => {
+                wrapper.style.transition = 'none'; // On coupe l'animation
+                currentIndex = 0; // On revient à l'index 0
+                wrapper.style.transform = `translateX(0px)`;
+            }, 500); 
+        }
     }
 
-    // pause au survol
+    // Gestion du cycle
+    intervalId = setInterval(nextReview, intervalSpeed);
+
+    // Pause au survol
     wrapper.addEventListener('mouseenter', () => clearInterval(intervalId));
     wrapper.addEventListener('mouseleave', () => intervalId = setInterval(nextReview, intervalSpeed));
 }
