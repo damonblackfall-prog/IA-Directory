@@ -592,18 +592,18 @@ h1, h2, .gradient-title {
 
 .reviews-wrapper-carousel {
     display: flex;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s linear;
     gap: 20px;
 }
 
 .review {
     flex: 0 0 auto;
-    width: 250px; /* largeur fixe pour le carousel */
+    width: 250px; /* fixe pour le carousel */
     text-align: center;
     background: #f9f9f9;
     padding: 10px;
     border-radius: 8px;
-}
+    }
 
 
 
@@ -1200,18 +1200,23 @@ function initReviews(reviews) {
         wrapper.appendChild(div);
     });
 
-    const reviewWidth = wrapper.children[0].offsetWidth + 20; // + gap
+    // calcul de largeur d'un avis + gap
+    const reviewWidth = wrapper.children[0].offsetWidth + 20;
     let currentIndex = 0;
-    let intervalId = setInterval(nextReview, 3000); // chaque 3 sec
+
+    // vitesse du défilement (ms)
+    const intervalSpeed = 2500; // toutes les 2,5s
+    let intervalId = setInterval(nextReview, intervalSpeed);
 
     function nextReview() {
         currentIndex++;
-        if (currentIndex >= reviews.length) currentIndex = 0;
+        if (currentIndex >= reviews.length) currentIndex = 0; // retour au premier
         wrapper.style.transform = `translateX(-${reviewWidth * currentIndex}px)`;
     }
 
+    // pause au survol
     wrapper.addEventListener('mouseenter', () => clearInterval(intervalId));
-    wrapper.addEventListener('mouseleave', () => intervalId = setInterval(nextReview, 3000));
+    wrapper.addEventListener('mouseleave', () => intervalId = setInterval(nextReview, intervalSpeed));
 }
 
     
