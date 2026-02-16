@@ -584,58 +584,25 @@ h1, h2, .gradient-title {
 /* =========================
    AVIS / REVIEWS
 ========================= */
-/* Container des reviews */
 #modalReviews {
-  overflow: hidden;
-  width: 100%;
-  border-top: 1px solid #eee;
-  margin-top: 15px;
-  position: relative;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
 }
 
-/* Wrapper pour tous les avis */
+.reviews-wrapper-carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 20px;
+}
 
-
-/* Chaque review */
 .review {
-  flex: 0 0 auto; /* largeur fixe et pas de flex-grow */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 200px; /* ajustable selon le design */
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.revie.reviews-wrapper {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 20px;
-  transform: translateX(0);
-    }
-        
-        w-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.review-rating {
-  color: #ff9500;
-  margin: 5px 0;
-}
-
-.review strong {
-  color: #222;
-}
-
-.review p {
-  color: #333;
-  font-size: 0.9rem;
-  text-align: center;
+    flex: 0 0 auto;
+    width: 250px; /* largeur fixe pour le carousel */
+    text-align: center;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
 }
 
 
@@ -1217,25 +1184,35 @@ function initReviews(reviews) {
     }
 
     const wrapper = document.createElement('div');
-    wrapper.className = 'reviews-wrapper';
+    wrapper.className = 'reviews-wrapper-carousel';
+    container.appendChild(wrapper);
 
-    const allReviews = [...reviews, ...reviews];
+    reviews.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'review';
+        const rating = Number(r.rating) || 0;
+        div.innerHTML = `
+            <img class="review-avatar" src="${r.avatar || ''}" alt="${r.author || ''}">
+            <strong>${r.author || 'Utilisateur'}</strong>
+            <span class="review-rating">${'⭐'.repeat(rating)}</span>
+            <p>${r.text || ''}</p>
+        `;
+        wrapper.appendChild(div);
+    });
 
-    allReviews.forEach(r => {
-    const div = document.createElement('div');
-    div.className = 'review';
+    const reviewWidth = wrapper.children[0].offsetWidth + 20; // + gap
+    let currentIndex = 0;
+    let intervalId = setInterval(nextReview, 3000); // chaque 3 sec
 
-    const rating = Number(r.rating) || 0;
+    function nextReview() {
+        currentIndex++;
+        if (currentIndex >= reviews.length) currentIndex = 0;
+        wrapper.style.transform = `translateX(-${reviewWidth * currentIndex}px)`;
+    }
 
-    div.innerHTML = `
-        <img class="review-avatar" src="${r.avatar || ''}" alt="${r.author || ''}">
-        <strong>${r.author || 'Utilisateur'}</strong>
-        <span class="review-rating">${'⭐'.repeat(rating)}</span>
-        <p>${r.text || ''}</p>
-    `;
-
-    wrapper.appendChild(div);
-});
+    wrapper.addEventListener('mouseenter', () => clearInterval(intervalId));
+    wrapper.addEventListener('mouseleave', () => intervalId = setInterval(nextReview, 3000));
+}
 
     container.appendChild(wrapper);
 
