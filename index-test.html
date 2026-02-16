@@ -1214,49 +1214,7 @@ function initReviews(reviews) {
     wrapper.addEventListener('mouseleave', () => intervalId = setInterval(nextReview, 3000));
 }
 
-    container.appendChild(wrapper);
-
-    let offset = 0;
-
-    // 🔥 IMPORTANT : attendre que le DOM calcule les tailles
-    requestAnimationFrame(() => {
-
-        const totalWidth = wrapper.scrollWidth / 2;
-
-        clearInterval(reviewInterval);
-
-        reviewInterval = setInterval(() => {
-            offset += 1;
-
-            if (offset >= totalWidth) {
-                offset = 0;
-            }
-
-            wrapper.style.transform = `translateX(-${offset}px)`;
-
-        }, 20);
-    });
-
-    wrapper.addEventListener('mouseenter', () => {
-        clearInterval(reviewInterval);
-    });
-
-    wrapper.addEventListener('mouseleave', () => {
-
-        const totalWidth = wrapper.scrollWidth / 2;
-
-        reviewInterval = setInterval(() => {
-            offset += 1;
-
-            if (offset >= totalWidth) {
-                offset = 0;
-            }
-
-            wrapper.style.transform = `translateX(-${offset}px)`;
-
-        }, 20);
-    });
-}
+    
 
 /* =========================
    FAQ MODAL
