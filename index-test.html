@@ -117,46 +117,55 @@ h1, h2, .gradient-title {
     position: relative;
 }
 
-.card-kebab {
+/* Bouton ⋮ */
+.card-kebab-btn {
     position: absolute;
     top: 10px;
     right: 10px;
-}
-
-.card-kebab-btn {
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 22px;         /* plus grand pour une meilleure lisibilité */
+    padding: 6px 8px;        /* zone cliquable plus large */
     cursor: pointer;
-    color: #666;
+    color: var(--text-main); /* s'adapte au thème, blanc sur sombre */
+    transition: color 0.2s ease;
 }
 
+.card-kebab-btn:hover {
+    color: var(--accent);    /* accent lumineux au survol */
+}
+
+/* Menu déroulant */
 .card-kebab-menu {
     display: none;
     position: absolute;
+    top: 100%;              /* juste sous le bouton */
     right: 0;
-    top: 22px;
-    background: #111;
+    background: #111;        /* sombre pour contraste sur carte */
     border-radius: 8px;
-    min-width: 150px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    min-width: 160px;        /* légèrement plus large */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
     z-index: 20;
+    overflow: hidden;
 }
 
+/* Affichage du menu */
 .card-kebab-menu.show {
     display: block;
 }
 
+/* Liens à l'intérieur du menu */
 .kebab-link {
     display: block;
-    padding: 10px 14px;
+    padding: 10px 16px;
     color: #fff;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 15px;
+    transition: background 0.2s ease;
 }
 
 .kebab-link:hover {
-    background: rgba(255,255,255,.08);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* BADGES DE CATÉGORIES */
