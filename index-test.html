@@ -618,14 +618,7 @@ h1, h2, .gradient-title {
 }
 
 /* 5. Chaque avis */
-.review {
-    flex: 0 0 300px;
-    margin-right: 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 20px;
-    /* ... reste de ton style ... */
-}
+
 
     
                                                        }
@@ -643,7 +636,51 @@ h1, h2, .gradient-title {
     "url": "https://ia-directory.github.io/",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://ia-directory.github.io/?q={search_term_string}",
+      "target": "https://ia-directory.github.io/?.review {
+    flex: 0 0 300px;
+    margin-right: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* Ligne avatar + nom */
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Petit avatar rond */
+.review-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Bloc nom + étoiles */
+.review-user {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-author {
+    font-size: 0.9rem;
+}
+
+.review-rating {
+    font-size: 0.8rem;
+    color: #ff9500;
+}
+
+.review-text {
+    font-size: 0.9rem;
+    color: #333;
+}
+        q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   },
@@ -1212,11 +1249,15 @@ function initReviews(reviews) {
         div.className = 'review';
         const rating = Number(r.rating) || 0;
         div.innerHTML = `
-            <img class="review-avatar" src="${r.avatar || ''}" alt="${r.author || ''}">
-            <strong>${r.author || 'Utilisateur'}</strong>
+    <div class="review-header">
+        <img class="review-avatar" src="${r.avatar || ''}" alt="${r.author || ''}">
+        <div class="review-user">
+            <strong class="review-author">${r.author || 'Utilisateur'}</strong>
             <span class="review-rating">${'⭐'.repeat(rating)}</span>
-            <p>${r.text || ''}</p>
-        `;
+        </div>
+    </div>
+    <p class="review-text">${r.text || ''}</p>
+`;
         return div;
     };
 
