@@ -118,43 +118,43 @@ h1, h2, .gradient-title {
 }
 
 /* Bouton ⋮ */
-.card-kebab-btn {
+.card-kebab {
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.card-kebab-btn {
     background: none;
     border: none;
-    font-size: 22px;         /* plus grand pour une meilleure lisibilité */
-    padding: 6px 8px;        /* zone cliquable plus large */
+    font-size: 24px;        /* bouton plus grand */
+    padding: 8px 10px;      /* zone cliquable plus large */
     cursor: pointer;
-    color: var(--text-main); /* s'adapte au thème, blanc sur sombre */
+    color: #666;            /* couleur du bouton */
     transition: color 0.2s ease;
 }
 
 .card-kebab-btn:hover {
-    color: var(--accent);    /* accent lumineux au survol */
+    color: var(--accent);   /* accent au survol */
 }
 
-/* Menu déroulant */
 .card-kebab-menu {
     display: none;
     position: absolute;
     top: 100%;              /* juste sous le bouton */
     right: 0;
-    background: #111;        /* sombre pour contraste sur carte */
+    background: #111;
     border-radius: 8px;
-    min-width: 160px;        /* légèrement plus large */
+    min-width: 160px;       /* un peu plus large pour le menu */
     box-shadow: 0 10px 30px rgba(0,0,0,0.35);
     z-index: 20;
     overflow: hidden;
 }
 
-/* Affichage du menu */
 .card-kebab-menu.show {
     display: block;
 }
 
-/* Liens à l'intérieur du menu */
 .kebab-link {
     display: block;
     padding: 10px 16px;
