@@ -1304,7 +1304,7 @@ modalLogo.onerror = () => {
 };
     document.getElementById('modalName').textContent = tool.name;
     document.getElementById('modalTagline').textContent = tool.tagline;
-    document.getElementById('modalDesc').textContent = tool.desc;
+    document.getElementById('modalDesc').textContent = tool.description_long || tool.desc;
     document.getElementById('modalLabel').textContent = tool.label;
 
     document.getElementById('modalType').textContent = tool.type || '';
