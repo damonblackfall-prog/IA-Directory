@@ -962,21 +962,6 @@ h1, h2, .gradient-title {
     <p id="modalTagline" class="modal-tagline"></p>
     <p id="modalDesc" class="modal-desc"></p>
 
-    <div id="modalDetails">
-      <p><strong>Type :</strong> <span id="modalType"></span></p>
-      <p><strong>Langues :</strong> <span id="modalLanguage"></span></p>
-      <p><strong>Plateformes :</strong> <span id="modalPlatform"></span></p>
-    </div>
-
-    <div id="modalFeatures"></div>
-    <div id="modalProsCons">
-      <div id="modalPros"></div>
-      <div id="modalCons"></div>
-    </div>
-
-    <div id="modalFAQ"></div>
-    <div id="modalReviews"></div>
-
     <a id="modalCTA" href="" target="_blank" class="btn-cta">Explorer →</a>
   </div>
     </div>
@@ -1306,22 +1291,8 @@ modalLogo.onerror = () => {
     document.getElementById('modalTagline').textContent = tool.tagline;
     document.getElementById('modalDesc').textContent = tool.description_long || tool.desc;
     document.getElementById('modalLabel').textContent = tool.label;
-
-    document.getElementById('modalType').textContent = tool.type || '';
-    document.getElementById('modalLanguage').textContent = tool.language || '';
-    document.getElementById('modalPlatform').textContent = tool.platform || '';
-
-    document.getElementById('modalFeatures').innerHTML =
-        '<h4>Fonctionnalités :</h4><ul>' + (tool.features || []).map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
-    document.getElementById('modalPros').innerHTML =
-        '<h4>Avantages :</h4><ul>' + (tool.pros || []).map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
-    document.getElementById('modalCons').innerHTML =
-        '<h4>Inconvénients :</h4><ul>' + (tool.cons || []).map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
-
+    
     document.getElementById('modalCTA').href = tool.url || '#';
-
-    initReviews(tool.reviews || []);
-    initFaq(tool.faq || []);
 
     modal.style.display = 'block';
 }
