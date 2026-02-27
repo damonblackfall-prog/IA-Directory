@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CustomGPT.ai : Outils et Automatisation Chatbot IA</title>
+
+  <meta name="description" content="Explorez les outils et fonctionnalités de CustomGPT.ai pour créer un chatbot intelligent et automatiser votre support client.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://robenson.github.io/customgpt/">
+
+  <meta property="og:title" content="CustomGPT.ai – Outils et Automatisation IA">
+  <meta property="og:description" content="Découvrez les outils et fonctionnalités de CustomGPT.ai pour créer un assistant virtuel performant.">
+  <meta property="og:image" content="https://ia-directory.github.io/image/Screenshot_20260227-071128.webp">
+  <meta property="og:url" content="https://robenson.github.io/customgpt/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "CustomGPT.ai",
+      "description": "Plateforme SaaS permettant de créer des chatbots intelligents et d'automatiser le support client.",
+      "image": "https://ia-directory.github.io/image/Screenshot_20260227-071128.webp",
+      "provider": {
+        "@type": "Organization",
+        "name": "CustomGPT.ai"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Worldwide"
+      },
+      "serviceType": "Chatbot IA et automatisation",
+      "url": "https://robenson.github.io/customgpt/"
+    }
+  </script>
+
+  <style>
+    /* ======= Reset & Base ======= */
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    html, body { width:100%; overflow-x:hidden; }
+    body { line-height:1.6; color:#333; background:#f9f9f9; }
+    a { text-decoration:none; color:#fff; }
+    button { cursor:pointer; }
+
+    /* ======= Container ======= */
+    .container { width:100%; max-width:1200px; margin:0 auto; padding:0 15px; }
+
+    /* ======= Hero ======= */
+    header { background:#1a73e8; color:#fff; padding:80px 20px; text-align:center; }
+    header h1 { font-size:2.5rem; margin-bottom:20px; }
+    header p { font-size:1.2rem; margin-bottom:30px; }
+    .btn-primary { display:inline-block; background:#ff6a00; color:#fff; padding:18px 35px; font-size:1.2rem; border:none; border-radius:8px; transition:0.3s; }
+    .btn-primary:hover { background:#e65c00; transform:translateY(-2px); }
+    .btn-primary:active { transform:translateY(1px); }
+
+    /* ======= Sections ======= */
+    section { padding:60px 0; width:100%; }
+    h2 { text-align:center; font-size:2rem; margin-bottom:40px; color:#1a73e8; }
+    .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 20px;
+}
+    /* ======= Cards ======= */
+    .card { background:#fff; padding:30px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); text-align:center; }
+    .card h3 { margin-bottom:15px; color:#1a73e8; }
+    .card p { font-size:1rem; }
+  
+  
+
+    /* ======= Comparison ======= */
+    .comparison { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:30px; width:100%; }
+    .comparison div { padding:20px; border-radius:10px; text-align:center; }
+    .before { background:#f8d7da; color:#721c24; }
+    .after { background:#d4edda; color:#155724; }
+
+.card,
+.comparison div {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+    /* ======= FAQ ======= */
+    .faq-item { margin-bottom:15px; }
+    .faq-item button { 
+      width:100%; 
+      background:#1a73e8; 
+      color:#fff; 
+      border:none; 
+      padding:18px 20px; 
+      border-radius:8px; 
+      text-align:left; 
+      font-size:1rem; 
+      display:flex; 
+      justify-content: space-between; 
+      align-items:center; 
+      transition:background 0.3s; 
+      position: relative;
+    }
+    .faq-item button:hover { background:#1558b0; }
+    .faq-item button::after { content:'+'; position:absolute; right:20px; font-size:1.2rem; transition: transform 0.3s; }
+    .faq-item button[aria-expanded="true"]::after { content:'-'; }
+    .faq-item .answer { max-height:0; overflow:hidden; transition:max-height 0.3s ease; padding:0 15px; background:#e9f0ff; border-radius:5px; margin-top:5px; }
+
+  /* ============================= */
+/* PRICING SECTION PREMIUM */
+/* ============================= */
+
+.pricing-section {
+  padding: 80px 20px;
+  background: #f9fafc;
+  text-align: center;
+}
+
+/* Header */
+.pricing-section .pricing-header h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.pricing-section .pricing-header p {
+  color: #666;
+  margin-bottom: 60px;
+}
+
+/* Grid */
+.pricing-section .pricing-grid {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Card */
+.pricing-section .pricing-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 320px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.pricing-section .pricing-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Featured */
+.pricing-section .pricing-card.featured {
+  border: 2px solid #6c63ff;
+  transform: scale(1.05);
+}
+
+/* Badge */
+.pricing-section .badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #6c63ff;
+  color: #fff;
+  padding: 5px 15px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+
+/* Price */
+.pricing-section .price {
+  font-size: 34px;
+  margin: 20px 0;
+}
+
+.pricing-section .price span {
+  font-size: 16px;
+  color: #777;
+}
+
+/* List */
+.pricing-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.pricing-section ul li {
+  margin-bottom: 12px;
+  color: #444;
+}
+
+/* Buttons */
+.pricing-section .btn-primary,
+.pricing-section .btn-outline {
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+/* Primary */
+.pricing-section .btn-primary {
+  background: #6c63ff;
+  color: #fff;
+}
+
+.pricing-section .btn-primary:hover {
+  background: #5a52e0;
+  transform: translateY(-3px);
+}
+
+/* Outline */
+.pricing-section .btn-outline {
+  border: 2px solid #6c63ff;
+  color: #6c63ff;
+  background: transparent;
+}
+
+.pricing-section .btn-outline:hover {
+  background: #6c63ff;
+  color: #fff;
+  transform: translateY(-3px);
+}
+  
+  .video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* largeur max pour ne pas dépasser l'accueil */
+  margin: 0 auto; /* centrer la vidéo */
+  padding-top: 56.25%; /* ratio 16:9 */
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+  
+   /* La fenêtre qui contient le ruban */
+.testimonials {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 30px 0;
+    /* Fondu sur les bords */
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+/* Le ruban qui contient les avis */
+.testimonial-slide {
+    display: flex;
+    width: max-content;
+    animation: scroll-testimonials 3s linear infinite;
+}
+
+/* L'animation de défilement */
+@keyframes scroll-testimonials {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Pause au survol */
+.testimonial-slide:hover {
+    animation-play-state: paused;
+}
+
+/* Style individuel des avis */
+.testimonial {
+    flex: 0 0 350px;
+    margin-right: 40px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+
+    display: flex;
+    flex-direction: column; /* image au-dessus du texte */
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+}
+
+.testimonial p {
+    font-style: italic;
+    color: #444;
+    margin: 0;
+}
+
+.testimonial strong {
+    color: #00d4ff;
+    font-size: 0.9rem;
+}
+
+/* Image ronde */
+.testimonial-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+    /* ======= Footer ======= */
+    footer { background:#333; color:#fff; padding:40px 20px; text-align:center; font-size:0.9rem; }
+
+    /* ======= Media Queries ======= */
+    @media (max-width:768px) {
+      header h1 { font-size:2rem; }
+      header p { font-size:1rem; }
+      .btn-primary { width:100%; padding:15px; font-size:1rem; }
+      .comparison { grid-template-columns:1fr; }
+      .testimonial { padding:20px; }
+    }
+  
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header>
+    <h1>Transformez vos Chatbots avec CustomGPT.ai</h1>
+    <p>La solution intelligente pour créer des assistants virtuels efficaces, rapides et fiables.</p>
+    <a href="https://customgpt.ai/?fpr=robenson76" class="btn-primary">Découvrir CustomGPT maintenant</a>
+  </header>
+  
+  <!-- IMAGE CUSTOMGPT -->
+<section style="text-align:center; padding:40px 0;">
+  <div class="container">
+    <img src="https://ia-directory.github.io/image/Screenshot_20260227-071128.webp" alt="Interface CustomGPT.ai" style="max-width:100%; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+  </div>
+</section>
+
+  <!-- AVANT / APRÈS -->
+  <section>
+    <h2>Avant vs Après CustomGPT</h2>
+    <div class="container comparison">
+      <div class="before">
+        <h3>Avant</h3>
+        <p>Chatbots lents, incompréhensibles, réponses génériques, frustration client.</p>
+      </div>
+      <div class="after">
+        <h3>Après</h3>
+        <p>Assistants intelligents, interactions naturelles, réponse instantanée, clients satisfaits.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANTAGES / INCONVÉNIENTS -->
+  <section>
+    <h2>Pourquoi choisir CustomGPT.ai</h2>
+    <div class="container grid">
+      <div class="card">
+        <h3>Gain de temps</h3>
+        <p>Automatisez vos réponses et concentrez-vous sur l'essentiel.</p>
+      </div>
+      <div class="card">
+        <h3>Facile à intégrer</h3>
+        <p>Compatible avec vos systèmes existants, aucun développeur requis.</p>
+      </div>
+      <div class="card">
+        <h3>Support intelligent</h3>
+        <p>Des réponses précises et pertinentes à chaque interaction.</p>
+      </div>
+      <div class="card">
+        <h3>Petit bémol</h3>
+        <p>Peut nécessiter une courte période d'adaptation selon vos cas d’usage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <h2>Questions fréquentes</h2>
+    <div class="container">
+      <div class="faq-item">
+        <button aria-expanded="false">Quels types de données puis-je utiliser pour entraîner mon assistant ?</button>
+        <div class="answer">L'outil supporte plus de 1400 formats de fichiers (PDF, Word, tableurs, etc.) et peut indexer directement des sites web via un sitemap pour construire sa base de connaissances personnalisée.</div>
+      </div>
+      <div class="faq-item">
+        <button aria-expanded="false">Mes données sont-elles sécurisées et privées ?</button>
+        <div class="answer">C'est une préoccupation majeure. La plateforme permet de configurer des accès privés et de contrôler qui peut interagir avec le chatbot, garantissant que les données sensibles ne sont pas utilisées pour l'entraînement public d'autres modèles.</div>
+      </div>
+      <div class="faq-item">
+        <button aria-expanded="false">Comment CustomGPT.ai évite-t-il les "hallucinations" (fausses informations) ?</button>
+        <div class="answer">Contrairement à un ChatGPT classique, CustomGPT utilise un algorithme anti-hallucination qui oblige l'IA à répondre uniquement en se basant sur vos documents fournis, avec des citations directes des sources pour vérifier l'exactitude.</div>
+      </div>
+      <div class="faq-item">
+        <button aria-expanded="false">Est-il facile d'intégrer le chatbot sur mon site web existant ?</button>
+        <div class="answer">Oui, vous pouvez déployer l'assistant via un widget intégrable, une page dédiée ou même via une API. Il est conçu pour être opérationnel rapidement, souvent en quelques minutes après le téléchargement des données.</div>
+      </div>
+      <div class="faq-item">
+        <button aria-expanded="false">Quel est le coût d'utilisation par rapport à l'API d'OpenAI ?</button>
+        <div class="answer">Le service propose des plans tarifaires structurés (débutant autour de 89 $/mois) qui incluent l'hébergement, l'interface utilisateur et la gestion des données, ce qui diffère du paiement au jeton (token) brut de l'API standard.</div>
+      </div>
+      <div class="faq-item">
+        <button aria-expanded="false">Puis-je personnaliser l'apparence et le ton de l'IA ?</button>
+        <div class="answer">Absolument. Vous pouvez définir une "Persona" spécifique (ton professionnel, amical, expert) et personnaliser l'interface (couleurs, logos, avatars) pour qu'elle corresponde à votre identité de marque.</div>
+      </div>     
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+  <h2>Avis de nos utilisateurs</h2>
+  <div class="testimonials">
+    <div class="testimonial-slide" id="testimonialSlide">
+      
+      <div class="testimonial">
+        <img src="https://ia-directory.github.io/image/Screenshot_20260227-142611~3_11zon.webp" alt="Claire D." class="testimonial-img">
+        <strong>- Claire D.</strong>
+        <p>"CustomGPT a complètement changé la manière dont nous gérons le support client."</p>
+        
+         </div>
+
+      <div class="testimonial">
+        <img src="https://ia-directory.github.io/image/Screenshot_20260227-142602~2_11zon.webp" alt="Marc L." class="testimonial-img">
+        <strong>- Marc L.</strong>
+        <p>"Intuitif, rapide et fiable. Je le recommande à toutes les entreprises."</p>
+        
+      </div>
+
+      <div class="testimonial">
+        <img src="https://ia-directory.github.io/image/Screenshot_20260227-142057~2_11zon.webp" alt="Sophie T." class="testimonial-img">
+        <strong>- Sophie T.</strong>
+        <p>"Le gain de temps est incroyable, nous pouvons enfin nous concentrer sur l'essentiel."</p>
+        
+        </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- VIDEO CUSTOMGPT -->
+<section>
+  <h2>Découvrez CustomGPT en action</h2>
+  <div class="video-wrapper">
+    <iframe src="https://www.youtube-nocookie.com/embed/taVOim2vMVs" 
+      title="CustomGPT Démo" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+</section>
+
+  
+  <!-- PRICING PREMIUM SECTION -->
+<!-- PRICING PREMIUM SECTION -->
+<section class="pricing-section">
+  <div class="pricing-header">
+    <h2>Des plans pensés pour booster votre IA</h2>
+  </div>
+
+  <div class="pricing-grid">
+
+    <div class="pricing-card">
+      <h3>Pack Essentiel</h3>
+      <p class="price">$99<span>/mois</span></p>
+      <p class="description">Tout ce qu'il vous faut pour démarrer avec vos assistants IA.</p>
+      <ul>
+        <li>✨ <strong>10 Assistants dédiés</strong></li>
+        <li>💬 1 000 interactions par mois</li>
+        <li>📚 Jusqu'à 5 000 sources par assistant</li>
+        <li>🌐 Intégration API incluse</li>
+        <li>👥 3 accès collaborateurs</li>
+      </ul>
+      <a href="https://customgpt.ai/?fpr=robenson76" class="btn-outline">Commencer gratuitement</a>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="badge">IDÉAL POUR LES PME</div>
+      <h3>Pack Performance</h3>
+      <p class="price">$499<span>/mois</span></p>
+      <p class="description">Plus d’agents, plus de volume, et sans branding.</p>
+      <ul>
+        <li>🚀 <strong>Jusqu'à 100 agents IA</strong></li>
+        <li>🔥 5 000 interactions / mois</li>
+        <li>🛡️ Marque blanche (No Branding)</li>
+        <li>🔄 Synchronisation automatique des données</li>
+        <li>📦 Stockage étendu (300M mots)</li>
+      </ul>
+      <a href="https://customgpt.ai/?fpr=robenson76" class="btn-primary">Passer à l’action</a>
+    </div>
+
+    <div class="pricing-card">
+      <h3>Solutions Entreprises</h3>
+      <p class="price">Sur mesure</p>
+      <p class="description">Infrastructure adaptée aux besoins complexes des grands comptes.</p>
+      <ul>
+        <li>⚙️ Workflows IA personnalisés</li>
+        <li>🔐 Sécurité renforcée (SSO & RBAC)</li>
+        <li>🤝 Support et accompagnement stratégique</li>
+        <li>📈 Requêtes illimitées</li>
+        <li>🌍 Déploiement multi-sites</li>
+      </ul>
+      <a href="https://customgpt.ai/?fpr=robenson76" class="btn-outline">Demander une démo</a>
+    </div>
+
+  </div>
+</section>
+  
+<!-- CTA FINAL -->
+<section style="text-align:center;">
+  <a href="https://customgpt.ai/?fpr=robenson76" class="btn-primary">Commencez avec CustomGPT.ai maintenant</a>
+</section>
+  
+  
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Nous sommes un partenaire affilié de CustomGPT.ai. Cela signifie que si vous achetez via nos liens, nous pouvons recevoir une commission, sans coût supplémentaire pour vous.</p>
+    <p>&copy; 2026 CustomGPT Pre-Sell Page</p>
+  </footer>
+
+  <script>
+    // ======= FAQ Toggle =======
+    const faqButtons = document.querySelectorAll('.faq-item button');
+    faqButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', !isOpen);
+        if(isOpen){
+          answer.style.maxHeight = null;
+        } else {
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
+    });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const slide = document.getElementById('testimonialSlide');
+    if (!slide) return;
+
+    // On récupère le contenu initial (Claire, Marc, Sophie)
+    const content = slide.innerHTML;
+
+    // On double le contenu dans le ruban
+    // On obtient : Claire, Marc, Sophie, Claire, Marc, Sophie
+    slide.innerHTML = content + content;
+});
+  </script>
+
+</body>
+  </html>
