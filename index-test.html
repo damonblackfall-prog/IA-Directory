@@ -1180,26 +1180,20 @@ h1, h2, .gradient-title {
 <section id="section-gallery" class="site-section">
 <header class="page-header">
 <h1>Galerie IA</h1>
-<p class="subtitle">Cliquez pour ouvrir, double-cliquez pour zoomer. Glissez pour explorer.</p>
-
-<div class="filter-menu">
-  <button class="active" onclick="filterGallery('all')">Tout</button>
-  <button onclick="filterGallery('image')">Images</button>
-  <button onclick="filterGallery('video')">Vidéos</button>
-  <button onclick="filterGallery('audio')">Musique</button>
-</div>
+<p class="subtitle">Double-cliquez pour zoomer. Glissez pour explorer.</p>
 
 <div class="gallery" id="gallery"></div>
 
 <div class="lightbox" id="lightbox">
   <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>
-  <div class="lightbox-content" id="lightbox-content"></div>
+  <img id="lightbox-img" src="" alt="">
   <div class="prompt-box">
     <p id="prompt-text"></p>
     <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
   </div>
   <a id="tool-link" href="#" target="_blank" class="tool-link"></a>
 </div>
+
 </section>
 
 <!-- =====================
@@ -1473,151 +1467,170 @@ function initKebabGlobal() {
 }
 
 document.addEventListener('DOMContentLoaded', initKebabGlobal);
-let imagesData = [];
+    
+  let imagesData = [];
 let currentIndex = 0;
+let startX = 0;
+let zoomed = false;
+let isDragging = false;
+let lastX = 0, lastY = 0;
+let translateX = 0, translateY = 0;
 
-// Chargement JSON
+/* 📦 Chargement JSON */
 fetch('../image/galerie/items/galerie.json')
-.then(res => res.json())
-.then(data => {
-  imagesData = data;
-  displayGallery(data);
-});
-
-// Affichage galerie
-function displayGallery(data) {
-  const gallery = document.getElementById('gallery');
-  gallery.innerHTML = '';
-  data.forEach((item,index) => {
-    const div = document.createElement('div');
-    div.className = 'gallery-item';
-    div.dataset.index = index;
-    div.dataset.type = item.type;
-
-    let media;
-    if(item.type === 'image'){
-      media = document.createElement('img');
-      media.src = '../image/galerie/items/'+item.file;
-      media.alt = item.prompt || '';
-    } else if(item.type === 'video'){
-      media = document.createElement('video');
-      media.src = '../image/galerie/items/'+item.file;
-      media.controls = true;
-    } else if(item.type === 'audio'){
-      media = document.createElement('audio');
-      media.src = '../image/galerie/items/'+item.file;
-      media.controls = true;
-    }
-
-    div.appendChild(media);
-    div.onclick = ()=>openLightbox(index);
-    gallery.appendChild(div);
+  .then(res => res.json())
+  .then(images => {
+    imagesData = images;
+    const gallery = document.getElementById('gallery');
+    images.forEach((imgData, index) => {
+      const img = document.createElement('img');
+      img.src = '../image/galerie/items/' + imgData.file;
+      img.loading = "lazy";
+      img.onclick = () => openLightbox(index);
+      gallery.appendChild(img);
+    });
   });
-}
 
-// Filtrer galerie
-function filterGallery(type){
-  const buttons = document.querySelectorAll('.filter-menu button');
-  buttons.forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+function openLightbox(index) {
+  currentIndex = index;
+  resetZoomState();
+  
+  const imgData = imagesData[index];
+  const img = document.getElementById('lightbox-img');
+  const lb = document.getElementById('lightbox');
 
-  const filtered = type==='all' ? imagesData : imagesData.filter(i=>i.type===type);
-  displayGallery(filtered);
-}
-
-// Lightbox
-function openLightbox(index){
-  currentIndex=index;
-  const item = imagesData[index];
-  const content = document.getElementById('lightbox-content');
-  content.innerHTML='';
-
-  let media;
-  if(item.type==='image'){
-    media=document.createElement('img');
-    media.src='../image/galerie/items/'+item.file;
-  } else if(item.type==='video'){
-    media=document.createElement('video');
-    media.src='../image/galerie/items/'+item.file;
-    media.controls=true;
-    media.autoplay=true;
-  } else if(item.type==='audio'){
-    media=document.createElement('audio');
-    media.src='../image/galerie/items/'+item.file;
-    media.controls=true;
-    media.autoplay=true;
-  }
-
-  content.appendChild(media);
-  document.getElementById('prompt-text').textContent=item.prompt || 'Pas de prompt';
-  const toolLink=document.getElementById('tool-link');
-  toolLink.textContent="Créer avec "+item.tool;
-  toolLink.href=item.url;
-
-  document.getElementById('lightbox').style.display='flex';
+  lb.style.display = 'flex';
   document.body.classList.add('modal-open');
+  
+  img.src = '../image/galerie/items/' + imgData.file;
+  document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
+  document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
+  document.getElementById('tool-link').href = imgData.url;
+
+  setupZoom();
 }
 
-function closeLightbox(){
-  document.getElementById('lightbox').style.display='none';
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
   document.body.classList.remove('modal-open');
+  resetZoomState();
 }
 
-// Copier prompt
-function copyPrompt(){
-  const text=document.getElementById('prompt-text').textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    const btn=document.querySelector('.copy-btn');
-    btn.textContent="✅ Copié !";
-    setTimeout(()=>{btn.textContent="📋 Copier le prompt";},2000);
+function resetZoomState() {
+  zoomed = false;
+  isDragging = false;
+  translateX = 0;
+  translateY = 0;
+  const img = document.getElementById('lightbox-img');
+  img.style.transition = "transform 0.25s ease";
+  img.style.transform = 'scale(1) translate(0px, 0px)';
+  img.style.cursor = 'zoom-in';
+}
+
+/* 🔒 Logique de calcul des limites (Clamping) */
+function updateTransform() {
+  const img = document.getElementById('lightbox-img');
+  if (zoomed) {
+    // Calcul de la zone de débordement (le surplus créé par le scale(2))
+    // On limite la translation à la moitié de la taille de l'image
+    const limitX = img.offsetWidth / 2;
+    const limitY = img.offsetHeight / 2;
+
+    translateX = Math.max(-limitX, Math.min(limitX, translateX));
+    translateY = Math.max(-limitY, Math.min(limitY, translateY));
+
+    img.style.transform = `scale(2) translate(${translateX / 2}px, ${translateY / 2}px)`;
+  } else {
+    img.style.transform = `scale(1) translate(0px, 0px)`;
+  }
+}
+
+function setupZoom() {
+  const img = document.getElementById('lightbox-img');
+  if (img.dataset.zoomReady) return;
+  img.dataset.zoomReady = "true";
+
+  img.addEventListener('dblclick', (e) => {
+    zoomed = !zoomed;
+    translateX = 0;
+    translateY = 0;
+    img.style.transition = "transform 0.3s ease";
+    img.style.cursor = zoomed ? 'grab' : 'zoom-in';
+    updateTransform();
+  });
+
+  // Desktop Drag
+  img.addEventListener('mousedown', e => {
+    if (!zoomed) return;
+    isDragging = true;
+    img.style.transition = "none"; // Désactive la transition pour un drag instantané
+    lastX = e.clientX;
+    lastY = e.clientY;
+    img.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!zoomed || !isDragging) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    if (zoomed) {
+        img.style.cursor = 'grab';
+        img.style.transition = "transform 0.2s ease-out"; // Rend un petit effet de glisse
+    }
+  });
+
+  // Mobile Drag
+  img.addEventListener('touchstart', e => {
+    if (!zoomed) return;
+    isDragging = true;
+    img.style.transition = "none";
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+  }, {passive: true});
+
+  img.addEventListener('touchmove', e => {
+    if (!zoomed || !isDragging) return;
+    translateX += e.touches[0].clientX - lastX;
+    translateY += e.touches[0].clientY - lastY;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+    updateTransform();
+  }, {passive: true});
+
+  img.addEventListener('touchend', () => {
+    isDragging = false;
+    img.style.transition = "transform 0.2s ease-out";
   });
 }
-/* =========================
-   PAGINATION
-========================= */
-function renderPagination(container) {
-    if (!container) return;
-    container.innerHTML = '';
-    const totalPages = Math.ceil(filteredTools.length / itemsPerPage);
-    if (totalPages <= 1) return;
 
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'nav-btn-long';
-    prevBtn.innerHTML = '◀';
-    prevBtn.disabled = (currentPage === 1);
-    prevBtn.onclick = () => goPage(currentPage - 1);
-    container.appendChild(prevBtn);
+/* ↔️ Navigation Swipe */
+const lightbox = document.getElementById('lightbox');
+lightbox.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
+lightbox.addEventListener('touchend', e => {
+  if (zoomed) return;
+  const diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 70) diff > 0 ? showNext() : showPrev();
+}, {passive: true});
 
-    const maxVisiblePages = 3;
-    let startPage = Math.max(1, currentPage - 1);
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    if (endPage - startPage + 1 < maxVisiblePages) startPage = Math.max(1, endPage - maxVisiblePages + 1);
+function showNext() { currentIndex = (currentIndex + 1) % imagesData.length; openLightbox(currentIndex); }
+function showPrev() { currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length; openLightbox(currentIndex); }
 
-    for (let i = startPage; i <= endPage; i++) {
-        const pageBtn = document.createElement('button');
-        pageBtn.textContent = i;
-        pageBtn.className = (i === currentPage) ? 'active' : '';
-        pageBtn.onclick = () => goPage(i);
-        container.appendChild(pageBtn);
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = "✅ Copié !";
+    setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
+  });
     }
-
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'nav-btn-long';
-    nextBtn.innerHTML = '▶';
-    nextBtn.disabled = (currentPage === totalPages);
-    nextBtn.onclick = () => goPage(currentPage + 1);
-    container.appendChild(nextBtn);
-}
-
-function goPage(page) {
-    currentPage = page;
-    generateCards();
-    const gridElement = document.getElementById('aiGrid');
-    if (gridElement) {
-        window.scrollTo({ top: gridElement.offsetTop - 120, behavior: 'smooth' });
-    }
-}
-
+    
 /* =========================
    UTILS
 ========================= */
