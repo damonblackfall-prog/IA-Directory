@@ -211,45 +211,44 @@ h1, h2, .gradient-title {
 /* EFFET DE SÉLECTION */
 ::selection { background: var(--accent); color: white; }
 
-    /* MENU KEBAB (Glassmorphism) */
-    .kebab-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
-    
-    .kebab-button {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid var(--border-glow);
-        border-radius: 50%;
-        width: 45px; height: 45px;
-        display: flex; flex-direction: column;
-        justify-content: center; align-items: center; gap: 4px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-    }
-    .kebab-button:hover {
-        background: var(--primary);
-        box-shadow: 0 0 20px var(--primary);
-        transform: rotate(90deg);
-    }
-    .kebab-button span { width: 4px; height: 4px; background: white; border-radius: 50%; }
+    /* =====================
+   MENU KEBAB (Glassmorphism)
+===================== */
+.kebab-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+.kebab-button {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-glow);
+    border-radius: 50%;
+    width: 45px; height: 45px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center; gap: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+.kebab-button:hover {
+    background: var(--primary);
+    box-shadow: 0 0 20px var(--primary);
+    transform: rotate(90deg);
+}
+.kebab-button span { width: 4px; height: 4px; background: white; border-radius: 50%; }
 
-    .kebab-dropdown {
-        display: none; position: absolute; right: 0; top: 60px;
-        background: #0f172a; border: 1px solid var(--border-glow);
-        border-radius: 16px; min-width: 220px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        overflow: hidden; z-index: 2001;
-    }
-    .kebab-dropdown.show { display: block; animation: slideDown 0.2s ease-out forwards; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .kebab-dropdown a {
-        color: var(--text-main); padding: 14px 20px; text-decoration: none;
-        display: flex; align-items: center; font-size: 14px; transition: 0.2s;
-    }
-    .kebab-dropdown a:hover { background: rgba(99, 102, 241, 0.1); color: var(--accent); padding-left: 25px; }
-    .kebab-dropdown hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 5px 0; }
+.kebab-dropdown {
+    display: none; position: absolute; right: 0; top: 60px;
+    background: #0f172a; border: 1px solid var(--border-glow);
+    border-radius: 16px; min-width: 220px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    overflow: hidden; z-index: 2001;
+}
+.kebab-dropdown.show { display: block; animation: slideDown 0.2s ease-out forwards; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.kebab-dropdown a {
+    color: var(--text-main); padding: 14px 20px; display: flex; font-size: 14px; transition:0.2s;
+}
+.kebab-dropdown a:hover { background: rgba(99,102,241,0.1); color: var(--accent); padding-left:25px; }
+.kebab-dropdown hr { border:0; border-top:1px solid rgba(255,255,255,0.1); margin:5px 0; }
 
     /* HEADER */
     header { padding: 120px 5% 60px; text-align: center; position: relative; }
@@ -726,9 +725,166 @@ h1, h2, .gradient-title {
 
 
     
-                                                       }
+   /* Style de base pour réduire la taille et définir la transition */
+.logo-custom {
+    width: 150px; /* Réduit la largeur originale de 300px à 150px */
+    height: auto;
+    position: fixed; /* Reste fixe au scroll. Utilisez 'absolute' si vous voulez qu'il défile avec la page */
+    top: 20px;       /* Distance du haut */
+    z-index: 1000;   /* S'assure que le logo est au-dessus du reste */
+}
 
-        
+/* Position Top Gauche */
+.logo-top-left {
+    left: 20px;      /* Distance de la gauche */
+}  
+    
+ /* =====================
+   SECTIONS
+===================== */
+.site-section { display:none; padding: 100px 20px 50px 20px; max-width:1200px; margin:0 auto; }
+.site-section.active { display:block; }
+
+    
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .article-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+            transition: transform 0.2s;
+        }
+
+        /* TOUS LES ARTICLES DISPONIBLES EN BLEU */
+        .article-card.active {
+            border-left: 5px solid var(--primary);
+        }
+
+        .article-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        /* ARTICLES À VENIR EN GRIS */
+        .article-card.upcoming {
+            opacity: 0.7;
+            background: #fafafa;
+            border-left: 5px solid #ccc;
+        }
+
+        .article-card h2 {
+            font-size: 1.3rem;
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        .status {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .status.available {
+            background: #e6f4ea;
+            color: #1e7e34;
+        }
+
+        .status.soon {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+
+        .date {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+
+        .read-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .read-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            font-size: 0.9rem;
+            color: #999;
+        }    
+    /* Filter Menu */
+.filter-menu { text-align:center; margin-bottom:15px; }
+.filter-menu button { margin:0 5px; padding:8px 15px; border:none; border-radius:20px; background:var(--primary); color:#fff; cursor:pointer; font-weight:bold; transition:0.3s; }
+.filter-menu button:hover, .filter-menu button.active { background:#0056b3; }
+
+/* Gallery Grid */
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:15px; max-width:1200px; margin:auto; padding:20px; }
+.gallery-item { border-radius:12px; overflow:hidden; background:#fff; border:1px solid #ddd; cursor:pointer; position:relative; }
+.gallery-item img, .gallery-item video, .gallery-item audio { width:100%; display:block; }
+.gallery-item img:hover, .gallery-item video:hover { transform:scale(1.03); transition:0.3s; }
+
+/* Lightbox */
+.lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; overflow:hidden; }
+.lightbox-content { max-width:90%; max-height:80vh; text-align:center; color:#fff; }
+.lightbox img, .lightbox video, .lightbox audio { max-width:100%; max-height:80vh; border-radius:12px; }
+.close { position:fixed; top:20px; right:25px; font-size:40px; color:#fff; text-decoration:none; z-index:1200; opacity:0.8; }
+.close:hover { opacity:1; }
+
+/* Prompt Box */
+.prompt-box { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); z-index:1100; background:rgba(0,0,0,0.6); padding:12px 18px; border-radius:12px; backdrop-filter:blur(8px); width:85%; max-width:500px; text-align:center; }
+#prompt-text { color:#fff; font-style:italic; font-size:0.9rem; line-height:1.4; margin-bottom:12px; }
+.copy-btn { background:transparent; border:1px solid #fff; color:#fff; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:0.85rem; }
+.copy-btn:hover { background:#fff; color:#000; }
+
+/* Tool Link */
+.tool-link { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:1100; background:var(--primary); color:#fff; padding:10px 20px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:0.9rem; }
     </style>
 
     <script type="application/ld+json">
@@ -839,29 +995,10 @@ h1, h2, .gradient-title {
 </script>
 </head>        
 <body>
+<!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
+    <a href="/" class="logo-custom logo-top-left">
+  <svg width="150" height="70" viewBox="0 0 300 70" xmlns="http://www.w3.org/2000/svg">
 
-    <!-- MENU TROIS POINTS -->
-<div class="kebab-container">
-    <button class="kebab-button" id="kebabBtn" aria-label="Menu de navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-    <div id="kebabDropdown" class="kebab-dropdown">
-        <a href="blog.html">Blog et Guides</a>
-        <hr>
-        <a href="#tally-open=XxJkxd&tally-emoji-text=👋&tally-emoji-animation=wave"
-   style="color: var(--primary); font-weight: 800;">
-   ✨ Soumettre une IA</a>
-       <hr>
-        <a href="#faq">FAQ</a>
-       </div>
-</div>
-
-<header role="banner">
-    
-    <!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
-<svg width="300" height="70" viewBox="0 0 300 70" xmlns="www.w3.org">
   <defs>
     <!-- Dégradé Mauve vers Bleu -->
     <linearGradient id="gradIA" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -897,13 +1034,34 @@ h1, h2, .gradient-title {
   </g>
 
   <!-- Texte Principal -->
-  <text x="80" y="45" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
-    IA-<tspan fill="url(#gradIA)">DIRECTORY</tspan>
+  <text x="68" y="45" font-family="'Segoe UI', Roboto, Helvetica, sans-serif" font-size="26" font-weight="900" fill="#ffffff">
+    -<tspan fill="url(#gradIA)">DIRECTORY</tspan>
   </text>
 </svg>
 
         </a>
     </div>
+    <!-- MENU TROIS POINTS -->
+    <div class="kebab-container">
+    <button class="kebab-button" id="kebabBtn" aria-label="Menu de navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div id="kebabDropdown" class="kebab-dropdown">
+        <a href="#" onclick="showSection('section-directory')">Annuaire IA</a>
+        <a href="#" onclick="showSection('section-blog')">Blog</a>
+        <a href="#" onclick="showSection('section-gallery')">Galerie IA</a>
+        <hr>
+        <a href="#tally-open=XxJkxd&tally-emoji-text=👋&tally-emoji-animation=wave"
+   style="color: var(--primary); font-weight: 800;">
+   ✨ Soumettre une IA</a>
+    </div>
+</div>
+    
+<section id="section-directory" class="site-section active">
+<header role="banner">
+        
 
     <!-- HERO -->
     <div class="hero">
@@ -923,8 +1081,7 @@ h1, h2, .gradient-title {
             type="search"
             id="searchInput"
             placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"
-            aria-label="Rechercher une intelligence artificielle"
-        >
+            aria-label="Rechercher une intelligence artificielle">
     </div>
 
     <!-- FILTRES -->
@@ -962,6 +1119,21 @@ h1, h2, .gradient-title {
     <p id="modalTagline" class="modal-tagline"></p>
     <p id="modalDesc" class="modal-desc"></p>
 
+    <div id="modalDetails">
+      <p><strong>Type :</strong> <span id="modalType"></span></p>
+      <p><strong>Langues :</strong> <span id="modalLanguage"></span></p>
+      <p><strong>Plateformes :</strong> <span id="modalPlatform"></span></p>
+    </div>
+
+    <div id="modalFeatures"></div>
+    <div id="modalProsCons">
+      <div id="modalPros"></div>
+      <div id="modalCons"></div>
+    </div>
+
+    <div id="modalFAQ"></div>
+    <div id="modalReviews"></div>
+
     <a id="modalCTA" href="" target="_blank" class="btn-cta">Explorer →</a>
   </div>
     </div>
@@ -997,8 +1169,86 @@ h1, h2, .gradient-title {
             <div class="faq-answer"><p>Une soumission gratuite est disponible. Des options premium permettent une mise en avant.</p></div>
         </div>
     </section>
+    </main>
+</section>
+    
+    
+    
+<!-- =====================
+   GALERIE IA
+===================== -->
+<section id="section-gallery" class="site-section">
+<header class="page-header">
+<h1>Galerie IA</h1>
+<p class="subtitle">Cliquez pour ouvrir, double-cliquez pour zoomer. Glissez pour explorer.</p>
 
-</main>
+<div class="filter-menu">
+  <button class="active" onclick="filterGallery('all')">Tout</button>
+  <button onclick="filterGallery('image')">Images</button>
+  <button onclick="filterGallery('video')">Vidéos</button>
+  <button onclick="filterGallery('audio')">Musique</button>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="lightbox" id="lightbox">
+  <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>
+  <div class="lightbox-content" id="lightbox-content"></div>
+  <div class="prompt-box">
+    <p id="prompt-text"></p>
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
+  </div>
+  <a id="tool-link" href="#" target="_blank" class="tool-link"></a>
+</div>
+</section>
+
+<!-- =====================
+   BLOG
+===================== -->
+<section id="section-blog" class="site-section">
+<header class="page-header">
+<h1>Le Blog de l'IA</h1>
+<p>Maîtrisez l'intelligence artificielle et boostez vos revenus.</p>
+</header>
+<div class="container">
+<div class="articles-grid">
+<article class="article-card active">
+<div>
+<span class="status available">Disponible</span>
+<p class="date">25 Janvier 2026</p>
+<h2>L’Algorithme Intime : Peut-on tisser des liens réels avec une IA ?</h2>
+<p style="font-size:0.9rem; color:var(--text-dim);">
+Entre effet ELIZA et design de l'empathie, découvrez comment l'attachement à la machine redéfinit nos liens sociaux.
+</p>
+</div>
+<a href="../algorithme-intime/" class="read-btn">Lire l'article</a>
+</article>
+<article class="article-card active">
+<div>
+<span class="status available">Disponible</span>
+<p class="date">13 Janvier 2026</p>
+<h2>L’IA peut-elle vraiment vous rapporter de l’argent ? Découvrez comment</h2>
+<p style="font-size:0.9rem; color:var(--text-dim);">
+Analyse claire et réaliste des opportunités de monétisation offertes par l’intelligence artificielle.
+</p>
+</div>
+<a href="../monetisation-ia/" class="read-btn">Lire l'article</a>
+</article>
+<article class="article-card upcoming">
+<div>
+<span class="status soon">À venir</span>
+<p class="date">Janvier 2026</p>
+<h2>Comment gagner vos premiers 1000€ avec l'affiliation IA</h2>
+<p style="font-size:0.9rem; color:var(--text-dim);">
+Guide étape par étape pour monétiser les outils d'IA via l'affiliation en 2026.
+</p>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+
 
 <footer class="footer-ia" role="contentinfo">
 
@@ -1079,8 +1329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // FAQ accueil
     initFaqAccueil();
 
-    // Initialiser le kebab global
-    initKebabGlobal();
+    
 });
 
 /* =========================
@@ -1194,24 +1443,135 @@ document.addEventListener('click', (e) => {
 /* =========================
    KEBAB GLOBAL (ACCUEIL)
 ========================= */
+// =====================
+// MENU KEBAB & SECTIONS
+// =====================
 function initKebabGlobal() {
     const kebabBtn = document.getElementById('kebabBtn');
     const kebabDropdown = document.getElementById('kebabDropdown');
+    const sections = document.querySelectorAll('.site-section');
 
     if (kebabBtn && kebabDropdown) {
         kebabBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             kebabDropdown.classList.toggle('show');
         });
-
         document.addEventListener('click', (e) => {
             if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
                 kebabDropdown.classList.remove('show');
             }
         });
     }
+
+    window.showSection = function(sectionId) {
+        sections.forEach(sec => {
+            sec.classList.toggle('active', sec.id === sectionId);
+        });
+        kebabDropdown.classList.remove('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 }
 
+document.addEventListener('DOMContentLoaded', initKebabGlobal);
+let imagesData = [];
+let currentIndex = 0;
+
+// Chargement JSON
+fetch('../image/galerie/items/galerie.json')
+.then(res => res.json())
+.then(data => {
+  imagesData = data;
+  displayGallery(data);
+});
+
+// Affichage galerie
+function displayGallery(data) {
+  const gallery = document.getElementById('gallery');
+  gallery.innerHTML = '';
+  data.forEach((item,index) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.dataset.index = index;
+    div.dataset.type = item.type;
+
+    let media;
+    if(item.type === 'image'){
+      media = document.createElement('img');
+      media.src = '../image/galerie/items/'+item.file;
+      media.alt = item.prompt || '';
+    } else if(item.type === 'video'){
+      media = document.createElement('video');
+      media.src = '../image/galerie/items/'+item.file;
+      media.controls = true;
+    } else if(item.type === 'audio'){
+      media = document.createElement('audio');
+      media.src = '../image/galerie/items/'+item.file;
+      media.controls = true;
+    }
+
+    div.appendChild(media);
+    div.onclick = ()=>openLightbox(index);
+    gallery.appendChild(div);
+  });
+}
+
+// Filtrer galerie
+function filterGallery(type){
+  const buttons = document.querySelectorAll('.filter-menu button');
+  buttons.forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const filtered = type==='all' ? imagesData : imagesData.filter(i=>i.type===type);
+  displayGallery(filtered);
+}
+
+// Lightbox
+function openLightbox(index){
+  currentIndex=index;
+  const item = imagesData[index];
+  const content = document.getElementById('lightbox-content');
+  content.innerHTML='';
+
+  let media;
+  if(item.type==='image'){
+    media=document.createElement('img');
+    media.src='../image/galerie/items/'+item.file;
+  } else if(item.type==='video'){
+    media=document.createElement('video');
+    media.src='../image/galerie/items/'+item.file;
+    media.controls=true;
+    media.autoplay=true;
+  } else if(item.type==='audio'){
+    media=document.createElement('audio');
+    media.src='../image/galerie/items/'+item.file;
+    media.controls=true;
+    media.autoplay=true;
+  }
+
+  content.appendChild(media);
+  document.getElementById('prompt-text').textContent=item.prompt || 'Pas de prompt';
+  const toolLink=document.getElementById('tool-link');
+  toolLink.textContent="Créer avec "+item.tool;
+  toolLink.href=item.url;
+
+  document.getElementById('lightbox').style.display='flex';
+  document.body.classList.add('modal-open');
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').style.display='none';
+  document.body.classList.remove('modal-open');
+}
+
+// Copier prompt
+function copyPrompt(){
+  const text=document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent="✅ Copié !";
+    setTimeout(()=>{btn.textContent="📋 Copier le prompt";},2000);
+  });
+}
 /* =========================
    PAGINATION
 ========================= */
@@ -1291,8 +1651,22 @@ modalLogo.onerror = () => {
     document.getElementById('modalTagline').textContent = tool.tagline;
     document.getElementById('modalDesc').textContent = tool.description_long || tool.desc;
     document.getElementById('modalLabel').textContent = tool.label;
-    
+
+    document.getElementById('modalType').textContent = tool.type || '';
+    document.getElementById('modalLanguage').textContent = tool.language || '';
+    document.getElementById('modalPlatform').textContent = tool.platform || '';
+
+    document.getElementById('modalFeatures').innerHTML =
+        '<h4>Fonctionnalités :</h4><ul>' + (tool.features || []).map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
+    document.getElementById('modalPros').innerHTML =
+        '<h4>Avantages :</h4><ul>' + (tool.pros || []).map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
+    document.getElementById('modalCons').innerHTML =
+        '<h4>Inconvénients :</h4><ul>' + (tool.cons || []).map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
+
     document.getElementById('modalCTA').href = tool.url || '#';
+
+    initReviews(tool.reviews || []);
+    initFaq(tool.faq || []);
 
     modal.style.display = 'block';
 }
