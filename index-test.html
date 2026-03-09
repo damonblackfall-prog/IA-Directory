@@ -858,34 +858,68 @@ h1, h2, .gradient-title {
             padding: 30px 15px;
             font-size: 0.9rem;
             color: #999;
-        }    
-    /* Filter Menu */
-.filter-menu { text-align:center; margin-bottom:15px; }
-.filter-menu button { margin:0 5px; padding:8px 15px; border:none; border-radius:20px; background:var(--primary); color:#fff; cursor:pointer; font-weight:bold; transition:0.3s; }
-.filter-menu button:hover, .filter-menu button.active { background:#0056b3; }
+        }   
+.gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
+  }
+  .gallery img {
+    width:100%; height: 250px; object-fit: cover;
+    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
+  }
+  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
 
-/* Gallery Grid */
-.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:15px; max-width:1200px; margin:auto; padding:20px; }
-.gallery-item { border-radius:12px; overflow:hidden; background:#fff; border:1px solid #ddd; cursor:pointer; position:relative; }
-.gallery-item img, .gallery-item video, .gallery-item audio { width:100%; display:block; }
-.gallery-item img:hover, .gallery-item video:hover { transform:scale(1.03); transition:0.3s; }
+  .lightbox {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+  }
 
-/* Lightbox */
-.lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; overflow:hidden; }
-.lightbox-content { max-width:90%; max-height:80vh; text-align:center; color:#fff; }
-.lightbox img, .lightbox video, .lightbox audio { max-width:100%; max-height:80vh; border-radius:12px; }
-.close { position:fixed; top:20px; right:25px; font-size:40px; color:#fff; text-decoration:none; z-index:1200; opacity:0.8; }
-.close:hover { opacity:1; }
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
+    cursor: zoom-in;
+    user-select: none;
+    will-change: transform;
+  }
+  
+  .prompt-box {
+    position: fixed; bottom: 90px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: rgba(0,0,0,0.6); padding: 12px 18px;
+    border-radius: 12px; backdrop-filter: blur(8px);
+    text-align: center; width: 85%; max-width: 500px;
+  }
 
-/* Prompt Box */
-.prompt-box { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); z-index:1100; background:rgba(0,0,0,0.6); padding:12px 18px; border-radius:12px; backdrop-filter:blur(8px); width:85%; max-width:500px; text-align:center; }
-#prompt-text { color:#fff; font-style:italic; font-size:0.9rem; line-height:1.4; margin-bottom:12px; }
-.copy-btn { background:transparent; border:1px solid #fff; color:#fff; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:0.85rem; }
-.copy-btn:hover { background:#fff; color:#000; }
+  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
+  
+  .tool-link {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: var(--primary); color: #fff; padding: 10px 20px;
+    border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
+  }
 
-/* Tool Link */
-.tool-link { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:1100; background:var(--primary); color:#fff; padding:10px 20px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:0.9rem; }
-    </style>
+  .copy-btn {
+    background: transparent; border: 1px solid #fff; color: #fff;
+    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
+  }
+  .copy-btn:hover { background: #fff; color: #000; }
+
+  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
+  .close:hover { opacity: 1; }
+        
+            
+       </style>
 
     <script type="application/ld+json">
     [
@@ -901,7 +935,65 @@ h1, h2, .gradient-title {
     flex: 0 0 300px;
     margin-right: 20px;
     background: #f8f9fa;
-    border-radius: 12px;
+    border-radius.gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
+  }
+  .gallery img {
+    width:100%; height: 250px; object-fit: cover;
+    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
+  }
+  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+  .lightbox {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
+    cursor: zoom-in;
+    user-select: none;
+    will-change: transform;
+  }
+  
+  .prompt-box {
+    position: fixed; bottom: 90px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: rgba(0,0,0,0.6); padding: 12px 18px;
+    border-radius: 12px; backdrop-filter: blur(8px);
+    text-align: center; width: 85%; max-width: 500px;
+  }
+
+  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
+  
+  .tool-link {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: var(--primary); color: #fff; padding: 10px 20px;
+    border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
+  }
+
+  .copy-btn {
+    background: transparent; border: 1px solid #fff; color: #fff;
+    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
+  }
+  .copy-btn:hover { background: #fff; color: #000; }
+
+  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
+  .close:hover { opacity: 1; }
+: 12px;
     padding: 20px;
 }
 
