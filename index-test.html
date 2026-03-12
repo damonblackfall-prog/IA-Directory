@@ -64,14 +64,6 @@ body {
     background-attachment: fixed;
 }
 
-/* TYPOGRAPHIE IA */
-h1, h2, .gradient-title {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.3));
-    font-weight: 800;
-}
 
 /* BARRE DE RECHERCHE / FILTRES IA */
 .search-container {
@@ -258,11 +250,7 @@ h1, h2, .gradient-title {
         font-weight: 800;
         margin-bottom: 20px;
         /* Texte en dégradé */
-        background: var(--gradient-text);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.3));
-    }
+        
     .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto 50px; line-height: 1.6; font-size: 1.1rem; }
 
     /* SEARCH */
@@ -293,25 +281,7 @@ h1, h2, .gradient-title {
         color: white; box-shadow: 0 0 15px var(--primary);
     }
 
-    /* BUTTON IA FLAMME */
-    .btn-ia {
-        display: inline-flex; align-items: center; justify-content: center;
-        padding: 12px 30px;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-        color: white; text-decoration: none; font-weight: 700;
-        border-radius: 50px; transition: 0.3s;
-        box-shadow: 0 4px 20px rgba(217, 70, 239, 0.4);
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-    .btn-ia:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 10px 30px rgba(217, 70, 239, 0.6);
-    }
-    .icon-fire { margin-right: 8px; font-size: 1.3rem; animation: burning 1.5s ease-in-out infinite; }
-    @keyframes burning {
-        0%, 100% { transform: scale(1) rotate(-5deg); filter: brightness(1.2) drop-shadow(0 0 5px #ff9100); }
-        50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.5) drop-shadow(0 0 10px #ff5e00); }
-    }
+
 
     /* GRID & CARDS */
     .container { padding: 0 5% 100px; max-width: 1400px; margin: 0 auto; }
@@ -1158,8 +1128,8 @@ h1, h2, .gradient-title {
     <!-- HERO -->
     <div class="hero">
         <h1>
-            L’intelligence artificielle
-            <span style="color:#00d4ff">à portée de clic</span>
+            
+            <span style="color:#00d4ff">Outils IA</span>
         </h1>
 
         <p>
