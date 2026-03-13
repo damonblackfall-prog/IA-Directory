@@ -1,0 +1,26 @@
+[
+  {
+    "file": "neon-cyber-city.jpg",
+    "tool": "Midjourney v6",
+    "url": "https://www.midjourney.com",
+    "prompt": "Cinematic wide shot of a futuristic Tokyo street, heavy rain, glowing neon signs in cyan and pink, hyper-realistic reflections, 8k resolution."
+  },
+  {
+    "file": "steampunk-cat.png",
+    "tool": "DALL-E 3",
+    "url": "https://openai.com/dall-e-3",
+    "prompt": "A fluffy ginger cat wearing steampunk goggles and a small brass waistcoat, sitting on a pile of old books, Victorian library background."
+  },
+  {
+    "file": "abstract-glass-structure.webp",
+    "tool": "Flux.1",
+    "url": "https://replicate.com/black-forest-labs/flux-pro",
+    "prompt": "Breathtaking architectural photography of a glass pavilion in the middle of a desert, sunset lighting, sharp edges, minimalist style."
+  },
+  {
+    "file": "femme-retro-peinture.jpg",
+    "tool": "Stable Diffusion",
+    "url": "https://stability.ai",
+    "prompt": "Portrait d'une belle femme, élégante et mystérieuse, dans un style artistique rétro, lumière douce et atmosphérique, texture de peinture à l'huile riche, couleurs chaudes et subtiles, pose gracieuse et captivante, ambiance poétique et intemporelle."
+  }
+]
