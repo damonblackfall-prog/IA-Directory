@@ -35,7 +35,7 @@
     --accent-glow: rgba(244, 114, 182, 0.3);
     
     --text-main: #ffffff;
-    --text-dim: #94a3b8;        /* Gris bleuté pour le texte secondaire */
+    --text-dim: #fff;        /* Gris bleuté pour le texte secondaire */
     
     --border-glow: rgba(34, 211, 238, 0.2);
     --gradient-text: linear-gradient(90deg, #22d3ee 0%, #f472b6 100%);
@@ -63,7 +63,6 @@ body {
         radial-gradient(circle at 0% 100%, rgba(34, 211, 238, 0.05) 0%, transparent 40%);
     background-attachment: fixed;
 }
-
 
 /* BARRE DE RECHERCHE / FILTRES IA */
 .search-container {
@@ -250,8 +249,8 @@ body {
         font-weight: 800;
         margin-bottom: 20px;
         /* Texte en dégradé */
-        
-    .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto 50px; line-height: 1.6; font-size: 1.1rem; }
+            }
+    .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto 50px; line-height: 1.6; font-size: 1.0rem; }
 
     /* SEARCH */
     .search-container { max-width: 600px; margin: 0 auto 50px; }
@@ -281,7 +280,25 @@ body {
         color: white; box-shadow: 0 0 15px var(--primary);
     }
 
-
+    /* BUTTON IA FLAMME */
+    .btn-ia {
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 12px 30px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        color: white; text-decoration: none; font-weight: 700;
+        border-radius: 50px; transition: 0.3s;
+        box-shadow: 0 4px 20px rgba(217, 70, 239, 0.4);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-ia:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 30px rgba(217, 70, 239, 0.6);
+    }
+    .icon-fire { margin-right: 8px; font-size: 1.3rem; animation: burning 1.5s ease-in-out infinite; }
+    @keyframes burning {
+        0%, 100% { transform: scale(1) rotate(-5deg); filter: brightness(1.2) drop-shadow(0 0 5px #ff9100); }
+        50% { transform: scale(1.2) rotate(5deg); filter: brightness(1.5) drop-shadow(0 0 10px #ff5e00); }
+    }
 
     /* GRID & CARDS */
     .container { padding: 0 5% 100px; max-width: 1400px; margin: 0 auto; }
@@ -326,19 +343,6 @@ body {
         box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
     }
 
-    /* FAQ */
-    .faq-container { max-width: 700px; margin: 80px auto; padding: 0 20px; }
-    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .faq-question {
-        width: 100%; background: none; border: none; color: white;
-        font-size: 1.1rem; font-weight: 600; text-align: left; padding: 20px 0;
-        cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-    }
-    .faq-question:hover { color: var(--accent); }
-    .faq-question::after { content: '+'; font-size: 1.5rem; transition: 0.3s; }
-    .faq-question[aria-expanded="true"]::after { transform: rotate(45deg); color: var(--accent); }
-    .faq-answer { max-height: 0; overflow: hidden; transition: 0.4s ease; color: var(--text-dim); line-height: 1.6; }
-    .faq-question[aria-expanded="true"] + .faq-answer { padding-bottom: 20px; }
     
     /* PAGINATION AMÉLIORÉE */
 .pagination {
@@ -392,14 +396,7 @@ body {
     footer {
         background: #020617; border-top: 1px solid rgba(255,255,255,0.05);
         padding: 60px 20px; text-align: center; color: var(--text-dim); margin-top: 80px;
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-        header { padding: 80px 20px 40px; }
-        .hero h1 { font-size: 2.2rem; }
-        .grid { grid-template-columns: 1fr; }
-    }
+    }  
 
         
 /* =========================
@@ -512,15 +509,7 @@ body {
 #modalPros li { color: #28a745; }    /* vert pour avantages */
 #modalCons li { color: #dc3545; }    /* rouge pour inconvénients */
 
-/* FAQ */
-/* ===== Variables FAQ adaptables ===== */
-:root {
-    --faq-bg: transparent;          /* fond de la question */
-    --faq-color: #fff;              /* texte des questions sur accueil sombre */
-    --faq-color-hover: #3A86FF;     /* hover bleu move */
-    --faq-answer-color: #94a3b8;    /* texte réponse sur fond sombre */
-    --faq-icon-color: #f472b6;      /* icône + par défaut */
-}
+
 
 /* Spécifique au modal (fond blanc) */
 #toolModal {
@@ -610,89 +599,6 @@ body {
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
-/* =========================
-   AVIS / REVIEWS
-========================= */
-/* 1. La fenêtre de vision */
-#modalReviews {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    padding: 20px 0;
-    /* On crée un effet de fondu sur les côtés pour faire joli */
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-
-/* 2. Le ruban qui défile */
-.reviews-wrapper-carousel {
-    display: flex;
-    width: max-content; /* Très important pour que le ruban ne soit pas limité */
-    animation: scroll-infinite 20s linear infinite; /* 20s = Vitesse */
-}
-
-/* 3. L'animation magique */
-@keyframes scroll-infinite {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        /* On se déplace de la moitié de la largeur du ruban */
-        transform: translateX(-50%);
-    }
-}
-
-/* 4. Pause au survol */
-.reviews-wrapper-carousel:hover {
-    animation-play-state: paused;
-}
-
-/* 5. Chaque avis */
-
-        .review {
-    flex: 0 0 300px;
-    margin-right: 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-/* Ligne avatar + nom */
-.review-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-/* Petit avatar rond */
-.review-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-/* Bloc nom + étoiles */
-.review-user {
-    display: flex;
-    flex-direction: column;
-}
-
-.review-author {
-    font-size: 0.9rem;
-}
-
-.review-rating {
-    font-size: 0.8rem;
-    color: #ff9500;
-}
-
-.review-text {
-    font-size: 0.9rem;
-    color: #333;
-    }
-
 
     
    /* Style de base pour réduire la taille et définir la transition */
@@ -716,24 +622,7 @@ body {
 .site-section.active { display:block; }
 
     
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 30px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
+        /* blog */
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
@@ -768,9 +657,7 @@ body {
         }
 
         /* ARTICLES À VENIR EN GRIS */
-        .article-card.upcoming {
-            opacity: 0.7;
-            background: #fafafa;
+        .article-card.upcoming {            
             border-left: 5px solid #ccc;
         }
 
@@ -809,7 +696,6 @@ body {
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: var(--primary);
             color: white;
             text-decoration: none;
             border-radius: 6px;
@@ -819,242 +705,37 @@ body {
             transition: background 0.2s;
         }
 
-        .read-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 15px;
-            font-size: 0.9rem;
-            color: #999;
-        }   
-.gallery {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
-  }
-  .gallery img {
-    width:100%; height: 250px; object-fit: cover;
-    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
-  }
-  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-
-  .lightbox {
-    display: none; 
-    position: fixed;
-    z-index: 1000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    touch-action: none;
-  }
-
-  .lightbox img {
-    max-width: 90%;
-    max-height: 80vh;
-    object-fit: contain;
-    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
-    cursor: zoom-in;
-    user-select: none;
-    will-change: transform;
-  }
-  
-  .prompt-box {
-    position: fixed; bottom: 90px; left: 50%;
-    transform: translateX(-50%); z-index: 1100;
-    background: rgba(0,0,0,0.6); padding: 12px 18px;
-    border-radius: 12px; backdrop-filter: blur(8px);
-    text-align: center; width: 85%; max-width: 500px;
-  }
-
-  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
-  
-  .tool-link {
-    position: fixed; bottom: 30px; left: 50%;
-    transform: translateX(-50%); z-index: 1100;
-    background: var(--primary); color: #fff; padding: 10px 20px;
-    border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
-  }
-
-  .copy-btn {
-    background: transparent; border: 1px solid #fff; color: #fff;
-    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
-  }
-  .copy-btn:hover { background: #fff; color: #000; }
-
-  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
-  .close:hover { opacity: 1; }
         
-            
-       </style>
 
-    <script type="application/ld+json">
-    [
-      {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "IA-Directory",
-    "alternateName": ["IA Directory 2026", "Annuaire IA"],
-    "url": "https://ia-directory.github.io/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://ia-directory.github.io/?.review {
-    flex: 0 0 300px;
-    margin-right: 20px;
-    background: #f8f9fa;
-    border-radius.gallery {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
-  }
-  .gallery img {
-    width:100%; height: 250px; object-fit: cover;
-    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
-  }
-  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+           
+    /* Filter Menu */
+.filter-menu { text-align:center; margin-bottom:15px; }
+.filter-menu button { margin:0 5px; padding:8px 15px; border:none; border-radius:20px; background:var(--primary); color:#fff; cursor:pointer; font-weight:bold; transition:0.3s; }
+.filter-menu button:hover, .filter-menu button.active { background:#0056b3; }
 
-  .lightbox {
-    display: none; 
-    position: fixed;
-    z-index: 1000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    touch-action: none;
-  }
+/* Gallery Grid */
+.gallery { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:15px; max-width:1200px; margin:auto; padding:20px; }
+.gallery-item { border-radius:12px; overflow:hidden; background:#fff; border:1px solid #ddd; cursor:pointer; position:relative; }
+.gallery-item img, .gallery-item video, .gallery-item audio { width:100%; display:block; }
+.gallery-item img:hover, .gallery-item video:hover { transform:scale(1.03); transition:0.3s; }
 
-  .lightbox img {
-    max-width: 90%;
-    max-height: 80vh;
-    object-fit: contain;
-    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
-    cursor: zoom-in;
-    user-select: none;
-    will-change: transform;
-  }
-  
-  .prompt-box {
-    position: fixed; bottom: 90px; left: 50%;
-    transform: translateX(-50%); z-index: 1100;
-    background: rgba(0,0,0,0.6); padding: 12px 18px;
-    border-radius: 12px; backdrop-filter: blur(8px);
-    text-align: center; width: 85%; max-width: 500px;
-  }
+/* Lightbox */
+.lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; overflow:hidden; }
+.lightbox-content { max-width:90%; max-height:80vh; text-align:center; color:#fff; }
+.lightbox img, .lightbox video, .lightbox audio { max-width:100%; max-height:80vh; border-radius:12px; }
+.close { position:fixed; top:20px; right:25px; font-size:40px; color:#fff; text-decoration:none; z-index:1200; opacity:0.8; }
+.close:hover { opacity:1; }
 
-  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
-  
-  .tool-link {
-    position: fixed; bottom: 30px; left: 50%;
-    transform: translateX(-50%); z-index: 1100;
-    background: var(--primary); color: #fff; padding: 10px 20px;
-    border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
-  }
+/* Prompt Box */
+.prompt-box { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); z-index:1100; background:rgba(0,0,0,0.6); padding:12px 18px; border-radius:12px; backdrop-filter:blur(8px); width:85%; max-width:500px; text-align:center; }
+#prompt-text { color:#fff; font-style:italic; font-size:0.9rem; line-height:1.4; margin-bottom:12px; }
+.copy-btn { background:transparent; border:1px solid #fff; color:#fff; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:0.85rem; }
+.copy-btn:hover { background:#fff; color:#000; }
 
-  .copy-btn {
-    background: transparent; border: 1px solid #fff; color: #fff;
-    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
-  }
-  .copy-btn:hover { background: #fff; color: #000; }
+/* Tool Link */
+.tool-link { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:1100; background:var(--primary); color:#fff; padding:10px 20px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:0.9rem; }
 
-  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
-  .close:hover { opacity: 1; }
-: 12px;
-    padding: 20px;
-}
-
-/* Ligne avatar + nom */
-.review-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-/* Petit avatar rond */
-.review-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-/* Bloc nom + étoiles */
-.review-user {
-    display: flex;
-    flex-direction: column;
-}
-
-.review-author {
-    font-size: 0.9rem;
-}
-
-.review-rating {
-    font-size: 0.8rem;
-    color: #ff9500;
-}
-
-.review-text {
-    font-size: 0.9rem;
-    color: #333;
-}
-        q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Les outils listés sont-ils gratuits ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment les outils sont-ils sélectionnés ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment trouver l’outil adapté à mon besoin ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.)."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Comment ajouter mon outil IA ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "La soumission est-elle payante ?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Une soumission gratuite est disponible. Des options premium permettent une mise en avant."
-      }
-      }
-    ]
-  }
-]
-</script>
+</style>   
 </head>        
 <body>
 <!-- LOGO IA-DIRECTORY AMÉLIORÉ (MAUVE & BLEU) -->
@@ -1121,190 +802,166 @@ body {
     </div>
 </div>
     
-<section id="section-directory" class="site-section active">
-<header role="banner">
-        
 
-    <!-- HERO -->
-    <div class="hero">
-        <h1>
-            
-            <span style="color:#00d4ff">Outils IA</span>
-        </h1>
+  <section id="section-directory" class="site-section active">  
+<header role="banner">  
+          
+  
+    <!-- HERO -->  
+    <div class="hero">  
+        <h1>            
+            <span style="color:#00d4ff">Outil IA</span>  
+        </h1>  
+  
+        <p>  
+            Adoptez les outils IA qui vous font gagner du temps et simplifient vos projets au quotidien.  
+        </p>  
+    </div>  
+  
+    <!-- RECHERCHE -->  
+    <div class="search-container" role="search">  
+        <input  
+            type="search"  
+            id="searchInput"  
+            placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"  
+            aria-label="Rechercher une intelligence artificielle">  
+    </div>  
+  
+    <!-- FILTRES -->  
+    <nav class="filters" aria-label="Filtrer par catégorie">  
+        <!-- Généré dynamiquement -->  
+    </nav>  
+<!-- Le Bouton avec flamme animée -->  
+<a href="URL_DE_TA_PAGE" class="btn-ia">  
+  <span class="icon-fire">🔥</span> Tendances et Nouveautés  
+</a>  
+</header>  
+  
+<main class="container">  
+  
+    <section aria-label="Liste des outils IA">  
+        <div class="grid" id="aiGrid"></div>  
+    </section>  
+  
+    <!-- PAGINATION -->  
+    <nav id="pagination" class="pagination" aria-label="Pagination"></nav>  
+  
+    <!-- MODAL -->  
+<div id="toolModal" class="modal">  
+  <div class="modal-content">  
+    <span class="modal-close">&times;</span>  
+  
+    <div class="modal-header">  
+      <img id="modalLogo" src="" alt="Logo de l'outil" class="modal-logo">  
+      <div class="modal-title">  
+        <h2 id="modalName"></h2>  
+        <span id="modalLabel" class="badge"></span>  
+      </div>  
+    </div>  
+  
+    <p id="modalTagline" class="modal-tagline"></p>  
+    <p id="modalDesc" class="modal-desc"></p>  
+  
+    <div id="modalDetails">  
+      <p><strong>Type :</strong> <span id="modalType"></span></p>  
+      <p><strong>Langues :</strong> <span id="modalLanguage"></span></p>  
+      <p><strong>Plateformes :</strong> <span id="modalPlatform"></span></p>  
+    </div>  
+  
+    <div id="modalFeatures"></div>  
+    <div id="modalProsCons">  
+      <div id="modalPros"></div>  
+      <div id="modalCons"></div>  
+    </div>  
+  
+    <div id="modalFAQ"></div>  
+    <div id="modalReviews"></div>  
+  
+    <a id="modalCTA" href="" target="_blank" class="btn-cta">Explorer →</a>  
+  </div>  
+    </div>  
+  
+    <!-- =======================  
+         FAQ  
+    ======================= -->  
+    <section id="faq" class="faq-container">  
+        <h2>Foire Aux Questions</h2>  
+  
+        <div class="faq-item">  
+            <button class="faq-question" aria-expanded="false">Les outils listés sont-ils gratuits ?</button>  
+            <div class="faq-answer"><p>L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique.</p></div>  
+        </div>  
+  
+        <div class="faq-item">  
+            <button class="faq-question" aria-expanded="false">Comment les outils sont-ils sélectionnés ?</button>  
+            <div class="faq-answer"><p>Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées.</p></div>  
+        </div>  
+  
+        <div class="faq-item">  
+            <button class="faq-question" aria-expanded="false">Comment trouver l’outil adapté à mon besoin ?</button>  
+            <div class="faq-answer"><p>Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.).</p></div>  
+        </div>  
+  
+        <div class="faq-item">  
+            <button class="faq-question" aria-expanded="false">Comment ajouter mon outil IA ?</button>  
+            <div class="faq-answer"><p>Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h.</p></div>  
+        </div>  
+  
+        <div class="faq-item">  
+            <button class="faq-question" aria-expanded="false">La soumission est-elle payante ?</button>  
+            <div class="faq-answer"><p>Une soumission gratuite est disponible. Des options premium permettent une mise en avant.</p></div>  
+        </div>  
+    </section>  
+    </main>  
+</section>  
+  
+<!-- =====================  
+   GALERIE IA  
+===================== -->  
+<section id="section-gallery" class="site-section">  
+<header class="page-header">  
+<h1>   
+    <span style="color:#00d4ff"> Galerie IA</span>  
+</h1>  
+<p class="subtitle">Cliquez pour ouvrir, double-cliquez pour zoomer. Glissez pour explorer.</p>  
+  
+<div class="filter-menu">  
+  <button class="active" onclick="filterGallery('all')">Tout</button>  
+  <button onclick="filterGallery('image')">Images</button>  
+  <button onclick="filterGallery('video')">Vidéos</button>  
+  <button onclick="filterGallery('audio')">Musique</button>  
+</div>  
+  
+<div class="gallery" id="gallery"></div>  
+  
+<div class="lightbox" id="lightbox">  
+  <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>  
+  <div class="lightbox-content" id="lightbox-content"></div>  
+  <div class="prompt-box">  
+    <p id="prompt-text"></p>  
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>  
+  </div>  
+  <a id="tool-link" href="#" target="_blank" class="tool-link"></a>  
+</div>  
+</section>  
+  
+<!-- =====================  
+   BLOG  
+===================== -->  
+<section id="section-blog" class="site-section">  
+<header class="page-header">  
+<h1>  
+    <span style="color:#00d4ff">Le Blog de l'IA</span>  
+</h1>  
+<p>Guides, actualités et tutoriels sur l'écosystème de l'intelligence artificielle.</p>
+    </header>
 
-        <p>
-            Adoptez les outils IA qui vous font gagner du temps et simplifient vos projets au quotidien.
-        </p>
+    <div class="container">
+        <div class="articles-grid" id="blogGrid">
+            </div>
     </div>
-
-    <!-- RECHERCHE -->
-    <div class="search-container" role="search">
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Rechercher une IA (ex : Runway, ChatGPT...)"
-            aria-label="Rechercher une intelligence artificielle">
-    </div>
-
-    <!-- FILTRES -->
-    <nav class="filters" aria-label="Filtrer par catégorie">
-        <!-- Généré dynamiquement -->
-    </nav>
-<!-- Le Bouton avec flamme animée -->
-<a href="URL_DE_TA_PAGE" class="btn-ia">
-  <span class="icon-fire">🔥</span> Tendances et Nouveautés
-</a>
-</header>
-
-<main class="container">
-
-    <section aria-label="Liste des outils IA">
-        <div class="grid" id="aiGrid"></div>
-    </section>
-
-    <!-- PAGINATION -->
-    <nav id="pagination" class="pagination" aria-label="Pagination"></nav>
-
-    <!-- MODAL -->
-<div id="toolModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-
-    <div class="modal-header">
-      <img id="modalLogo" src="" alt="Logo de l'outil" class="modal-logo">
-      <div class="modal-title">
-        <h2 id="modalName"></h2>
-        <span id="modalLabel" class="badge"></span>
-      </div>
-    </div>
-
-    <p id="modalTagline" class="modal-tagline"></p>
-    <p id="modalDesc" class="modal-desc"></p>
-
-    <div id="modalDetails">
-      <p><strong>Type :</strong> <span id="modalType"></span></p>
-      <p><strong>Langues :</strong> <span id="modalLanguage"></span></p>
-      <p><strong>Plateformes :</strong> <span id="modalPlatform"></span></p>
-    </div>
-
-    <div id="modalFeatures"></div>
-    <div id="modalProsCons">
-      <div id="modalPros"></div>
-      <div id="modalCons"></div>
-    </div>
-
-    <div id="modalFAQ"></div>
-    <div id="modalReviews"></div>
-
-    <a id="modalCTA" href="" target="_blank" class="btn-cta">Explorer →</a>
-  </div>
-    </div>
-
-    <!-- =======================
-         FAQ
-    ======================= -->
-    <section id="faq" class="faq-container">
-        <h2>Foire Aux Questions</h2>
-
-        <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">Les outils listés sont-ils gratuits ?</button>
-            <div class="faq-answer"><p>L'annuaire inclut des outils gratuits, freemium et payants. Chaque fiche précise le modèle économique.</p></div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">Comment les outils sont-ils sélectionnés ?</button>
-            <div class="faq-answer"><p>Nous privilégions la valeur réelle, l'expérience utilisateur et la fiabilité des solutions listées.</p></div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">Comment trouver l’outil adapté à mon besoin ?</button>
-            <div class="faq-answer"><p>Utilisez la recherche par mots-clés ou les filtres par catégories (Marketing, Code, Vidéo, etc.).</p></div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">Comment ajouter mon outil IA ?</button>
-            <div class="faq-answer"><p>Accédez à la page de soumission et remplissez le formulaire. La validation prend 48h à 72h.</p></div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">La soumission est-elle payante ?</button>
-            <div class="faq-answer"><p>Une soumission gratuite est disponible. Des options premium permettent une mise en avant.</p></div>
-        </div>
-    </section>
-    </main>
 </section>
-    
-    
-    
-<!-- =====================
-   GALERIE IA
-===================== -->
-<section id="section-gallery" class="site-section">
-<header class="page-header">
-<h1>Galerie IA</h1>
-<p class="subtitle">Double-cliquez pour zoomer. Glissez pour explorer.</p>
-
-<div class="gallery" id="gallery"></div>
-
-<div class="lightbox" id="lightbox">
-  <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>
-  <img id="lightbox-img" src="" alt="">
-  <div class="prompt-box">
-    <p id="prompt-text"></p>
-    <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
-  </div>
-  <a id="tool-link" href="#" target="_blank" class="tool-link"></a>
-</div>
-
-</section>
-
-<!-- =====================
-   BLOG
-===================== -->
-<section id="section-blog" class="site-section">
-<header class="page-header">
-<h1>Le Blog de l'IA</h1>
-<p>Maîtrisez l'intelligence artificielle et boostez vos revenus.</p>
-</header>
-<div class="container">
-<div class="articles-grid">
-<article class="article-card active">
-<div>
-<span class="status available">Disponible</span>
-<p class="date">25 Janvier 2026</p>
-<h2>L’Algorithme Intime : Peut-on tisser des liens réels avec une IA ?</h2>
-<p style="font-size:0.9rem; color:var(--text-dim);">
-Entre effet ELIZA et design de l'empathie, découvrez comment l'attachement à la machine redéfinit nos liens sociaux.
-</p>
-</div>
-<a href="../algorithme-intime/" class="read-btn">Lire l'article</a>
-</article>
-<article class="article-card active">
-<div>
-<span class="status available">Disponible</span>
-<p class="date">13 Janvier 2026</p>
-<h2>L’IA peut-elle vraiment vous rapporter de l’argent ? Découvrez comment</h2>
-<p style="font-size:0.9rem; color:var(--text-dim);">
-Analyse claire et réaliste des opportunités de monétisation offertes par l’intelligence artificielle.
-</p>
-</div>
-<a href="../monetisation-ia/" class="read-btn">Lire l'article</a>
-</article>
-<article class="article-card upcoming">
-<div>
-<span class="status soon">À venir</span>
-<p class="date">Janvier 2026</p>
-<h2>Comment gagner vos premiers 1000€ avec l'affiliation IA</h2>
-<p style="font-size:0.9rem; color:var(--text-dim);">
-Guide étape par étape pour monétiser les outils d'IA via l'affiliation en 2026.
-</p>
-</div>
-</article>
-</div>
-</div>
-</section>
-
-
+   
 
 <footer class="footer-ia" role="contentinfo">
 
@@ -1341,506 +998,527 @@ Guide étape par étape pour monétiser les outils d'IA via l'affiliation en 202
 
 </footer>
 
-<script>
-let tools = []; // vide au départ
-
-fetch('data/tools.json')
-  .then(res => res.json())
-  .then(data => {
-    tools = data;       // Charger les outils
-    buildFilters();     // Générer les filtres
-    applyFilters();     // Afficher les cartes
-  })
-  .catch(err => console.error("Erreur chargement tools.json :", err));
-</script>
-
-
-
-<script>
+   
+ 
     
-        /* =========================
+    <script>
+/* =========================
    VARIABLES GLOBALES
 ========================= */
+
+let tools = [];
+let imagesData = [];
+let blogPosts = [];
+
 let currentPage = 1;
 const itemsPerPage = 20;
-let currentCategory = 'tous';
+let currentCategory = "tous";
 let filteredTools = [];
+let currentIndex = 0;
+
+
+/* =========================
+   CHARGEMENT DES JSON
+========================= */
+
+Promise.all([
+fetch("data/tools.json"),
+fetch("data/gallery.json"),
+fetch("data/blog.json")
+])
+.then(responses => Promise.all(responses.map(r => r.json())))
+.then(([toolsData, galleryData, blogData]) => {
+
+tools = toolsData || [];
+imagesData = galleryData || [];
+blogPosts = blogData || [];
+
+buildFilters();
+applyFilters();
+
+displayGallery(imagesData);
+displayBlog(blogPosts);
+
+})
+.catch(err => console.error("Erreur chargement JSON :", err));
+
 
 /* =========================
    INIT
 ========================= */
-document.addEventListener('DOMContentLoaded', () => {
-    buildFilters();
-    applyFilters();
 
-    // Recherche
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            currentPage = 1;
-            applyFilters();
-        });
-    }
+document.addEventListener("DOMContentLoaded", () => {
 
-    // FAQ accueil
-    initFaqAccueil();
+const searchInput = document.getElementById("searchInput");
 
-    
+if(searchInput){
+searchInput.addEventListener("input", () => {
+currentPage = 1;
+applyFilters();
+});
+}
+
+initKebabGlobal();
+initFaqAccueil();
+
 });
 
-/* =========================
-   FILTRES (CATÉGORIES)
-========================= */
-function buildFilters() {
-    const filtersContainer = document.querySelector('.filters');
-    if (!filtersContainer) return;
-
-    filtersContainer.innerHTML = '';
-    addFilterButton('tous', 'Tout', true);
-
-    [...new Set(tools.map(t => t.category))].forEach(cat => {
-        addFilterButton(cat, capitalize(cat));
-    });
-}
-
-function addFilterButton(value, label, active = false) {
-    const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (active ? ' active' : '');
-    btn.textContent = label;
-    btn.onclick = () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentCategory = value;
-        currentPage = 1;
-        applyFilters();
-    };
-    document.querySelector('.filters').appendChild(btn);
-}
 
 /* =========================
-   SEARCH + CATEGORY FILTER
+   FILTRES
 ========================= */
-function applyFilters() {
-    const searchValue = document.getElementById('searchInput')?.value.toLowerCase().trim().replace(/\s+/g, ' ') || '';
 
-    filteredTools = tools.filter(tool => {
-        const matchSearch =
-            tool.name.toLowerCase().includes(searchValue) ||
-            tool.desc.toLowerCase().includes(searchValue);
+function buildFilters(){
 
-        const matchCategory =
-            currentCategory === 'tous' || tool.category === currentCategory;
+const container = document.querySelector(".filters");
 
-        return matchSearch && matchCategory;
-    });
+if(!container) return;
 
-    generateCards();
-}
+container.innerHTML="";
 
-/* =========================
-   GENERATION DES CARTES
-========================= */
-function generateCards() {
-    const grid = document.getElementById('aiGrid');
-    const paginationContainer = document.getElementById('pagination');
-    if (!grid) return;
-    grid.innerHTML = "";
+addFilterButton("tous","Tout",true);
 
-    const start = (currentPage - 1) * itemsPerPage;
-    const pageItems = filteredTools.slice(start, start + itemsPerPage);
-
-    pageItems.forEach(tool => {
-        const logoImg = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
-        const card = document.createElement('div');
-        card.className = 'ai-card';
-        card.innerHTML = `
-            <div class="card-kebab">
-                <button class="card-kebab-btn" aria-label="Menu">⋮</button>
-                <div class="card-kebab-menu">
-                    <button class="open-modal" data-slug="${tool.slug}">Plus d’infos</button>
-                </div>
-            </div>
-
-            <div class="ai-icon">
-                <img src="${logoImg}" alt="Logo de l'outil ${tool.name}" loading="lazy" width="48" height="48"
-                     onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=ffffff&bold=true';">
-            </div>
-
-            <h3>${tool.name}</h3>
-            <p>${tool.desc}</p>
-
-            <div class="ai-footer">
-                <span class="label">${tool.label}</span>
-                <a href="${tool.url}" target="_blank" rel="sponsored noopener" class="btn-visit">
-                    Explorer →
-                </a>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-
-    renderPagination(paginationContainer);
-}
-
-/* =========================
-   KEBAB CARTES
-========================= */
-document.addEventListener('click', (e) => {
-    document.querySelectorAll('.card-kebab-menu').forEach(menu => menu.classList.remove('show'));
-
-    const kebabBtnCard = e.target.closest('.card-kebab-btn');
-    if (kebabBtnCard) {
-        e.stopPropagation();
-        const menu = kebabBtnCard.nextElementSibling;
-        menu.classList.toggle('show');
-    }
+[...new Set(tools.map(t=>t.category))].forEach(cat=>{
+addFilterButton(cat,capitalize(cat));
 });
 
-/* =========================
-   KEBAB GLOBAL (ACCUEIL)
-========================= */
-// =====================
-// MENU KEBAB & SECTIONS
-// =====================
-function initKebabGlobal() {
-    const kebabBtn = document.getElementById('kebabBtn');
-    const kebabDropdown = document.getElementById('kebabDropdown');
-    const sections = document.querySelectorAll('.site-section');
-
-    if (kebabBtn && kebabDropdown) {
-        kebabBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            kebabDropdown.classList.toggle('show');
-        });
-        document.addEventListener('click', (e) => {
-            if (!kebabDropdown.contains(e.target) && e.target !== kebabBtn) {
-                kebabDropdown.classList.remove('show');
-            }
-        });
-    }
-
-    window.showSection = function(sectionId) {
-        sections.forEach(sec => {
-            sec.classList.toggle('active', sec.id === sectionId);
-        });
-        kebabDropdown.classList.remove('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
 }
 
-document.addEventListener('DOMContentLoaded', initKebabGlobal);
-    
-  let imagesData = [];
-let currentIndex = 0;
-let startX = 0;
-let zoomed = false;
-let isDragging = false;
-let lastX = 0, lastY = 0;
-let translateX = 0, translateY = 0;
 
-/* 📦 Chargement JSON */
-fetch('../image/galerie/items/galerie.json')
-  .then(res => res.json())
-  .then(images => {
-    imagesData = images;
-    const gallery = document.getElementById('gallery');
-    images.forEach((imgData, index) => {
-      const img = document.createElement('img');
-      img.src = '../image/galerie/items/' + imgData.file;
-      img.loading = "lazy";
-      img.onclick = () => openLightbox(index);
-      gallery.appendChild(img);
-    });
-  });
+function addFilterButton(value,label,active=false){
 
-function openLightbox(index) {
-  currentIndex = index;
-  resetZoomState();
-  
-  const imgData = imagesData[index];
-  const img = document.getElementById('lightbox-img');
-  const lb = document.getElementById('lightbox');
+const btn=document.createElement("button");
 
-  lb.style.display = 'flex';
-  document.body.classList.add('modal-open');
-  
-  img.src = '../image/galerie/items/' + imgData.file;
-  document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
-  document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
-  document.getElementById('tool-link').href = imgData.url;
+btn.className="filter-btn"+(active?" active":"");
 
-  setupZoom();
-}
+btn.textContent=label;
 
-function closeLightbox() {
-  document.getElementById('lightbox').style.display = 'none';
-  document.body.classList.remove('modal-open');
-  resetZoomState();
-}
+btn.onclick=()=>{
 
-function resetZoomState() {
-  zoomed = false;
-  isDragging = false;
-  translateX = 0;
-  translateY = 0;
-  const img = document.getElementById('lightbox-img');
-  img.style.transition = "transform 0.25s ease";
-  img.style.transform = 'scale(1) translate(0px, 0px)';
-  img.style.cursor = 'zoom-in';
-}
+document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));
 
-/* 🔒 Logique de calcul des limites (Clamping) */
-function updateTransform() {
-  const img = document.getElementById('lightbox-img');
-  if (zoomed) {
-    // Calcul de la zone de débordement (le surplus créé par le scale(2))
-    // On limite la translation à la moitié de la taille de l'image
-    const limitX = img.offsetWidth / 2;
-    const limitY = img.offsetHeight / 2;
+btn.classList.add("active");
 
-    translateX = Math.max(-limitX, Math.min(limitX, translateX));
-    translateY = Math.max(-limitY, Math.min(limitY, translateY));
+currentCategory=value;
 
-    img.style.transform = `scale(2) translate(${translateX / 2}px, ${translateY / 2}px)`;
-  } else {
-    img.style.transform = `scale(1) translate(0px, 0px)`;
-  }
-}
+currentPage=1;
 
-function setupZoom() {
-  const img = document.getElementById('lightbox-img');
-  if (img.dataset.zoomReady) return;
-  img.dataset.zoomReady = "true";
+applyFilters();
 
-  img.addEventListener('dblclick', (e) => {
-    zoomed = !zoomed;
-    translateX = 0;
-    translateY = 0;
-    img.style.transition = "transform 0.3s ease";
-    img.style.cursor = zoomed ? 'grab' : 'zoom-in';
-    updateTransform();
-  });
-
-  // Desktop Drag
-  img.addEventListener('mousedown', e => {
-    if (!zoomed) return;
-    isDragging = true;
-    img.style.transition = "none"; // Désactive la transition pour un drag instantané
-    lastX = e.clientX;
-    lastY = e.clientY;
-    img.style.cursor = 'grabbing';
-  });
-
-  window.addEventListener('mousemove', e => {
-    if (!zoomed || !isDragging) return;
-    translateX += e.clientX - lastX;
-    translateY += e.clientY - lastY;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    updateTransform();
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-    if (zoomed) {
-        img.style.cursor = 'grab';
-        img.style.transition = "transform 0.2s ease-out"; // Rend un petit effet de glisse
-    }
-  });
-
-  // Mobile Drag
-  img.addEventListener('touchstart', e => {
-    if (!zoomed) return;
-    isDragging = true;
-    img.style.transition = "none";
-    lastX = e.touches[0].clientX;
-    lastY = e.touches[0].clientY;
-  }, {passive: true});
-
-  img.addEventListener('touchmove', e => {
-    if (!zoomed || !isDragging) return;
-    translateX += e.touches[0].clientX - lastX;
-    translateY += e.touches[0].clientY - lastY;
-    lastX = e.touches[0].clientX;
-    lastY = e.touches[0].clientY;
-    updateTransform();
-  }, {passive: true});
-
-  img.addEventListener('touchend', () => {
-    isDragging = false;
-    img.style.transition = "transform 0.2s ease-out";
-  });
-}
-
-/* ↔️ Navigation Swipe */
-const lightbox = document.getElementById('lightbox');
-lightbox.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
-lightbox.addEventListener('touchend', e => {
-  if (zoomed) return;
-  const diff = startX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 70) diff > 0 ? showNext() : showPrev();
-}, {passive: true});
-
-function showNext() { currentIndex = (currentIndex + 1) % imagesData.length; openLightbox(currentIndex); }
-function showPrev() { currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length; openLightbox(currentIndex); }
-
-function copyPrompt() {
-  const text = document.getElementById('prompt-text').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = "✅ Copié !";
-    setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
-  });
-    }
-    
-/* =========================
-   UTILS
-========================= */
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-/* =========================
-   MODAL
-========================= */
-const modal = document.getElementById('toolModal');
-const closeBtn = document.querySelector('.modal-close');
-
-document.getElementById('aiGrid').addEventListener('click', (e) => {
-    const btn = e.target.closest('.open-modal');
-    if (!btn) return;
-    openModal(btn.dataset.slug);
-});
-
-function openModal(slug) {
-    const tool = tools.find(t => t.slug === slug);
-    if(!tool) return;
-
-    const modalLogo = document.getElementById('modalLogo');
-const faviconUrl = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
-modalLogo.src = faviconUrl;
-modalLogo.onerror = () => {
-    modalLogo.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=ffffff&bold=true`;
-};
-    document.getElementById('modalName').textContent = tool.name;
-    document.getElementById('modalTagline').textContent = tool.tagline;
-    document.getElementById('modalDesc').textContent = tool.description_long || tool.desc;
-    document.getElementById('modalLabel').textContent = tool.label;
-
-    document.getElementById('modalType').textContent = tool.type || '';
-    document.getElementById('modalLanguage').textContent = tool.language || '';
-    document.getElementById('modalPlatform').textContent = tool.platform || '';
-
-    document.getElementById('modalFeatures').innerHTML =
-        '<h4>Fonctionnalités :</h4><ul>' + (tool.features || []).map(f => `<li>⭐ ${f}</li>`).join('') + '</ul>';
-    document.getElementById('modalPros').innerHTML =
-        '<h4>Avantages :</h4><ul>' + (tool.pros || []).map(p => `<li>✅ ${p}</li>`).join('') + '</ul>';
-    document.getElementById('modalCons').innerHTML =
-        '<h4>Inconvénients :</h4><ul>' + (tool.cons || []).map(c => `<li>❌ ${c}</li>`).join('') + '</ul>';
-
-    document.getElementById('modalCTA').href = tool.url || '#';
-
-    initReviews(tool.reviews || []);
-    initFaq(tool.faq || []);
-
-    modal.style.display = 'block';
-}
-
-closeBtn.onclick = () => modal.style.display = 'none';
-window.onclick = (e) => {
-    if(e.target === modal) modal.style.display = 'none';
 };
 
+document.querySelector(".filters").appendChild(btn);
+
+}
+
+
 /* =========================
-   REVIEWS MODAL HORIZONTAUX
+   RECHERCHE + FILTRE
 ========================= */
-function initReviews(reviews) {
-    const container = document.getElementById('modalReviews');
-    if (!container) return;
-    container.innerHTML = '';
 
-    if (!reviews || reviews.length === 0) {
-        container.innerHTML = '<p>Aucun avis pour cet outil.</p>';
-        return;
-    }
+function applyFilters(){
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'reviews-wrapper-carousel';
-    container.appendChild(wrapper);
+const searchValue=document.getElementById("searchInput")?.value.toLowerCase()||"";
 
-    // Fonction interne pour créer une carte
-    const createReviewHTML = (r) => {
-        const div = document.createElement('div');
-        div.className = 'review';
-        const rating = Number(r.rating) || 0;
-        div.innerHTML = `
-    <div class="review-header">
-        <img class="review-avatar" src="${r.avatar || ''}" alt="${r.author || ''}">
-        <div class="review-user">
-            <strong class="review-author">${r.author || 'Utilisateur'}</strong>
-            <span class="review-rating">${'⭐'.repeat(rating)}</span>
-        </div>
-    </div>
-    <p class="review-text">${r.text || ''}</p>
+filteredTools=tools.filter(tool=>{
+
+const matchSearch=
+tool.name.toLowerCase().includes(searchValue)||
+(tool.desc||"").toLowerCase().includes(searchValue);
+
+const matchCategory=
+currentCategory==="tous"||tool.category===currentCategory;
+
+return matchSearch&&matchCategory;
+
+});
+
+generateCards();
+
+}
+
+
+/* =========================
+   CARTES OUTILS
+========================= */
+
+function generateCards(){
+
+const grid=document.getElementById("aiGrid");
+
+const pagination=document.getElementById("pagination");
+
+if(!grid) return;
+
+grid.innerHTML="";
+
+const start=(currentPage-1)*itemsPerPage;
+
+const pageItems=filteredTools.slice(start,start+itemsPerPage);
+
+pageItems.forEach(tool=>{
+
+const logo=`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`;
+
+const card=document.createElement("div");
+
+card.className="ai-card";
+
+card.innerHTML=`
+
+<div class="card-kebab">
+<button class="card-kebab-btn">⋮</button>
+<div class="card-kebab-menu">
+<button class="open-modal" data-slug="${tool.slug}">
+Plus d'infos
+</button>
+</div>
+</div>
+
+<div class="ai-icon">
+<img src="${logo}"
+loading="lazy"
+onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(tool.name)}&background=00d4ff&color=fff'">
+</div>
+
+<h3>${tool.name}</h3>
+
+<p>${tool.desc}</p>
+
+<div class="ai-footer">
+
+<span class="label">${tool.label||""}</span>
+
+<a href="${tool.url}" target="_blank" rel="sponsored noopener" class="btn-visit">
+Explorer →
+</a>
+
+</div>
+
 `;
-        return div;
-    };
 
-    // ON AJOUTE DEUX FOIS LA LISTE D'AVIS
-    // Cela crée un ruban [A, B, C] + [A, B, C]
-    const fullList = [...reviews, ...reviews];
-    fullList.forEach(r => wrapper.appendChild(createReviewHTML(r)));
+grid.appendChild(card);
+
+});
+
+renderPagination(pagination);
+
 }
 
-    
 
 /* =========================
-   FAQ MODAL
+   PAGINATION
 ========================= */
-function initFaq(faqs) {
-    const faqContainer = document.getElementById('modalFAQ');
-    if(!faqContainer) return;
 
-    faqContainer.innerHTML = '';
-    if(!faqs.length) return;
+function renderPagination(container){
 
-    faqs.forEach(f => {
-        const item = document.createElement('div');
-        item.className = 'faq-item';
-        item.innerHTML = `
-            <button class="faq-question" aria-expanded="false">${f.q}</button>
-            <div class="faq-answer"><p>${f.a}</p></div>
-        `;
-        faqContainer.appendChild(item);
-    });
+if(!container) return;
 
-    faqContainer.querySelectorAll('.faq-question').forEach(button => {
-        button.addEventListener('click', () => {
-            const expanded = button.getAttribute('aria-expanded') === 'true';
-            button.setAttribute('aria-expanded', !expanded);
-            const answer = button.nextElementSibling;
-            answer.style.maxHeight = !expanded ? answer.scrollHeight + "px" : 0;
-        });
-    });
+container.innerHTML="";
+
+const totalPages=Math.ceil(filteredTools.length/itemsPerPage);
+
+if(totalPages<=1) return;
+
+const prev=document.createElement("button");
+
+prev.textContent="◀";
+
+prev.disabled=currentPage===1;
+
+prev.onclick=()=>goPage(currentPage-1);
+
+container.appendChild(prev);
+
+
+for(let i=1;i<=totalPages;i++){
+
+if(i===currentPage || Math.abs(i-currentPage)<=1){
+
+const btn=document.createElement("button");
+
+btn.textContent=i;
+
+if(i===currentPage) btn.classList.add("active");
+
+btn.onclick=()=>goPage(i);
+
+container.appendChild(btn);
+
 }
+
+}
+
+const next=document.createElement("button");
+
+next.textContent="▶";
+
+next.disabled=currentPage===totalPages;
+
+next.onclick=()=>goPage(currentPage+1);
+
+container.appendChild(next);
+
+}
+
+
+function goPage(page){
+
+currentPage=page;
+
+generateCards();
+
+document.getElementById("aiGrid")?.scrollIntoView({behavior:"smooth"});
+
+}
+
+
+/* =========================
+   GALERIE
+========================= */
+
+function displayGallery(data){
+
+const gallery=document.getElementById("gallery");
+
+if(!gallery) return;
+
+gallery.innerHTML="";
+
+data.forEach((item,index)=>{
+
+const div=document.createElement("div");
+
+div.className="gallery-item";
+
+div.dataset.index=index;
+
+div.dataset.type=item.type;
+
+let media;
+
+if(item.type==="image"){
+media=document.createElement("img");
+media.src="image/galerie/items/"+item.file;
+}
+
+if(item.type==="video"){
+media=document.createElement("video");
+media.src="image/galerie/items/"+item.file;
+media.controls=true;
+}
+
+if(item.type==="audio"){
+media=document.createElement("audio");
+media.src="image/galerie/items/"+item.file;
+media.controls=true;
+}
+
+div.appendChild(media);
+
+div.onclick=()=>openLightbox(index);
+
+gallery.appendChild(div);
+
+});
+
+}
+
+
+/* =========================
+   LIGHTBOX
+========================= */
+
+function openLightbox(index){
+
+currentIndex=index;
+
+const item=imagesData[index];
+
+const content=document.getElementById("lightbox-content");
+
+content.innerHTML="";
+
+let media;
+
+if(item.type==="image"){
+media=document.createElement("img");
+media.src="image/galerie/items/"+item.file;
+}
+
+if(item.type==="video"){
+media=document.createElement("video");
+media.src="image/galerie/items/"+item.file;
+media.controls=true;
+media.autoplay=true;
+}
+
+if(item.type==="audio"){
+media=document.createElement("audio");
+media.src="image/galerie/items/"+item.file;
+media.controls=true;
+media.autoplay=true;
+}
+
+content.appendChild(media);
+
+document.getElementById("prompt-text").textContent=item.prompt||"";
+
+const link=document.getElementById("tool-link");
+
+link.href=item.url||"#";
+
+link.textContent="Créer avec "+item.tool;
+
+document.getElementById("lightbox").style.display="flex";
+
+}
+
+
+function closeLightbox(){
+
+document.getElementById("lightbox").style.display="none";
+
+}
+
+
+/* =========================
+   BLOG
+========================= */
+
+function displayBlog(posts){
+
+const grid=document.getElementById("blogGrid");
+
+if(!grid) return;
+
+grid.innerHTML="";
+
+posts.forEach(post=>{
+
+const article=document.createElement("article");
+
+article.className="article-card";
+
+article.innerHTML=`
+
+<div>
+<p class="date">${post.date}</p>
+<h2>${post.title}</h2>
+<p>${post.excerpt}</p>
+</div>
+
+<a href="${post.link}" class="read-btn">
+Lire l'article
+</a>
+
+`;
+
+grid.appendChild(article);
+
+});
+
+}
+
+
+/* =========================
+   MODAL OUTIL
+========================= */
+
+document.getElementById("aiGrid")?.addEventListener("click",(e)=>{
+
+const btn=e.target.closest(".open-modal");
+
+if(!btn) return;
+
+openModal(btn.dataset.slug);
+
+});
+
+
+function openModal(slug){
+
+const tool=tools.find(t=>t.slug===slug);
+
+if(!tool) return;
+
+document.getElementById("modalName").textContent=tool.name;
+
+document.getElementById("modalDesc").textContent=tool.desc;
+
+document.getElementById("modalCTA").href=tool.url;
+
+document.getElementById("toolModal").style.display="block";
+
+}
+
+
+/* =========================
+   UTIL
+========================= */
+
+function capitalize(str){
+
+return str.charAt(0).toUpperCase()+str.slice(1);
+
+}
+
+
+/* =========================
+   MENU KEBAB GLOBAL
+========================= */
+
+function initKebabGlobal(){
+
+const kebabBtn=document.getElementById("kebabBtn");
+
+const dropdown=document.getElementById("kebabDropdown");
+
+const sections=document.querySelectorAll(".site-section");
+
+if(!kebabBtn) return;
+
+kebabBtn.onclick=()=>dropdown.classList.toggle("show");
+
+window.showSection=function(id){
+
+sections.forEach(sec=>{
+sec.classList.toggle("active",sec.id===id);
+});
+
+dropdown.classList.remove("show");
+
+window.scrollTo({top:0,behavior:"smooth"});
+
+};
+
+}
+
 
 /* =========================
    FAQ ACCUEIL
 ========================= */
-function initFaqAccueil() {
-    document.querySelectorAll('#faq .faq-question').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const expanded = button.getAttribute('aria-expanded') === 'true';
-            button.setAttribute('aria-expanded', !expanded);
-            const answer = button.nextElementSibling;
-            answer.style.maxHeight = !expanded ? answer.scrollHeight + "px" : 0;
-        });
-    });
-    }
-    
-</script>
-<script async src="https://tally.so/widgets/embed.js"></script>
-</body>   
-</html>
 
+function initFaqAccueil(){
+
+document.querySelectorAll("#faq .faq-question").forEach(btn=>{
+
+btn.onclick=()=>{
+
+const expanded=btn.getAttribute("aria-expanded")==="true";
+
+btn.setAttribute("aria-expanded",!expanded);
+
+const answer=btn.nextElementSibling;
+
+answer.style.maxHeight=!expanded?answer.scrollHeight+"px":0;
+
+};
+
+});
+
+}
+    </script>  
+<script async src="https://tally.so/widgets/embed.js"></script>  
+</body>     
+</html>  
