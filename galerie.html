@@ -174,7 +174,7 @@ let currentIndex = 0;
 
 /* ===== CHARGEMENT JSON ===== */
 
-fetch('image/galerie/items/galerie.json')
+fetch('./image/galerie/items/galerie.json')
 .then(res => res.json())
 .then(data=>{
   allData = data;
