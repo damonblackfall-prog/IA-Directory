@@ -70,7 +70,7 @@ let imagesData = [];
 let currentIndex = 0;
 
 // Chargement JSON
-fetch('../image/galerie/items/galerie.json')
+fetch('/image/galerie/items/galerie.json')
 .then(res => res.json())
 .then(data => {
   imagesData = data;
@@ -90,15 +90,15 @@ function displayGallery(data) {
     let media;
     if(item.type === 'image'){
       media = document.createElement('img');
-      media.src = '../image/galerie/items/'+item.file;
+      media.src = '/image/galerie/items/'+item.file;
       media.alt = item.prompt || '';
     } else if(item.type === 'video'){
       media = document.createElement('video');
-      media.src = '../image/galerie/items/'+item.file;
+      media.src = '/image/galerie/items/'+item.file;
       media.controls = true;
     } else if(item.type === 'audio'){
       media = document.createElement('audio');
-      media.src = '../image/galerie/items/'+item.file;
+      media.src = '/image/galerie/items/'+item.file;
       media.controls = true;
     }
 
@@ -128,15 +128,15 @@ function openLightbox(index){
   let media;
   if(item.type==='image'){
     media=document.createElement('img');
-    media.src='../image/galerie/items/'+item.file;
+    media.src='/image/galerie/items/'+item.file;
   } else if(item.type==='video'){
     media=document.createElement('video');
-    media.src='../image/galerie/items/'+item.file;
+    media.src='/image/galerie/items/'+item.file;
     media.controls=true;
     media.autoplay=true;
   } else if(item.type==='audio'){
     media=document.createElement('audio');
-    media.src='../image/galerie/items/'+item.file;
+    media.src='/image/galerie/items/'+item.file;
     media.controls=true;
     media.autoplay=true;
   }
