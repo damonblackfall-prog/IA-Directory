@@ -138,6 +138,27 @@ h1{
   background:white;
   color:black;
 }
+  .lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.95);
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:1000;
+}
+
+#lightbox-media img,
+#lightbox-media video{
+  max-width:90%;
+  max-height:80vh;
+  border-radius:12px;
+}
+
+#lightbox-media audio{
+  width:300px;
+  }
 </style>
 </head>
 
@@ -159,7 +180,8 @@ h1{
 <!-- 🔍 Lightbox -->
 <div class="lightbox" id="lightbox">
   <span class="close" onclick="closeLightbox()">&times;</span>
-  <div id="lightbox-media"></div>
+
+  <div id="lightbox-media" style="display:flex;align-items:center;justify-content:center;"></div>
 
   <div class="prompt-box">
     <p id="prompt-text"></p>
@@ -220,23 +242,6 @@ function displayGallery(){
 }
 
 /* 🔎 Filtre */
-function filterMedia(type, btn){
-
-  document.querySelectorAll(".filter-menu button")
-  .forEach(b => b.classList.remove("active"));
-
-  btn.classList.add("active");
-
-  if(type === "all"){
-    filteredData = mediaData;
-  } else {
-    filteredData = mediaData.filter(item => item.type === type);
-  }
-
-  displayGallery();
-}
-
-/* 🔍 Lightbox */
 function openLightbox(index){
 
   currentIndex = index;
@@ -250,22 +255,21 @@ function openLightbox(index){
 
   if(item.type === "image"){
     media = document.createElement("img");
-    media.src = '../image/galerie/items/' + item.file;
   }
 
   else if(item.type === "video"){
     media = document.createElement("video");
-    media.src = '../image/galerie/items/' + item.file;
     media.controls = true;
     media.autoplay = true;
   }
 
   else if(item.type === "audio"){
     media = document.createElement("audio");
-    media.src = '../image/galerie/items/' + item.file;
     media.controls = true;
     media.autoplay = true;
   }
+
+  media.src = '../image/galerie/items/' + item.file;
 
   container.appendChild(media);
 
@@ -280,19 +284,6 @@ function openLightbox(index){
 
   document.getElementById("lightbox").style.display = "flex";
 }
-
-/* ❌ Fermer */
-function closeLightbox(){
-  document.getElementById("lightbox").style.display = "none";
-}
-
-/* 📋 Copier */
-function copyPrompt(){
-  const text = document.getElementById("prompt-text").textContent;
-  navigator.clipboard.writeText(text);
-  alert("Copié !");
-}
-
 </script>
 </body>
 </html>
