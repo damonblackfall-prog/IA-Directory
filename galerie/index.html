@@ -3,30 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galerie IA</title>
+<title>Galerie IA - IA-DIRECTORY</title>
 
 <style>
 :root{
   --primary:#007bff;
-  --bg:#f4f6f9;
+  --gray:#f4f6f9;
 }
 
 body{
   margin:0;
   font-family:Segoe UI, sans-serif;
-  background:var(--bg);
+  background:var(--gray);
+}
+
+h1{
+  text-align:center;
+  margin-top:15px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#666;
 }
 
 /* ===== FILTRES ===== */
 
 .filter-menu{
   text-align:center;
-  padding:15px;
+  margin:15px 0;
 }
 
 .filter-menu button{
+  padding:8px 15px;
   margin:5px;
-  padding:8px 14px;
   border:none;
   border-radius:20px;
   background:#e0e0e0;
@@ -46,28 +56,21 @@ body{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
   gap:15px;
-  padding:20px;
   max-width:1200px;
   margin:auto;
+  padding:20px;
 }
 
-.gallery-item{
-  background:white;
-  border-radius:12px;
-  overflow:hidden;
-  cursor:pointer;
-  border:1px solid #ddd;
-}
-
-.gallery-item img,
-.gallery-item video{
+.gallery img,
+.gallery video{
   width:100%;
   height:250px;
   object-fit:cover;
-  display:block;
+  border-radius:12px;
+  cursor:pointer;
 }
 
-.gallery-item audio{
+.gallery audio{
   width:100%;
 }
 
@@ -84,16 +87,215 @@ body{
   z-index:1000;
 }
 
-.lightbox-content img,
-.lightbox-content video{
+.lightbox img,
+.lightbox video{
   max-width:90%;
-  max-height:75vh;
+  max-height:80vh;
   border-radius:12px;
 }
 
-.lightbox-content audio{
+.lightbox audio{
   width:300px;
 }
+
+.close{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:40px;
+  color:white;
+  cursor:pointer;
+}
+
+.prompt-box{
+  margin-top:15px;
+  color:white;
+  text-align:center;
+  max-width:600px;
+}
+
+.tool-link{
+  margin-top:10px;
+  background:var(--primary);
+  color:white;
+  padding:8px 18px;
+  border-radius:25px;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.copy-btn{
+  margin-top:8px;
+  padding:6px 12px;
+  border-radius:6px;
+  border:1px solid white;
+  background:transparent;
+  color:white;
+  cursor:pointer;
+}
+
+.copy-btn:hover{
+  background:white;
+  color:black;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Galerie IA</h1>
+<p class="subtitle">Images, vidéos et audio générés par IA.</p>
+
+<!-- 🔘 Filtres -->
+<div class="filter-menu">
+  <button class="active" onclick="filterMedia('all', this)">Tout</button>
+  <button onclick="filterMedia('image', this)">Images</button>
+  <button onclick="filterMedia('video', this)">Vidéos</button>
+  <button onclick="filterMedia('audio', this)">Audio</button>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<!-- 🔍 Lightbox -->
+<div class="lightbox" id="lightbox">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  <div id="lightbox-media"></div>
+
+  <div class="prompt-box">
+    <p id="prompt-text"></p>
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copier</button>
+  </div>
+
+  <a id="tool-link" target="_blank" class="tool-link"></a>
+</div>
+
+<script>
+
+let mediaData = [];
+let filteredData = [];
+let currentIndex = 0;
+
+/* 📦 Charger JSON */
+fetch('../image/galerie/items/galerie.json')
+.then(res => res.json())
+.then(data => {
+  mediaData = data;
+  filteredData = data;
+  displayGallery();
+});
+
+/* 🖼 Affichage */
+function displayGallery(){
+
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+
+  filteredData.forEach((item, index) => {
+
+    let media;
+
+    if(item.type === "image"){
+      media = document.createElement("img");
+      media.src = '../image/galerie/items/' + item.file;
+    }
+
+    else if(item.type === "video"){
+      media = document.createElement("video");
+      media.src = '../image/galerie/items/' + item.file;
+      media.muted = true;
+    }
+
+    else if(item.type === "audio"){
+      media = document.createElement("audio");
+      media.src = '../image/galerie/items/' + item.file;
+      media.controls = true;
+    }
+
+    media.onclick = () => openLightbox(index);
+
+    gallery.appendChild(media);
+
+  });
+
+}
+
+/* 🔎 Filtre */
+function filterMedia(type, btn){
+
+  document.querySelectorAll(".filter-menu button")
+  .forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  if(type === "all"){
+    filteredData = mediaData;
+  } else {
+    filteredData = mediaData.filter(item => item.type === type);
+  }
+
+  displayGallery();
+}
+
+/* 🔍 Lightbox */
+function openLightbox(index){
+
+  currentIndex = index;
+
+  const item = filteredData[index];
+  const container = document.getElementById("lightbox-media");
+
+  container.innerHTML = "";
+
+  let media;
+
+  if(item.type === "image"){
+    media = document.createElement("img");
+    media.src = '../image/galerie/items/' + item.file;
+  }
+
+  else if(item.type === "video"){
+    media = document.createElement("video");
+    media.src = '../image/galerie/items/' + item.file;
+    media.controls = true;
+    media.autoplay = true;
+  }
+
+  else if(item.type === "audio"){
+    media = document.createElement("audio");
+    media.src = '../image/galerie/items/' + item.file;
+    media.controls = true;
+    media.autoplay = true;
+  }
+
+  container.appendChild(media);
+
+  document.getElementById("prompt-text").textContent =
+    item.prompt || "Pas de prompt";
+
+  document.getElementById("tool-link").textContent =
+    "Créer avec " + item.tool;
+
+  document.getElementById("tool-link").href =
+    item.url;
+
+  document.getElementById("lightbox").style.display = "flex";
+}
+
+/* ❌ Fermer */
+function closeLightbox(){
+  document.getElementById("lightbox").style.display = "none";
+}
+
+/* 📋 Copier */
+function copyPrompt(){
+  const text = document.getElementById("prompt-text").textContent;
+  navigator.clipboard.writeText(text);
+  alert("Copié !");
+}
+
+</script>
+</body>
+    </html>}
 
 .close{
   position:absolute;
