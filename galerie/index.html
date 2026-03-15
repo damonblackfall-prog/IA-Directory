@@ -4,311 +4,261 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Galerie IA - IA-DIRECTORY</title>
-
+  <link rel="canonical" href="https://ia-directory.github.io/galerie/" />
+  <meta name="description" content="Découvrez les meilleures créations générées par intelligence artificielle.">
+  
 <style>
-:root{
-  --primary:#007bff;
-  --gray:#f4f6f9;
-}
+  :root { --primary: #007bff; --dark: #000; --white: #fff; --gray: #f9f9f9; }
+  
+  body.modal-open { overflow: hidden; }
 
-body{
-  margin:0;
-  font-family:Segoe UI, sans-serif;
-  background:var(--gray);
-}
+  body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--gray); }
+  .back-link { display: inline-block; margin: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+  h1 { text-align:center; margin-top: 10px; color: #333; }
+  .subtitle { text-align:center; color:#666; margin-bottom:20px; }
 
-h1{
-  text-align:center;
-  margin-top:15px;
-}
-
-.subtitle{
-  text-align:center;
-  color:#666;
-}
-
-/* ===== FILTRES ===== */
-
-.filter-menu{
-  text-align:center;
-  margin:15px 0;
-}
-
-.filter-menu button{
-  padding:8px 15px;
-  margin:5px;
-  border:none;
-  border-radius:20px;
-  background:#e0e0e0;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.filter-menu button.active,
-.filter-menu button:hover{
-  background:var(--primary);
-  color:white;
-}
-
-/* ===== GALERIE ===== */
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:15px;
-  max-width:1200px;
-  margin:auto;
-  padding:20px;
-}
-
-.gallery img,
-.gallery video{
-  width:100%;
-  height:250px;
-  object-fit:cover;
-  border-radius:12px;
-  cursor:pointer;
-}
-
-.gallery audio{
-  width:100%;
-}
-
-/* ===== LIGHTBOX ===== */
-
-.lightbox{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.95);
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:1000;
-}
-
-.lightbox img,
-.lightbox video{
-  max-width:90%;
-  max-height:80vh;
-  border-radius:12px;
-}
-
-.lightbox audio{
-  width:300px;
-}
-
-.close{
-  position:absolute;
-  top:20px;
-  right:25px;
-  font-size:40px;
-  color:white;
-  cursor:pointer;
-}
-
-.prompt-box{
-  margin-top:15px;
-  color:white;
-  text-align:center;
-  max-width:600px;
-}
-
-.tool-link{
-  margin-top:10px;
-  background:var(--primary);
-  color:white;
-  padding:8px 18px;
-  border-radius:25px;
-  text-decoration:none;
-  font-weight:bold;
-}
-
-.copy-btn{
-  margin-top:8px;
-  padding:6px 12px;
-  border-radius:6px;
-  border:1px solid white;
-  background:transparent;
-  color:white;
-  cursor:pointer;
-}
-
-.copy-btn:hover{
-  background:white;
-  color:black;
-}
-  .lightbox{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.95);
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:1000;
-}
-
-#lightbox-media img,
-#lightbox-media video{
-  max-width:90%;
-  max-height:80vh;
-  border-radius:12px;
-}
-
-#lightbox-media audio{
-  width:300px;
+  .gallery {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
   }
+  .gallery img {
+    width:100%; height: 250px; object-fit: cover;
+    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
+  }
+  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+  .lightbox {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95);
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .lightbox img {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
+    cursor: zoom-in;
+    user-select: none;
+    will-change: transform;
+  }
+  
+  .prompt-box {
+    position: fixed; bottom: 90px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: rgba(0,0,0,0.6); padding: 12px 18px;
+    border-radius: 12px; backdrop-filter: blur(8px);
+    text-align: center; width: 85%; max-width: 500px;
+  }
+
+  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
+  
+  .tool-link {
+    position: fixed; bottom: 30px; left: 50%;
+    transform: translateX(-50%); z-index: 1100;
+    background: var(--primary); color: #fff; padding: 10px 20px;
+    border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
+  }
+
+  .copy-btn {
+    background: transparent; border: 1px solid #fff; color: #fff;
+    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
+  }
+  .copy-btn:hover { background: #fff; color: #000; }
+
+  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
+  .close:hover { opacity: 1; }
 </style>
 </head>
-
 <body>
 
+<a href="../" class="back-link">← Retour à l'accueil</a>
 <h1>Galerie IA</h1>
-<p class="subtitle">Images, vidéos et audio générés par IA.</p>
-
-<!-- 🔘 Filtres -->
-<div class="filter-menu">
-  <button class="active" onclick="filterMedia('all', this)">Tout</button>
-  <button onclick="filterMedia('image', this)">Images</button>
-  <button onclick="filterMedia('video', this)">Vidéos</button>
-  <button onclick="filterMedia('audio', this)">Audio</button>
-</div>
+<p class="subtitle">Double-cliquez pour zoomer. Glissez pour explorer.</p>
 
 <div class="gallery" id="gallery"></div>
 
-<!-- 🔍 Lightbox -->
 <div class="lightbox" id="lightbox">
-  <span class="close" onclick="closeLightbox()">&times;</span>
-
-  <div id="lightbox-media" style="display:flex;align-items:center;justify-content:center;"></div>
-
+  <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>
+  <img id="lightbox-img" src="" alt="">
   <div class="prompt-box">
     <p id="prompt-text"></p>
-    <button class="copy-btn" onclick="copyPrompt()">📋 Copier</button>
+    <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
   </div>
-
-  <a id="tool-link" target="_blank" class="tool-link"></a>
+  <a id="tool-link" href="#" target="_blank" class="tool-link"></a>
 </div>
 
 <script>
+let imagesData = [];
+let currentIndex = 0;
+let startX = 0;
+let zoomed = false;
+let isDragging = false;
+let lastX = 0, lastY = 0;
+let translateX = 0, translateY = 0;
 
-let mediaData = [];
-let filteredData = [];
-
-/* 📦 Charger JSON */
+/* 📦 Chargement JSON */
 fetch('../image/galerie/items/galerie.json')
-.then(res => res.json())
-.then(data => {
-  mediaData = data;
-  filteredData = data;
-  displayGallery();
-});
+  .then(res => res.json())
+  .then(images => {
+    imagesData = images;
+    const gallery = document.getElementById('gallery');
+    images.forEach((imgData, index) => {
+      const img = document.createElement('img');
+      img.src = '../image/galerie/items/' + imgData.file;
+      img.loading = "lazy";
+      img.onclick = () => openLightbox(index);
+      gallery.appendChild(img);
+    });
+  });
 
-/* 🖼 Affichage */
-function displayGallery(){
+function openLightbox(index) {
+  currentIndex = index;
+  resetZoomState();
+  
+  const imgData = imagesData[index];
+  const img = document.getElementById('lightbox-img');
+  const lb = document.getElementById('lightbox');
 
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = "";
+  lb.style.display = 'flex';
+  document.body.classList.add('modal-open');
+  
+  img.src = '../image/galerie/items/' + imgData.file;
+  document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
+  document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
+  document.getElementById('tool-link').href = imgData.url;
 
-  filteredData.forEach((item, index) => {
+  setupZoom();
+}
 
-    let media;
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.classList.remove('modal-open');
+  resetZoomState();
+}
 
-    if(item.type === "image"){
-      media = document.createElement("img");
-      media.src = '../image/galerie/items/' + item.file;
+function resetZoomState() {
+  zoomed = false;
+  isDragging = false;
+  translateX = 0;
+  translateY = 0;
+  const img = document.getElementById('lightbox-img');
+  img.style.transition = "transform 0.25s ease";
+  img.style.transform = 'scale(1) translate(0px, 0px)';
+  img.style.cursor = 'zoom-in';
+}
+
+/* 🔒 Logique de calcul des limites (Clamping) */
+function updateTransform() {
+  const img = document.getElementById('lightbox-img');
+  if (zoomed) {
+    // Calcul de la zone de débordement (le surplus créé par le scale(2))
+    // On limite la translation à la moitié de la taille de l'image
+    const limitX = img.offsetWidth / 2;
+    const limitY = img.offsetHeight / 2;
+
+    translateX = Math.max(-limitX, Math.min(limitX, translateX));
+    translateY = Math.max(-limitY, Math.min(limitY, translateY));
+
+    img.style.transform = `scale(2) translate(${translateX / 2}px, ${translateY / 2}px)`;
+  } else {
+    img.style.transform = `scale(1) translate(0px, 0px)`;
+  }
+}
+
+function setupZoom() {
+  const img = document.getElementById('lightbox-img');
+  if (img.dataset.zoomReady) return;
+  img.dataset.zoomReady = "true";
+
+  img.addEventListener('dblclick', (e) => {
+    zoomed = !zoomed;
+    translateX = 0;
+    translateY = 0;
+    img.style.transition = "transform 0.3s ease";
+    img.style.cursor = zoomed ? 'grab' : 'zoom-in';
+    updateTransform();
+  });
+
+  // Desktop Drag
+  img.addEventListener('mousedown', e => {
+    if (!zoomed) return;
+    isDragging = true;
+    img.style.transition = "none"; // Désactive la transition pour un drag instantané
+    lastX = e.clientX;
+    lastY = e.clientY;
+    img.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!zoomed || !isDragging) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    if (zoomed) {
+        img.style.cursor = 'grab';
+        img.style.transition = "transform 0.2s ease-out"; // Rend un petit effet de glisse
     }
+  });
 
-    else if(item.type === "video"){
-      media = document.createElement("video");
-      media.src = '../image/galerie/items/' + item.file;
-      media.muted = true;
-    }
+  // Mobile Drag
+  img.addEventListener('touchstart', e => {
+    if (!zoomed) return;
+    isDragging = true;
+    img.style.transition = "none";
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+  }, {passive: true});
 
-    else if(item.type === "audio"){
-      media = document.createElement("audio");
-      media.src = '../image/galerie/items/' + item.file;
-      media.controls = true;
-    }
+  img.addEventListener('touchmove', e => {
+    if (!zoomed || !isDragging) return;
+    translateX += e.touches[0].clientX - lastX;
+    translateY += e.touches[0].clientY - lastY;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+    updateTransform();
+  }, {passive: true});
 
-    media.onclick = () => openLightbox(index);
-    gallery.appendChild(media);
-
+  img.addEventListener('touchend', () => {
+    isDragging = false;
+    img.style.transition = "transform 0.2s ease-out";
   });
 }
 
-/* 🔎 FILTRE */
-function filterMedia(type, btn){
+/* ↔️ Navigation Swipe */
+const lightbox = document.getElementById('lightbox');
+lightbox.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
+lightbox.addEventListener('touchend', e => {
+  if (zoomed) return;
+  const diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 70) diff > 0 ? showNext() : showPrev();
+}, {passive: true});
 
-  document.querySelectorAll(".filter-menu button")
-  .forEach(b => b.classList.remove("active"));
+function showNext() { currentIndex = (currentIndex + 1) % imagesData.length; openLightbox(currentIndex); }
+function showPrev() { currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length; openLightbox(currentIndex); }
 
-  btn.classList.add("active");
-
-  if(type === "all"){
-    filteredData = mediaData;
-  } else {
-    filteredData = mediaData.filter(item => item.type === type);
-  }
-
-  displayGallery();
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = "✅ Copié !";
+    setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
+  });
 }
-
-/* 🔍 LIGHTBOX */
-function openLightbox(index){
-
-  const item = filteredData[index];
-  const container = document.getElementById("lightbox-media");
-
-  container.innerHTML = "";
-
-  let media;
-
-  if(item.type === "image"){
-    media = document.createElement("img");
-  }
-
-  else if(item.type === "video"){
-    media = document.createElement("video");
-    media.controls = true;
-    media.autoplay = true;
-  }
-
-  else if(item.type === "audio"){
-    media = document.createElement("audio");
-    media.controls = true;
-    media.autoplay = true;
-  }
-
-  media.src = '../image/galerie/items/' + item.file;
-
-  container.appendChild(media);
-
-  document.getElementById("prompt-text").textContent =
-    item.prompt || "Pas de prompt";
-
-  document.getElementById("tool-link").textContent =
-    "Créer avec " + item.tool;
-
-  document.getElementById("tool-link").href =
-    item.url;
-
-  document.getElementById("lightbox").style.display = "flex";
-}
-
-/* ❌ Fermer */
-function closeLightbox(){
-  document.getElementById("lightbox").style.display = "none";
-}
-
-/* 📋 Copier */
-function copyPrompt(){
-  const text = document.getElementById("prompt-text").textContent;
-  navigator.clipboard.writeText(text);
-  alert("Copié !");
-}
-
-  </script>  
-  </body>
-</html>
+</script>
+</body>
+  </html>
+  
