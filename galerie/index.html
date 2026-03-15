@@ -3,91 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galerie IA - IA-DIRECTORY</title>
-  <link rel="canonical" href="https://ia-directory.github.io/galerie/" />
-  <meta name="description" content="Découvrez les meilleures créations générées par intelligence artificielle.">
-  
+<title>Galerie IA Multimédia</title>
 <style>
-  :root { --primary: #007bff; --dark: #000; --white: #fff; --gray: #f9f9f9; }
-  
-  body.modal-open { overflow: hidden; }
-
+  :root { --primary: #007bff; --dark: #111; --white: #fff; --gray: #f4f4f4; }
   body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--gray); }
+  body.modal-open { overflow: hidden; }
+  
   .back-link { display: inline-block; margin: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
-  h1 { text-align:center; margin-top: 10px; color: #333; }
+  h1 { text-align:center; color: #333; }
   .subtitle { text-align:center; color:#666; margin-bottom:20px; }
 
+  /* Grille */
   .gallery {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 15px; max-width: 1200px; margin:auto; padding: 20px;
   }
-  .gallery img {
-    width:100%; height: 250px; object-fit: cover;
-    cursor:pointer; border-radius:12px; transition: 0.3s; border: 1px solid #ddd;
+  .item-container { 
+    position: relative; height: 250px; cursor: pointer; 
+    border-radius: 12px; overflow: hidden; border: 1px solid #ddd; transition: 0.3s;
   }
-  .gallery img:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-
-  .lightbox {
-    display: none; 
-    position: fixed;
-    z-index: 1000;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.95);
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    touch-action: none;
-  }
-
-  .lightbox img {
-    max-width: 90%;
-    max-height: 80vh;
-    object-fit: contain;
-    transition: transform 0.2s ease-out; /* Transition fluide pour le drag */
-    cursor: zoom-in;
-    user-select: none;
-    will-change: transform;
-  }
+  .item-container:hover { transform: scale(1.03); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
   
-  .prompt-box {
-    position: fixed; bottom: 90px; left: 50%;
-    transform: translateX(-50%); z-index: 1100;
-    background: rgba(0,0,0,0.6); padding: 12px 18px;
-    border-radius: 12px; backdrop-filter: blur(8px);
-    text-align: center; width: 85%; max-width: 500px;
+  .media-thumb { width: 100%; height: 100%; object-fit: cover; }
+  
+  /* Icônes pour différencier les types */
+  .badge {
+    position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6);
+    color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; pointer-events: none;
   }
 
-  #prompt-text { color: #fff; font-style: italic; margin-bottom: 12px; font-size: 0.9rem; line-height: 1.4; }
+  /* Lightbox */
+  .lightbox {
+    display: none; position: fixed; z-index: 1000; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.95);
+    align-items: center; justify-content: center; flex-direction: column;
+  }
+
+  .lightbox-content { max-width: 90%; max-height: 70vh; outline: none; }
+  
+  /* Spécifique Audio en Lightbox */
+  .audio-player-container { 
+    background: #222; padding: 40px; border-radius: 20px; text-align: center; width: 80%; max-width: 400px; 
+  }
+
+  .prompt-box {
+    margin-top: 20px; background: rgba(255,255,255,0.1); padding: 15px;
+    border-radius: 12px; backdrop-filter: blur(8px); text-align: center; width: 85%; max-width: 500px;
+  }
+  #prompt-text { color: #fff; font-style: italic; font-size: 0.9rem; }
   
   .tool-link {
-    position: fixed; bottom: 30px; left: 50%;
-    transform: translateX(-50%); z-index: 1100;
-    background: var(--primary); color: #fff; padding: 10px 20px;
+    margin-top: 15px; background: var(--primary); color: #fff; padding: 10px 20px;
     border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem;
   }
 
-  .copy-btn {
-    background: transparent; border: 1px solid #fff; color: #fff;
-    padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
-  }
-  .copy-btn:hover { background: #fff; color: #000; }
-
-  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; text-decoration: none; z-index: 1200; opacity: 0.8; }
-  .close:hover { opacity: 1; }
+  .copy-btn { background: transparent; border: 1px solid #fff; color: #fff; padding: 5px 12px; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+  .close { position: fixed; top: 20px; right: 25px; font-size: 40px; color: #fff; cursor: pointer; z-index: 1200; }
 </style>
 </head>
 <body>
 
-<a href="../" class="back-link">← Retour à l'accueil</a>
-<h1>Galerie IA</h1>
-<p class="subtitle">Double-cliquez pour zoomer. Glissez pour explorer.</p>
+<a href="../" class="back-link">← Retour</a>
+<h1>Galerie IA Multimédia</h1>
+<p class="subtitle">Images, Vidéos et Créations Audio</p>
 
 <div class="gallery" id="gallery"></div>
 
 <div class="lightbox" id="lightbox">
-  <a href="javascript:void(0)" class="close" onclick="closeLightbox()">&times;</a>
-  <img id="lightbox-img" src="" alt="">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  
+  <div id="media-container" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+    </div>
+
   <div class="prompt-box">
     <p id="prompt-text"></p>
     <button class="copy-btn" onclick="copyPrompt()">📋 Copier le prompt</button>
@@ -96,159 +83,83 @@
 </div>
 
 <script>
-let imagesData = [];
+let itemsData = [];
 let currentIndex = 0;
-let startX = 0;
-let zoomed = false;
-let isDragging = false;
-let lastX = 0, lastY = 0;
-let translateX = 0, translateY = 0;
+const basePath = '../image/galerie/items/';
 
-/* 📦 Chargement JSON */
-fetch('../image/galerie/items/galerie.json')
+fetch(basePath + 'galerie.json')
   .then(res => res.json())
-  .then(images => {
-    imagesData = images;
+  .then(data => {
+    itemsData = data;
     const gallery = document.getElementById('gallery');
-    images.forEach((imgData, index) => {
-      const img = document.createElement('img');
-      img.src = '../image/galerie/items/' + imgData.file;
-      img.loading = "lazy";
-      img.onclick = () => openLightbox(index);
-      gallery.appendChild(img);
+    data.forEach((item, index) => {
+      const container = document.createElement('div');
+      container.className = 'item-container';
+      container.onclick = () => openLightbox(index);
+
+      // Création de la miniature
+      let thumb;
+      if(item.type === 'video') {
+        thumb = document.createElement('video'); // Utilise la 1ère image de la vidéo
+        thumb.src = basePath + item.file + "#t=0.1"; 
+        container.innerHTML += `<span class="badge">🎬 Vidéo</span>`;
+      } else if(item.type === 'audio') {
+        thumb = document.createElement('img');
+        thumb.src = "https://cdn-icons-png.flaticon.com/512/3039/3039411.png"; // Icône audio par défaut
+        thumb.style.padding = "20px"; thumb.style.boxSizing = "border-box"; thumb.style.background = "#333";
+        container.innerHTML += `<span class="badge">🎵 Audio</span>`;
+      } else {
+        thumb = document.createElement('img');
+        thumb.src = basePath + item.file;
+      }
+      
+      thumb.className = 'media-thumb';
+      container.appendChild(thumb);
+      gallery.appendChild(container);
     });
   });
 
 function openLightbox(index) {
   currentIndex = index;
-  resetZoomState();
-  
-  const imgData = imagesData[index];
-  const img = document.getElementById('lightbox-img');
+  const item = itemsData[index];
+  const container = document.getElementById('media-container');
   const lb = document.getElementById('lightbox');
-
+  
+  container.innerHTML = ''; // Nettoyer
   lb.style.display = 'flex';
   document.body.classList.add('modal-open');
-  
-  img.src = '../image/galerie/items/' + imgData.file;
-  document.getElementById('prompt-text').textContent = imgData.prompt || "Pas de prompt";
-  document.getElementById('tool-link').textContent = "Créer avec " + imgData.tool;
-  document.getElementById('tool-link').href = imgData.url;
 
-  setupZoom();
+  // Injection selon le type
+  if(item.type === 'video') {
+    const video = document.createElement('video');
+    video.src = basePath + item.file;
+    video.controls = true;
+    video.autoplay = true;
+    video.className = 'lightbox-content';
+    container.appendChild(video);
+  } else if(item.type === 'audio') {
+    const audioDiv = document.createElement('div');
+    audioDiv.className = 'audio-player-container';
+    audioDiv.innerHTML = `<h3 style="color:white">Lecteur Audio</h3>
+                          <audio controls autoplay src="${basePath + item.file}" style="width:100%"></audio>`;
+    container.appendChild(audioDiv);
+  } else {
+    const img = document.createElement('img');
+    img.src = basePath + item.file;
+    img.className = 'lightbox-content';
+    container.appendChild(img);
+  }
+
+  document.getElementById('prompt-text').textContent = item.prompt || "Pas de prompt";
+  document.getElementById('tool-link').textContent = "Créer avec " + item.tool;
+  document.getElementById('tool-link').href = item.url;
 }
 
 function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
+  document.getElementById('media-container').innerHTML = ''; // Arrête la musique/vidéo
   document.body.classList.remove('modal-open');
-  resetZoomState();
 }
-
-function resetZoomState() {
-  zoomed = false;
-  isDragging = false;
-  translateX = 0;
-  translateY = 0;
-  const img = document.getElementById('lightbox-img');
-  img.style.transition = "transform 0.25s ease";
-  img.style.transform = 'scale(1) translate(0px, 0px)';
-  img.style.cursor = 'zoom-in';
-}
-
-/* 🔒 Logique de calcul des limites (Clamping) */
-function updateTransform() {
-  const img = document.getElementById('lightbox-img');
-  if (zoomed) {
-    // Calcul de la zone de débordement (le surplus créé par le scale(2))
-    // On limite la translation à la moitié de la taille de l'image
-    const limitX = img.offsetWidth / 2;
-    const limitY = img.offsetHeight / 2;
-
-    translateX = Math.max(-limitX, Math.min(limitX, translateX));
-    translateY = Math.max(-limitY, Math.min(limitY, translateY));
-
-    img.style.transform = `scale(2) translate(${translateX / 2}px, ${translateY / 2}px)`;
-  } else {
-    img.style.transform = `scale(1) translate(0px, 0px)`;
-  }
-}
-
-function setupZoom() {
-  const img = document.getElementById('lightbox-img');
-  if (img.dataset.zoomReady) return;
-  img.dataset.zoomReady = "true";
-
-  img.addEventListener('dblclick', (e) => {
-    zoomed = !zoomed;
-    translateX = 0;
-    translateY = 0;
-    img.style.transition = "transform 0.3s ease";
-    img.style.cursor = zoomed ? 'grab' : 'zoom-in';
-    updateTransform();
-  });
-
-  // Desktop Drag
-  img.addEventListener('mousedown', e => {
-    if (!zoomed) return;
-    isDragging = true;
-    img.style.transition = "none"; // Désactive la transition pour un drag instantané
-    lastX = e.clientX;
-    lastY = e.clientY;
-    img.style.cursor = 'grabbing';
-  });
-
-  window.addEventListener('mousemove', e => {
-    if (!zoomed || !isDragging) return;
-    translateX += e.clientX - lastX;
-    translateY += e.clientY - lastY;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    updateTransform();
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-    if (zoomed) {
-        img.style.cursor = 'grab';
-        img.style.transition = "transform 0.2s ease-out"; // Rend un petit effet de glisse
-    }
-  });
-
-  // Mobile Drag
-  img.addEventListener('touchstart', e => {
-    if (!zoomed) return;
-    isDragging = true;
-    img.style.transition = "none";
-    lastX = e.touches[0].clientX;
-    lastY = e.touches[0].clientY;
-  }, {passive: true});
-
-  img.addEventListener('touchmove', e => {
-    if (!zoomed || !isDragging) return;
-    translateX += e.touches[0].clientX - lastX;
-    translateY += e.touches[0].clientY - lastY;
-    lastX = e.touches[0].clientX;
-    lastY = e.touches[0].clientY;
-    updateTransform();
-  }, {passive: true});
-
-  img.addEventListener('touchend', () => {
-    isDragging = false;
-    img.style.transition = "transform 0.2s ease-out";
-  });
-}
-
-/* ↔️ Navigation Swipe */
-const lightbox = document.getElementById('lightbox');
-lightbox.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive: true});
-lightbox.addEventListener('touchend', e => {
-  if (zoomed) return;
-  const diff = startX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 70) diff > 0 ? showNext() : showPrev();
-}, {passive: true});
-
-function showNext() { currentIndex = (currentIndex + 1) % imagesData.length; openLightbox(currentIndex); }
-function showPrev() { currentIndex = (currentIndex - 1 + imagesData.length) % imagesData.length; openLightbox(currentIndex); }
 
 function copyPrompt() {
   const text = document.getElementById('prompt-text').textContent;
@@ -258,7 +169,15 @@ function copyPrompt() {
     setTimeout(() => { btn.textContent = "📋 Copier le prompt"; }, 2000);
   });
 }
+
+// Navigation clavier
+document.addEventListener('keydown', (e) => {
+  if (document.getElementById('lightbox').style.display === 'flex') {
+    if (e.key === "ArrowRight") currentIndex = (currentIndex + 1) % itemsData.length, openLightbox(currentIndex);
+    if (e.key === "ArrowLeft") currentIndex = (currentIndex - 1 + itemsData.length) % itemsData.length, openLightbox(currentIndex);
+    if (e.key === "Escape") closeLightbox();
+  }
+});
 </script>
 </body>
-  </html>
-  
+</html>  
