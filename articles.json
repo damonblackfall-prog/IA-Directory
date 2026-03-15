@@ -1,0 +1,26 @@
+[
+  {
+    "title": "L’Algorithme Intime : Peut-on tisser des liens réels avec une IA ?",
+    "date": "25 Janvier 2026",
+    "description": "Entre effet ELIZA et design de l'empathie, découvrez comment l'attachement à la machine redéfinit nos liens sociaux.",
+    "url": "../algorithme-intime/",
+    "status": "available",
+    "statusText": "Disponible"
+  },
+  {
+    "title": "L’IA peut-elle vraiment vous rapporter de l’argent ? Découvrez comment",
+    "date": "13 Janvier 2026",
+    "description": "Analyse claire et réaliste des opportunités de monétisation offertes par l’intelligence artificielle, sans promesses miracles.",
+    "url": "../monetisation-ia/",
+    "status": "available",
+    "statusText": "Disponible"
+  },
+  {
+    "title": "Comment gagner vos premiers 1000€ avec l'affiliation IA",
+    "date": "Janvier 2026",
+    "description": "Guide étape par étape pour monétiser les outils d'IA via l'affiliation en 2026.",
+    "url": "#",
+    "status": "soon",
+    "statusText": "À venir"
+  }
+]
