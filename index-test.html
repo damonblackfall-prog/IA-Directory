@@ -689,99 +689,96 @@ display:block;
         .nav-prev { left: 10px; }
         .nav-next { right: 10px; }
    
-/* Amélioration de la grille */
+/* 1. Grille Responsive */
 .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .article-card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #eee;
-            transition: transform 0.2s;
-        }
-
-        /* TOUS LES ARTICLES DISPONIBLES EN BLEU */
-        .article-card.active {
-            border-left: 5px solid var(--primary);
-        }
-
-        .article-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-
-        /* ARTICLES À VENIR EN GRIS */
-        .article-card.upcoming {
-            opacity: 0.7;
-            background: #fafafa;
-            border-left: 5px solid #ccc;
-        }
-
-        .article-card h2 {
-            font-size: 1.3rem;
-            margin: 10px 0;
-            line-height: 1.4;
-        }
-
-        .status {
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-
-        .status.available {
-            background: #e6f4ea;
-            color: #1e7e34;
-        }
-
-        .status.soon {
-            background: #f1f3f4;
-            color: #5f6368;
-        }
-
-        .date {
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            margin-bottom: 10px;
-        }
-
-        .read-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: center;
-            transition: background 0.2s;
-        }
-
-        .read-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-/* Animation d'apparition (optionnelle) */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
 }
 
+/* 2. Structure de la Carte (Identique pour toutes) */
 .article-card {
-    animation: fadeInUp 0.5s ease backwards;
+    background: var(--white);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    height: 100%; /* Pour que toutes les cartes aient la même hauteur */
+}
+
+/* 3. État au Survol */
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* 4. Variantes de Bordures (Différenciation subtile) */
+.article-card.active {
+    border-left: 5px solid var(--primary);
+}
+
+.article-card.upcoming {
+    border-left: 5px solid #ccc;
+    /* On garde l'aspect identique, mais on peut baisser très légèrement 
+       l'opacité du texte pour marquer la non-disponibilité */
+}
+
+/* 5. Contenu Interne */
+.article-card h2 {
+    font-size: 1.3rem;
+    margin: 15px 0;
+    line-height: 1.4;
+    color: #1a1a1a;
+}
+
+.status {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.status.available {
+    background: #e6f4ea;
+    color: #1e7e34;
+}
+
+.status.soon {
+    background: #f1f3f4;
+    color: #5f6368;
+}
+
+.date {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 10px;
+}
+
+/* 6. Bouton (Uniquement pour les articles actifs) */
+.read-btn {
+    display: inline-block;
+    margin-top: auto; /* FORCE LE BOUTON EN BAS DE LA CARTE */
+    padding: 12px 20px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.2s;
+    align-self: flex-start; /* Le bouton ne prend que la largeur nécessaire */
+}
+
+.read-btn:hover {
+    background-color: var(--primary-hover);
 }
 </style>
 </head>        
