@@ -689,7 +689,74 @@ display:block;
         .nav-prev { left: 10px; }
         .nav-next { right: 10px; }
    
+/* Amélioration de la grille */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    padding: 20px 0;
+}
 
+/* Style de la carte */
+.article-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Aligne le bouton en bas */
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet au survol */
+.article-card.active:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+}
+
+/* Style des titres */
+.article-card h2 {
+    color: #1a1a1a;
+    font-size: 1.4rem;
+    margin: 15px 0;
+    font-weight: 700;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Coupe le titre après 2 lignes si trop long */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Étiquette de statut améliorée */
+.status {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+}
+
+/* Bouton plus moderne */
+.read-btn {
+    width: fit-content;
+    margin-top: 25px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+/* Animation d'apparition (optionnelle) */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.article-card {
+    animation: fadeInUp 0.5s ease backwards;
+}
 </style>
 </head>        
 <body>
