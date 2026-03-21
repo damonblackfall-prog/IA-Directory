@@ -965,7 +965,7 @@ fetch('data/tools.json')
     async function loadArticles() {
         try {
             // 1. Récupération des données (remplacez par le bon chemin vers votre .json)
-            const response = await fetch('articles.json');
+            const response = await fetch('./data/articles.json');
             const articles = await response.json();
             
             const container = document.getElementById('blog-container');
